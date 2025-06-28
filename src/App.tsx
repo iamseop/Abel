@@ -11,8 +11,7 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       <Header />
       
-      {/* 헤더 높이만큼 상단 여백 추가 */}
-      <div className="pt-24 p-4">
+      <div className="p-4">
         <div className="max-w-7xl mx-auto">
           <main className="space-y-6">
             <PortfolioSummary />
