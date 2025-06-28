@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { Bell, Settings, User, LogOut } from 'lucide-react';
+import { Bell, Settings, User, LogOut, Calculator } from 'lucide-react';
 import Modal from './Modal';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -13,38 +18,65 @@ const Header: React.FC = () => {
     { id: 3, message: 'SK하이닉스 실적 발표 예정', time: '2시간 전' }
   ];
 
+  const tabs = [
+    { id: 'portfolio', label: '포트폴리오', icon: null },
+    { id: 'calculator', label: '계산기', icon: Calculator }
+  ];
+
   return (
     <>
       <header className="relative top-0 left-0 right-0 glass-card backdrop-blur-xl border-b border-white/10 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">P</span>
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">P</span>
+              </div>
+              <h1 className="text-xl font-bold text-white">포트폴리오 매니저</h1>
             </div>
-            <h1 className="text-xl font-bold text-white">포트폴리오 매니저</h1>
+            
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setShowNotifications(true)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+              >
+                <Bell className="w-5 h-5 text-gray-300" />
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+              </button>
+              <button 
+                onClick={() => setShowSettings(true)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <Settings className="w-5 h-5 text-gray-300" />
+              </button>
+              <button 
+                onClick={() => setShowProfile(true)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <User className="w-5 h-5 text-gray-300" />
+              </button>
+            </div>
           </div>
-          
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setShowNotifications(true)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
-            >
-              <Bell className="w-5 h-5 text-gray-300" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-            </button>
-            <button 
-              onClick={() => setShowSettings(true)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-            >
-              <Settings className="w-5 h-5 text-gray-300" />
-            </button>
-            <button 
-              onClick={() => setShowProfile(true)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-            >
-              <User className="w-5 h-5 text-gray-300" />
-            </button>
-          </div>
+
+          <nav className="flex gap-1">
+            {tabs.map((tab) => {
+              const IconComponent = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => onTabChange(tab.id)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
+                    activeTab === tab.id
+                      ? 'bg-blue-600 text-white shadow-lg'
+                      : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {IconComponent && <IconComponent className="w-4 h-4" />}
+                  {tab.label}
+                </button>
+              );
+            })}
+          </nav>
         </div>
       </header>
 
