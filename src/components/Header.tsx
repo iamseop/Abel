@@ -27,12 +27,34 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
     <>
       <header className="relative top-0 left-0 right-0 glass-card backdrop-blur-xl border-b border-white/10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => onTabChange('portfolio')}
+                className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center hover:scale-105 transition-transform cursor-pointer"
+              >
                 <span className="text-white font-bold text-sm">P</span>
-              </div>
-              <h1 className="text-xl font-bold text-white">포트폴리오 매니저</h1>
+              </button>
+              
+              <nav className="flex gap-1">
+                {tabs.map((tab) => {
+                  const IconComponent = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => onTabChange(tab.id)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
+                        activeTab === tab.id
+                          ? 'bg-blue-600 text-white shadow-lg'
+                          : 'text-gray-300 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {IconComponent && <IconComponent className="w-4 h-4" />}
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </nav>
             </div>
             
             <div className="flex items-center gap-3">
@@ -57,26 +79,6 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
               </button>
             </div>
           </div>
-
-          <nav className="flex gap-1">
-            {tabs.map((tab) => {
-              const IconComponent = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => onTabChange(tab.id)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
-                    activeTab === tab.id
-                      ? 'bg-blue-600 text-white shadow-lg'
-                      : 'text-gray-300 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  {IconComponent && <IconComponent className="w-4 h-4" />}
-                  {tab.label}
-                </button>
-              );
-            })}
-          </nav>
         </div>
       </header>
 
