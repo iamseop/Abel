@@ -2,14 +2,40 @@ import React, { useState } from 'react';
 import { BarChart3, TrendingUp, DollarSign, Percent } from 'lucide-react';
 
 const InvestmentCalculator: React.FC = () => {
-  const [initialInvestment, setInitialInvestment] = useState<string>('10000000');
-  const [finalValue, setFinalValue] = useState<string>('15000000');
+  const [initialInvestment, setInitialInvestment] = useState<string>('10,000,000');
+  const [finalValue, setFinalValue] = useState<string>('15,000,000');
   const [investmentPeriod, setInvestmentPeriod] = useState<string>('5');
   const [calculationType, setCalculationType] = useState<'return' | 'final' | 'time'>('return');
 
+  // 숫자에 쉼표 추가하는 함수
+  const formatNumber = (value: string): string => {
+    const numericValue = value.replace(/[^\d]/g, '');
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  // 쉼표 제거하고 숫자만 반환하는 함수
+  const parseNumber = (value: string): number => {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  };
+
+  // 입력값 변경 핸들러
+  const handleInitialInvestmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatNumber(e.target.value);
+    setInitialInvestment(formatted);
+  };
+
+  const handleFinalValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (calculationType === 'return' || calculationType === 'time') {
+      const formatted = formatNumber(e.target.value);
+      setFinalValue(formatted);
+    } else {
+      setFinalValue(e.target.value);
+    }
+  };
+
   const calculateInvestment = () => {
-    const initial = parseFloat(initialInvestment) || 0;
-    const final = parseFloat(finalValue) || 0;
+    const initial = parseNumber(initialInvestment);
+    const final = calculationType === 'final' ? parseFloat(finalValue) : parseNumber(finalValue);
     const period = parseFloat(investmentPeriod) || 0;
 
     if (calculationType === 'return') {
@@ -33,7 +59,7 @@ const InvestmentCalculator: React.FC = () => {
     } else {
       // 투자 기간 계산
       const rate = parseFloat(finalValue) / 100; // finalValue를 수익률로 사용
-      const calculatedTime = Math.log(final / initial) / Math.log(1 + rate);
+      const calculatedTime = Math.log(parseNumber(finalValue) / initial) / Math.log(1 + rate);
       return {
         calculatedTime,
         annualReturn: rate * 100
@@ -74,9 +100,9 @@ const InvestmentCalculator: React.FC = () => {
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={initialInvestment}
-                onChange={(e) => setInitialInvestment(e.target.value)}
+                onChange={handleInitialInvestmentChange}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 placeholder="10,000,000"
               />
@@ -91,9 +117,9 @@ const InvestmentCalculator: React.FC = () => {
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  type="number"
+                  type="text"
                   value={finalValue}
-                  onChange={(e) => setFinalValue(e.target.value)}
+                  onChange={handleFinalValueChange}
                   className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                   placeholder="15,000,000"
                 />
@@ -109,10 +135,9 @@ const InvestmentCalculator: React.FC = () => {
               <div className="relative">
                 <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  type="number"
+                  type="text"
                   value={finalValue}
                   onChange={(e) => setFinalValue(e.target.value)}
-                  step="0.1"
                   className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                   placeholder="8"
                 />
@@ -129,9 +154,9 @@ const InvestmentCalculator: React.FC = () => {
                 <div className="relative">
                   <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
-                    type="number"
+                    type="text"
                     value={finalValue}
-                    onChange={(e) => setFinalValue(e.target.value)}
+                    onChange={handleFinalValueChange}
                     className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                     placeholder="20,000,000"
                   />
@@ -144,10 +169,9 @@ const InvestmentCalculator: React.FC = () => {
                 <div className="relative">
                   <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
-                    type="number"
+                    type="text"
                     value="8"
                     onChange={(e) => setFinalValue(e.target.value)}
-                    step="0.1"
                     className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                     placeholder="8"
                   />
@@ -162,7 +186,7 @@ const InvestmentCalculator: React.FC = () => {
                 투자 기간 (년)
               </label>
               <input
-                type="number"
+                type="text"
                 value={investmentPeriod}
                 onChange={(e) => setInvestmentPeriod(e.target.value)}
                 className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
@@ -249,7 +273,7 @@ const InvestmentCalculator: React.FC = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-400">투자 배수</span>
                     <span className="text-white">
-                      {(parseFloat(finalValue) / parseFloat(initialInvestment)).toFixed(2)}x
+                      {(parseNumber(finalValue) / parseNumber(initialInvestment)).toFixed(2)}x
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -264,7 +288,7 @@ const InvestmentCalculator: React.FC = () => {
                 <div className="flex justify-between">
                   <span className="text-gray-400">투자 배수</span>
                   <span className="text-white">
-                    {((result.calculatedFinal || 0) / parseFloat(initialInvestment)).toFixed(2)}x
+                    {((result.calculatedFinal || 0) / parseNumber(initialInvestment)).toFixed(2)}x
                   </span>
                 </div>
               )}

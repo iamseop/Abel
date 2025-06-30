@@ -4,18 +4,45 @@ import { PiggyBank, Calendar, DollarSign, Target } from 'lucide-react';
 const RetirementCalculator: React.FC = () => {
   const [currentAge, setCurrentAge] = useState<string>('30');
   const [retirementAge, setRetirementAge] = useState<string>('65');
-  const [currentSavings, setCurrentSavings] = useState<string>('5000000');
-  const [monthlyContribution, setMonthlyContribution] = useState<string>('500000');
+  const [currentSavings, setCurrentSavings] = useState<string>('5,000,000');
+  const [monthlyContribution, setMonthlyContribution] = useState<string>('500,000');
   const [expectedReturn, setExpectedReturn] = useState<string>('7');
-  const [retirementGoal, setRetirementGoal] = useState<string>('3000000000');
+  const [retirementGoal, setRetirementGoal] = useState<string>('3,000,000,000');
+
+  // 숫자에 쉼표 추가하는 함수
+  const formatNumber = (value: string): string => {
+    const numericValue = value.replace(/[^\d]/g, '');
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  // 쉼표 제거하고 숫자만 반환하는 함수
+  const parseNumber = (value: string): number => {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  };
+
+  // 입력값 변경 핸들러
+  const handleCurrentSavingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatNumber(e.target.value);
+    setCurrentSavings(formatted);
+  };
+
+  const handleMonthlyContributionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatNumber(e.target.value);
+    setMonthlyContribution(formatted);
+  };
+
+  const handleRetirementGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatNumber(e.target.value);
+    setRetirementGoal(formatted);
+  };
 
   const calculateRetirement = () => {
     const age = parseFloat(currentAge) || 0;
     const retAge = parseFloat(retirementAge) || 0;
-    const savings = parseFloat(currentSavings) || 0;
-    const monthly = parseFloat(monthlyContribution) || 0;
+    const savings = parseNumber(currentSavings);
+    const monthly = parseNumber(monthlyContribution);
     const rate = (parseFloat(expectedReturn) || 0) / 100;
-    const goal = parseFloat(retirementGoal) || 0;
+    const goal = parseNumber(retirementGoal);
     
     const yearsToRetirement = retAge - age;
     const monthlyRate = rate / 12;
@@ -66,7 +93,7 @@ const RetirementCalculator: React.FC = () => {
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  type="number"
+                  type="text"
                   value={currentAge}
                   onChange={(e) => setCurrentAge(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
@@ -82,7 +109,7 @@ const RetirementCalculator: React.FC = () => {
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  type="number"
+                  type="text"
                   value={retirementAge}
                   onChange={(e) => setRetirementAge(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
@@ -99,9 +126,9 @@ const RetirementCalculator: React.FC = () => {
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={currentSavings}
-                onChange={(e) => setCurrentSavings(e.target.value)}
+                onChange={handleCurrentSavingsChange}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 placeholder="5,000,000"
               />
@@ -115,9 +142,9 @@ const RetirementCalculator: React.FC = () => {
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={monthlyContribution}
-                onChange={(e) => setMonthlyContribution(e.target.value)}
+                onChange={handleMonthlyContributionChange}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 placeholder="500,000"
               />
@@ -129,10 +156,9 @@ const RetirementCalculator: React.FC = () => {
               예상 연 수익률 (%)
             </label>
             <input
-              type="number"
+              type="text"
               value={expectedReturn}
               onChange={(e) => setExpectedReturn(e.target.value)}
-              step="0.1"
               className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
               placeholder="7"
             />
@@ -145,9 +171,9 @@ const RetirementCalculator: React.FC = () => {
             <div className="relative">
               <Target className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={retirementGoal}
-                onChange={(e) => setRetirementGoal(e.target.value)}
+                onChange={handleRetirementGoalChange}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 placeholder="3,000,000,000"
               />
