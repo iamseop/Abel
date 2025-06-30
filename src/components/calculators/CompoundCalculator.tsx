@@ -2,15 +2,39 @@ import React, { useState } from 'react';
 import { TrendingUp, DollarSign, Calendar, Percent } from 'lucide-react';
 
 const CompoundCalculator: React.FC = () => {
-  const [principal, setPrincipal] = useState<string>('1000000');
-  const [monthlyContribution, setMonthlyContribution] = useState<string>('100000');
+  const [principal, setPrincipal] = useState<string>('1,000,000');
+  const [monthlyContribution, setMonthlyContribution] = useState<string>('100,000');
   const [annualRate, setAnnualRate] = useState<string>('7');
   const [years, setYears] = useState<string>('10');
   const [compoundFrequency, setCompoundFrequency] = useState<string>('12');
 
+  // 숫자에 쉼표 추가하는 함수
+  const formatNumber = (value: string): string => {
+    // 숫자가 아닌 문자 제거
+    const numericValue = value.replace(/[^\d]/g, '');
+    // 쉼표 추가
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  // 쉼표 제거하고 숫자만 반환하는 함수
+  const parseNumber = (value: string): number => {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  };
+
+  // 입력값 변경 핸들러
+  const handlePrincipalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatNumber(e.target.value);
+    setPrincipal(formatted);
+  };
+
+  const handleMonthlyContributionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatNumber(e.target.value);
+    setMonthlyContribution(formatted);
+  };
+
   const calculateCompound = () => {
-    const p = parseFloat(principal) || 0;
-    const pmt = parseFloat(monthlyContribution) || 0;
+    const p = parseNumber(principal);
+    const pmt = parseNumber(monthlyContribution);
     const r = (parseFloat(annualRate) || 0) / 100;
     const t = parseFloat(years) || 0;
     const n = parseFloat(compoundFrequency) || 12;
@@ -52,9 +76,9 @@ const CompoundCalculator: React.FC = () => {
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={principal}
-                onChange={(e) => setPrincipal(e.target.value)}
+                onChange={handlePrincipalChange}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 placeholder="1,000,000"
               />
@@ -68,9 +92,9 @@ const CompoundCalculator: React.FC = () => {
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={monthlyContribution}
-                onChange={(e) => setMonthlyContribution(e.target.value)}
+                onChange={handleMonthlyContributionChange}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 placeholder="100,000"
               />
@@ -84,10 +108,9 @@ const CompoundCalculator: React.FC = () => {
             <div className="relative">
               <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={annualRate}
                 onChange={(e) => setAnnualRate(e.target.value)}
-                step="0.1"
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 placeholder="7"
               />
@@ -101,7 +124,7 @@ const CompoundCalculator: React.FC = () => {
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="number"
+                type="text"
                 value={years}
                 onChange={(e) => setYears(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
