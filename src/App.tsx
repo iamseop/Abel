@@ -6,6 +6,7 @@ import RecentTransactions from './components/RecentTransactions';
 import StockList from './components/StockList';
 import QuickActions from './components/QuickActions';
 import CalculatorTabs from './components/calculators/CalculatorTabs';
+import InvestmentPersonalityTest from './components/personality/InvestmentPersonalityTest';
 
 function App() {
   const [activeTab, setActiveTab] = useState('portfolio');
@@ -14,6 +15,8 @@ function App() {
     switch (activeTab) {
       case 'calculator':
         return <CalculatorTabs />;
+      case 'personality':
+        return <InvestmentPersonalityTest />;
       case 'portfolio':
       default:
         return (
