@@ -246,20 +246,19 @@ const InvestmentPersonalityTest: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-xl mb-8">
-              <h3 className="text-white font-semibold mb-4">테스트 정보</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div>
-                  <p className="text-blue-400 font-medium">소요 시간</p>
-                  <p className="text-gray-300">약 5분</p>
+            <div className="bg-gray-800 p-8 rounded-xl mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <p className="text-blue-400 font-bold text-lg mb-2">소요 시간</p>
+                  <p className="text-gray-300 text-lg">약 5분</p>
                 </div>
-                <div>
-                  <p className="text-blue-400 font-medium">질문 수</p>
-                  <p className="text-gray-300">12개</p>
+                <div className="text-center">
+                  <p className="text-blue-400 font-bold text-lg mb-2">질문 수</p>
+                  <p className="text-gray-300 text-lg">12개</p>
                 </div>
-                <div>
-                  <p className="text-blue-400 font-medium">결과</p>
-                  <p className="text-gray-300">4가지 투자 유형</p>
+                <div className="text-center">
+                  <p className="text-blue-400 font-bold text-lg mb-2">결과</p>
+                  <p className="text-gray-300 text-lg">4가지 투자 유형</p>
                 </div>
               </div>
             </div>
