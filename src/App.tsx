@@ -7,6 +7,8 @@ import StockList from './components/StockList';
 import QuickActions from './components/QuickActions';
 import CalculatorTabs from './components/calculators/CalculatorTabs';
 import InvestmentPersonalityTest from './components/personality/InvestmentPersonalityTest';
+import WatchlistPage from './components/WatchlistPage';
+import SimulationPage from './components/SimulationPage';
 import Footer from './components/Footer';
 
 function App() {
@@ -14,6 +16,10 @@ function App() {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'watchlist':
+        return <WatchlistPage />;
+      case 'simulation':
+        return <SimulationPage />;
       case 'calculator':
         return <CalculatorTabs />;
       case 'personality':

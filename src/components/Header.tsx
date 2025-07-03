@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Settings, User, LogOut, Calculator, Brain } from 'lucide-react';
+import { Bell, Settings, User, LogOut, Calculator, Brain, Bookmark, TrendingUp } from 'lucide-react';
 import Modal from './Modal';
 
 interface HeaderProps {
@@ -20,6 +20,8 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
 
   const tabs = [
     { id: 'portfolio', label: '포트폴리오', icon: null },
+    { id: 'watchlist', label: '관심 종목', icon: Bookmark },
+    { id: 'simulation', label: '모의투자', icon: TrendingUp },
     { id: 'calculator', label: '계산기', icon: Calculator },
     { id: 'personality', label: '투자 성향', icon: Brain }
   ];
