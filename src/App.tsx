@@ -7,6 +7,7 @@ import StockList from './components/StockList';
 import QuickActions from './components/QuickActions';
 import CalculatorTabs from './components/calculators/CalculatorTabs';
 import InvestmentPersonalityTest from './components/personality/InvestmentPersonalityTest';
+import Footer from './components/Footer';
 
 function App() {
   const [activeTab, setActiveTab] = useState('portfolio');
@@ -40,16 +41,18 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex flex-col">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
       
-      <div className="p-4">
+      <div className="flex-1 p-4">
         <div className="max-w-7xl mx-auto">
           <main className="space-y-6">
             {renderContent()}
           </main>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
