@@ -115,27 +115,27 @@ const CompoundCalculator: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-400">초기 투자금 (P):</span>
-                <span className="text-white font-mono">₩{result.p.toLocaleString()}</span>
+                <span className="text-white">₩{result.p.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">월 납입금 (PMT):</span>
-                <span className="text-white font-mono">₩{result.pmt.toLocaleString()}</span>
+                <span className="text-white">₩{result.pmt.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">연 이율 (r):</span>
-                <span className="text-white font-mono">{(result.r * 100).toFixed(2)}%</span>
+                <span className="text-white">{(result.r * 100).toFixed(2)}%</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">투자 기간 (t):</span>
-                <span className="text-white font-mono">{result.t}년</span>
+                <span className="text-white">{result.t}년</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">복리 주기 (n):</span>
-                <span className="text-white font-mono">연 {result.n}회</span>
+                <span className="text-white">연 {result.n}회</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">월 이율:</span>
-                <span className="text-white font-mono">{(result.monthlyRate * 100).toFixed(4)}%</span>
+                <span className="text-white">{(result.monthlyRate * 100).toFixed(4)}%</span>
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ const CompoundCalculator: React.FC = () => {
           <div className="bg-blue-900/20 border border-blue-500/20 p-4 rounded-lg">
             <h4 className="text-blue-400 font-semibold mb-3">🔢 1단계: 원금 복리 계산</h4>
             <div className="space-y-2 text-sm">
-              <div className="bg-gray-800 p-3 rounded font-mono text-center">
+              <div className="bg-gray-800 p-3 rounded text-center">
                 <p className="text-gray-300 mb-2">복리 공식: A = P × (1 + r/n)^(n×t)</p>
                 <p className="text-white">
                   A = {result.p.toLocaleString()} × (1 + {result.r.toFixed(4)}/{result.n})^({result.n}×{result.t})
@@ -169,7 +169,7 @@ const CompoundCalculator: React.FC = () => {
           <div className="bg-green-900/20 border border-green-500/20 p-4 rounded-lg">
             <h4 className="text-green-400 font-semibold mb-3">💰 2단계: 월 납입금 복리 계산</h4>
             <div className="space-y-2 text-sm">
-              <div className="bg-gray-800 p-3 rounded font-mono text-center">
+              <div className="bg-gray-800 p-3 rounded text-center">
                 <p className="text-gray-300 mb-2">연금 공식: FV = PMT × [(1 + r)^n - 1] / r</p>
                 <p className="text-white">
                   FV = {result.pmt.toLocaleString()} × [(1 + {result.monthlyRate.toFixed(6)})^{(12 * result.t)} - 1] / {result.monthlyRate.toFixed(6)}
@@ -287,22 +287,22 @@ const CompoundCalculator: React.FC = () => {
                       <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-1 rounded">현재</span>
                     )}
                   </td>
-                  <td className="py-3 px-2 text-right text-gray-300 font-mono">
+                  <td className="py-3 px-2 text-right text-gray-300">
                     ₩{data.totalContributions.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
-                  <td className="py-3 px-2 text-right text-blue-400 font-mono">
+                  <td className="py-3 px-2 text-right text-blue-400">
                     ₩{data.compoundAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
-                  <td className="py-3 px-2 text-right text-green-400 font-mono">
+                  <td className="py-3 px-2 text-right text-green-400">
                     ₩{data.monthlyCompound.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
-                  <td className="py-3 px-2 text-right text-white font-bold font-mono">
+                  <td className="py-3 px-2 text-right text-white font-bold">
                     ₩{data.finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
-                  <td className="py-3 px-2 text-right text-green-400 font-semibold font-mono">
+                  <td className="py-3 px-2 text-right text-green-400 font-semibold">
                     +₩{data.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
-                  <td className="py-3 px-2 text-right font-semibold font-mono">
+                  <td className="py-3 px-2 text-right font-semibold">
                     <span className={`${
                       data.returnRate >= 100 ? 'text-yellow-400' : 
                       data.returnRate >= 50 ? 'text-green-400' : 'text-blue-400'
