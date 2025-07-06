@@ -67,19 +67,20 @@ const CompoundCalculator: React.FC = () => {
     };
   };
 
-  // 매년 계산 결과
-  const calculateYearlyAnalysis = () => {
+  // 3년 단위 계산 결과
+  const calculateThreeYearAnalysis = () => {
     const p = parseNumber(principal);
     const pmt = parseNumber(monthlyContribution);
     const r = (parseFloat(annualRate) || 0) / 100;
     const n = parseFloat(compoundFrequency) || 12;
     const monthlyRate = r / 12;
     const currentYears = parseFloat(years) || 10;
-    const maxYears = Math.max(currentYears, 30); // 현재 설정 연도와 30년 중 큰 값
+    const maxYears = Math.max(currentYears + 12, 30); // 현재 설정 + 12년 또는 30년 중 큰 값
 
     const yearlyData = [];
     
-    for (let year = 1; year <= maxYears; year++) {
+    // 3년 단위로 계산
+    for (let year = 3; year <= maxYears; year += 3) {
       const compoundAmount = p * Math.pow(1 + r / n, n * year);
       const monthlyCompound = pmt * (Math.pow(1 + monthlyRate, 12 * year) - 1) / monthlyRate;
       const finalAmount = compoundAmount + monthlyCompound;
@@ -100,23 +101,46 @@ const CompoundCalculator: React.FC = () => {
       });
     }
 
-    return yearlyData;
+    // 현재 목표 연도가 3의 배수가 아닌 경우 추가
+    if (currentYears % 3 !== 0) {
+      const compoundAmount = p * Math.pow(1 + r / n, n * currentYears);
+      const monthlyCompound = pmt * (Math.pow(1 + monthlyRate, 12 * currentYears) - 1) / monthlyRate;
+      const finalAmount = compoundAmount + monthlyCompound;
+      const totalContributions = p + (pmt * 12 * currentYears);
+      const totalInterest = finalAmount - totalContributions;
+      const returnRate = ((finalAmount - totalContributions) / totalContributions) * 100;
+
+      yearlyData.push({
+        year: currentYears,
+        finalAmount,
+        totalContributions,
+        totalInterest,
+        returnRate,
+        compoundAmount,
+        monthlyCompound,
+        isCurrentTarget: true,
+        isFuture: false
+      });
+    }
+
+    // 연도순으로 정렬
+    return yearlyData.sort((a, b) => a.year - b.year);
   };
 
   const result = calculateCompound();
-  const yearlyAnalysis = calculateYearlyAnalysis();
+  const threeYearAnalysis = calculateThreeYearAnalysis();
   const currentTargetYear = parseFloat(years) || 10;
 
-  const renderYearlyAnalysis = () => (
+  const renderThreeYearAnalysis = () => (
     <div className="glass-card p-6">
       <div className="flex items-center gap-3 mb-6">
         <BarChart3 className="w-6 h-6 text-orange-400" />
-        <h3 className="text-xl font-bold text-white">매년 투자 결과 분석</h3>
+        <h3 className="text-xl font-bold text-white">3년 단위 투자 결과 분석</h3>
       </div>
 
       <div className="mb-6">
         <p className="text-gray-300 text-sm mb-4">
-          현재 설정된 조건으로 <span className="text-orange-400 font-semibold">매년</span> 어떻게 자산이 증가하는지 확인해보세요. 
+          현재 설정된 조건으로 <span className="text-orange-400 font-semibold">3년마다</span> 어떻게 자산이 증가하는지 확인해보세요. 
           <span className="text-orange-400 font-semibold"> 시간이 지날수록 복리 효과가 가속화</span>되는 것을 볼 수 있습니다.
         </p>
         <div className="flex items-center gap-4 text-sm">
@@ -135,7 +159,7 @@ const CompoundCalculator: React.FC = () => {
         </div>
       </div>
 
-      {/* 매년 결과 테이블 */}
+      {/* 3년 단위 결과 테이블 */}
       <div className="overflow-x-auto max-h-96 overflow-y-auto">
         <table className="w-full text-sm">
           <thead className="sticky top-0 bg-gray-900">
@@ -145,13 +169,13 @@ const CompoundCalculator: React.FC = () => {
               <th className="text-right py-3 px-2 text-gray-400 font-medium">최종 금액</th>
               <th className="text-right py-3 px-2 text-gray-400 font-medium">총 수익</th>
               <th className="text-right py-3 px-2 text-gray-400 font-medium">수익률</th>
-              <th className="text-right py-3 px-2 text-gray-400 font-medium">연간 증가</th>
+              <th className="text-right py-3 px-2 text-gray-400 font-medium">3년간 증가</th>
             </tr>
           </thead>
           <tbody>
-            {yearlyAnalysis.map((data, index) => {
-              const prevYearAmount = index > 0 ? yearlyAnalysis[index - 1].finalAmount : parseNumber(principal);
-              const yearlyGrowth = data.finalAmount - prevYearAmount;
+            {threeYearAnalysis.map((data, index) => {
+              const prevData = index > 0 ? threeYearAnalysis[index - 1] : null;
+              const threeYearGrowth = prevData ? data.finalAmount - prevData.finalAmount : data.finalAmount - parseNumber(principal);
               
               return (
                 <tr 
@@ -193,7 +217,7 @@ const CompoundCalculator: React.FC = () => {
                     </span>
                   </td>
                   <td className="py-3 px-2 text-right text-purple-400 font-medium">
-                    +₩{yearlyGrowth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    +₩{threeYearGrowth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
                 </tr>
               );
@@ -215,72 +239,72 @@ const CompoundCalculator: React.FC = () => {
         </div>
 
         <div className="bg-gradient-to-r from-green-900/20 to-teal-900/20 p-4 rounded-lg border border-green-500/20">
-          <h4 className="text-green-400 font-semibold mb-2">🚀 미래 예상 결과</h4>
+          <h4 className="text-green-400 font-semibold mb-2">🚀 미래 예상 결과 (3년 단위)</h4>
           <div className="space-y-2 text-sm text-gray-300">
-            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0] && (
-              <p>• <strong>{currentTargetYear + 5}년 후:</strong> ₩{yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0].finalAmount.toLocaleString()}</p>
+            {threeYearAnalysis.filter(data => data.year === currentTargetYear + 3)[0] && (
+              <p>• <strong>+3년 후:</strong> ₩{threeYearAnalysis.filter(data => data.year === currentTargetYear + 3)[0].finalAmount.toLocaleString()}</p>
             )}
-            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0] && (
-              <p>• <strong>{currentTargetYear + 10}년 후:</strong> ₩{yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0].finalAmount.toLocaleString()}</p>
+            {threeYearAnalysis.filter(data => data.year === currentTargetYear + 6)[0] && (
+              <p>• <strong>+6년 후:</strong> ₩{threeYearAnalysis.filter(data => data.year === currentTargetYear + 6)[0].finalAmount.toLocaleString()}</p>
             )}
-            {yearlyAnalysis.filter(data => data.year === 30)[0] && (
-              <p>• <strong>30년 후:</strong> ₩{yearlyAnalysis.filter(data => data.year === 30)[0].finalAmount.toLocaleString()}</p>
+            {threeYearAnalysis.filter(data => data.year === currentTargetYear + 9)[0] && (
+              <p>• <strong>+9년 후:</strong> ₩{threeYearAnalysis.filter(data => data.year === currentTargetYear + 9)[0].finalAmount.toLocaleString()}</p>
             )}
             <p className="text-green-400 font-medium">
-              ⭐ 더 오래 투자할수록 <strong>기하급수적 성장</strong>을 경험할 수 있습니다!
+              ⭐ 3년마다 <strong>기하급수적 성장</strong>을 경험할 수 있습니다!
             </p>
           </div>
         </div>
       </div>
 
-      {/* 연도별 인사이트 */}
+      {/* 3년 단위 인사이트 */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 p-4 rounded-lg border border-orange-500/20">
-          <h4 className="text-orange-400 font-semibold mb-2">📈 복리 가속화 패턴</h4>
+          <h4 className="text-orange-400 font-semibold mb-2">📈 3년 단위 성장 패턴</h4>
           <div className="space-y-2 text-sm text-gray-300">
-            <p>• <strong>1년차:</strong> ₩{yearlyAnalysis[0]?.finalAmount.toLocaleString()} (기반 구축)</p>
-            <p>• <strong>5년차:</strong> ₩{yearlyAnalysis[4]?.finalAmount.toLocaleString()} (성장 시작)</p>
-            <p>• <strong>10년차:</strong> ₩{yearlyAnalysis[9]?.finalAmount.toLocaleString()} (가속화)</p>
-            {yearlyAnalysis.length > 15 && (
-              <p>• <strong>15년차:</strong> ₩{yearlyAnalysis[14]?.finalAmount.toLocaleString()} (기하급수적 증가)</p>
+            <p>• <strong>3년차:</strong> ₩{threeYearAnalysis[0]?.finalAmount.toLocaleString()} (기반 구축)</p>
+            {threeYearAnalysis[1] && (
+              <p>• <strong>6년차:</strong> ₩{threeYearAnalysis[1]?.finalAmount.toLocaleString()} (성장 시작)</p>
+            )}
+            {threeYearAnalysis[2] && (
+              <p>• <strong>9년차:</strong> ₩{threeYearAnalysis[2]?.finalAmount.toLocaleString()} (가속화)</p>
+            )}
+            {threeYearAnalysis[3] && (
+              <p>• <strong>12년차:</strong> ₩{threeYearAnalysis[3]?.finalAmount.toLocaleString()} (기하급수적 증가)</p>
             )}
             <p className="text-orange-400 font-medium">
-              ⚡ 후반부로 갈수록 연간 증가폭이 급격히 커집니다!
+              ⚡ 3년마다 증가폭이 급격히 커집니다!
             </p>
           </div>
         </div>
 
         <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 p-4 rounded-lg border border-purple-500/20">
-          <h4 className="text-purple-400 font-semibold mb-2">💰 연간 증가 분석</h4>
+          <h4 className="text-purple-400 font-semibold mb-2">💰 3년간 증가 분석</h4>
           <div className="space-y-2 text-sm text-gray-300">
-            {yearlyAnalysis.length >= 5 && (
+            {threeYearAnalysis.length >= 2 && (
               <>
-                <p>• <strong>초기 5년 평균:</strong> 연 ₩{(yearlyAnalysis.slice(0, 5).reduce((sum, data, index) => {
-                  const prevAmount = index > 0 ? yearlyAnalysis[index - 1].finalAmount : parseNumber(principal);
-                  return sum + (data.finalAmount - prevAmount);
-                }, 0) / 5).toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
-                
-                {yearlyAnalysis.length >= 10 && (
-                  <p>• <strong>후반 5년 평균:</strong> 연 ₩{(yearlyAnalysis.slice(5, 10).reduce((sum, data, index) => {
-                    const prevAmount = yearlyAnalysis[index + 4].finalAmount;
-                    return sum + (data.finalAmount - prevAmount);
-                  }, 0) / 5).toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+                <p>• <strong>첫 3년:</strong> ₩{(threeYearAnalysis[0].finalAmount - parseNumber(principal)).toLocaleString()} 증가</p>
+                {threeYearAnalysis.length >= 3 && (
+                  <p>• <strong>다음 3년:</strong> ₩{(threeYearAnalysis[1].finalAmount - threeYearAnalysis[0].finalAmount).toLocaleString()} 증가</p>
+                )}
+                {threeYearAnalysis.length >= 4 && (
+                  <p>• <strong>그 다음 3년:</strong> ₩{(threeYearAnalysis[2].finalAmount - threeYearAnalysis[1].finalAmount).toLocaleString()} 증가</p>
                 )}
               </>
             )}
             <p className="text-purple-400 font-medium">
-              💡 시간이 지날수록 <strong>연간 증가액이 기하급수적으로 증가</strong>합니다!
+              💡 3년마다 <strong>증가액이 기하급수적으로 증가</strong>합니다!
             </p>
           </div>
         </div>
       </div>
 
-      {/* 시각적 비교 - 매년 */}
+      {/* 시각적 비교 - 3년 단위 */}
       <div className="mt-6 bg-gray-800 p-4 rounded-lg">
-        <h4 className="text-white font-semibold mb-4">📊 연도별 자산 증가 시각화</h4>
-        <div className="space-y-2 max-h-80 overflow-y-auto">
-          {yearlyAnalysis.map((data) => {
-            const maxAmount = Math.max(...yearlyAnalysis.map(p => p.finalAmount));
+        <h4 className="text-white font-semibold mb-4">📊 3년 단위 자산 증가 시각화</h4>
+        <div className="space-y-3 max-h-80 overflow-y-auto">
+          {threeYearAnalysis.map((data) => {
+            const maxAmount = Math.max(...threeYearAnalysis.map(p => p.finalAmount));
             const widthPercent = (data.finalAmount / maxAmount) * 100;
             
             return (
@@ -293,7 +317,7 @@ const CompoundCalculator: React.FC = () => {
                     {data.year}년
                   </span>
                 </div>
-                <div className="flex-1 bg-gray-700 rounded-full h-5 relative overflow-hidden">
+                <div className="flex-1 bg-gray-700 rounded-full h-6 relative overflow-hidden">
                   <div 
                     className={`h-full rounded-full transition-all duration-1000 ${
                       data.isCurrentTarget 
@@ -310,7 +334,7 @@ const CompoundCalculator: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <div className="w-16 text-right">
+                <div className="w-20 text-right">
                   <span className={`text-sm font-semibold ${
                     data.returnRate >= 100 ? 'text-yellow-400' : 
                     data.returnRate >= 50 ? 'text-green-400' : 'text-blue-400'
@@ -324,31 +348,31 @@ const CompoundCalculator: React.FC = () => {
         </div>
       </div>
 
-      {/* 미래 투자 시나리오 */}
+      {/* 미래 투자 시나리오 - 3년 단위 */}
       <div className="mt-6 bg-gradient-to-r from-cyan-900/20 to-blue-900/20 p-4 rounded-lg border border-cyan-500/20">
-        <h4 className="text-cyan-400 font-semibold mb-2">🔮 미래 투자 시나리오</h4>
+        <h4 className="text-cyan-400 font-semibold mb-2">🔮 미래 투자 시나리오 (3년 단위)</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div className="bg-gray-800 p-3 rounded-lg">
-            <p className="text-cyan-400 font-medium mb-1">5년 더 투자한다면?</p>
-            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0] && (
+            <p className="text-cyan-400 font-medium mb-1">3년 더 투자한다면?</p>
+            {threeYearAnalysis.filter(data => data.year === currentTargetYear + 3)[0] && (
               <p className="text-white">
-                추가 ₩{(yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0].finalAmount - result.finalAmount).toLocaleString()} 수익
+                추가 ₩{(threeYearAnalysis.filter(data => data.year === currentTargetYear + 3)[0].finalAmount - result.finalAmount).toLocaleString()} 수익
               </p>
             )}
           </div>
           <div className="bg-gray-800 p-3 rounded-lg">
-            <p className="text-cyan-400 font-medium mb-1">10년 더 투자한다면?</p>
-            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0] && (
+            <p className="text-cyan-400 font-medium mb-1">6년 더 투자한다면?</p>
+            {threeYearAnalysis.filter(data => data.year === currentTargetYear + 6)[0] && (
               <p className="text-white">
-                추가 ₩{(yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0].finalAmount - result.finalAmount).toLocaleString()} 수익
+                추가 ₩{(threeYearAnalysis.filter(data => data.year === currentTargetYear + 6)[0].finalAmount - result.finalAmount).toLocaleString()} 수익
               </p>
             )}
           </div>
           <div className="bg-gray-800 p-3 rounded-lg">
-            <p className="text-cyan-400 font-medium mb-1">30년까지 투자한다면?</p>
-            {yearlyAnalysis.filter(data => data.year === 30)[0] && (
+            <p className="text-cyan-400 font-medium mb-1">9년 더 투자한다면?</p>
+            {threeYearAnalysis.filter(data => data.year === currentTargetYear + 9)[0] && (
               <p className="text-white">
-                총 ₩{yearlyAnalysis.filter(data => data.year === 30)[0].finalAmount.toLocaleString()} 달성
+                추가 ₩{(threeYearAnalysis.filter(data => data.year === currentTargetYear + 9)[0].finalAmount - result.finalAmount).toLocaleString()} 수익
               </p>
             )}
           </div>
@@ -357,13 +381,14 @@ const CompoundCalculator: React.FC = () => {
 
       {/* 복리 효과 설명 */}
       <div className="mt-6 bg-gradient-to-r from-yellow-900/20 to-orange-900/20 p-4 rounded-lg border border-yellow-500/20">
-        <h4 className="text-yellow-400 font-semibold mb-2">🔥 복리의 마법</h4>
+        <h4 className="text-yellow-400 font-semibold mb-2">🔥 복리의 마법 (3년 주기)</h4>
         <div className="space-y-2 text-sm text-gray-300">
-          <p>• <strong>1-5년:</strong> 월 납입금의 영향이 큼 (기반 구축 단계)</p>
-          <p>• <strong>6-10년:</strong> 복리 효과가 본격적으로 나타남 (성장 가속화)</p>
-          <p>• <strong>11년 이후:</strong> 복리가 월 납입금을 압도 (기하급수적 증가)</p>
+          <p>• <strong>1-3년:</strong> 월 납입금의 영향이 큼 (기반 구축 단계)</p>
+          <p>• <strong>4-6년:</strong> 복리 효과가 본격적으로 나타남 (성장 가속화)</p>
+          <p>• <strong>7-9년:</strong> 복리가 월 납입금을 압도하기 시작 (기하급수적 증가)</p>
+          <p>• <strong>10년 이후:</strong> 복리 효과가 폭발적으로 증가 (자산 급증)</p>
           <p className="text-yellow-400 font-medium">
-            ⭐ <strong>시간</strong>이야말로 투자의 가장 강력한 무기입니다!
+            ⭐ <strong>3년마다</strong> 놀라운 변화를 경험할 수 있습니다!
           </p>
         </div>
       </div>
@@ -530,13 +555,13 @@ const CompoundCalculator: React.FC = () => {
               className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <BarChart3 className="w-4 h-4" />
-              {showPeriodAnalysis ? '매년 분석 숨기기' : '매년 분석 보기'}
+              {showPeriodAnalysis ? '3년 단위 분석 숨기기' : '3년 단위 분석 보기'}
             </button>
           </div>
         </div>
       </div>
 
-      {showPeriodAnalysis && renderYearlyAnalysis()}
+      {showPeriodAnalysis && renderThreeYearAnalysis()}
     </div>
   );
 };
