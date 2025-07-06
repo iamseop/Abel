@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, DollarSign, Calendar, Percent, BarChart3 } from 'lucide-react';
+import { TrendingUp, DollarSign, Calendar, Percent, BarChart3, Target } from 'lucide-react';
 
 const CompoundCalculator: React.FC = () => {
   const [principal, setPrincipal] = useState<string>('1,000,000');
@@ -74,7 +74,8 @@ const CompoundCalculator: React.FC = () => {
     const r = (parseFloat(annualRate) || 0) / 100;
     const n = parseFloat(compoundFrequency) || 12;
     const monthlyRate = r / 12;
-    const maxYears = Math.min(parseFloat(years) || 10, 30); // 최대 30년까지
+    const currentYears = parseFloat(years) || 10;
+    const maxYears = Math.max(currentYears, 30); // 현재 설정 연도와 30년 중 큰 값
 
     const yearlyData = [];
     
@@ -93,7 +94,9 @@ const CompoundCalculator: React.FC = () => {
         totalInterest,
         returnRate,
         compoundAmount,
-        monthlyCompound
+        monthlyCompound,
+        isCurrentTarget: year === currentYears,
+        isFuture: year > currentYears
       });
     }
 
@@ -102,6 +105,7 @@ const CompoundCalculator: React.FC = () => {
 
   const result = calculateCompound();
   const yearlyAnalysis = calculateYearlyAnalysis();
+  const currentTargetYear = parseFloat(years) || 10;
 
   const renderYearlyAnalysis = () => (
     <div className="glass-card p-6">
@@ -115,12 +119,26 @@ const CompoundCalculator: React.FC = () => {
           현재 설정된 조건으로 <span className="text-orange-400 font-semibold">매년</span> 어떻게 자산이 증가하는지 확인해보세요. 
           <span className="text-orange-400 font-semibold"> 시간이 지날수록 복리 효과가 가속화</span>되는 것을 볼 수 있습니다.
         </p>
+        <div className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-blue-500 rounded"></div>
+            <span className="text-gray-300">목표 연도 ({currentTargetYear}년)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-purple-500 rounded"></div>
+            <span className="text-gray-300">현재까지 ({currentTargetYear}년 이하)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-green-500 rounded"></div>
+            <span className="text-gray-300">미래 예상 ({currentTargetYear}년 초과)</span>
+          </div>
+        </div>
       </div>
 
       {/* 매년 결과 테이블 */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-h-96 overflow-y-auto">
         <table className="w-full text-sm">
-          <thead>
+          <thead className="sticky top-0 bg-gray-900">
             <tr className="border-b border-gray-700">
               <th className="text-left py-3 px-2 text-gray-400 font-medium">연도</th>
               <th className="text-right py-3 px-2 text-gray-400 font-medium">총 투자금</th>
@@ -134,23 +152,27 @@ const CompoundCalculator: React.FC = () => {
             {yearlyAnalysis.map((data, index) => {
               const prevYearAmount = index > 0 ? yearlyAnalysis[index - 1].finalAmount : parseNumber(principal);
               const yearlyGrowth = data.finalAmount - prevYearAmount;
-              const isCurrentYear = data.year === parseFloat(years);
               
               return (
                 <tr 
                   key={data.year} 
                   className={`border-b border-gray-800 hover:bg-white/5 transition-colors ${
-                    isCurrentYear ? 'bg-blue-500/10 border-blue-500/20' : ''
+                    data.isCurrentTarget ? 'bg-blue-500/10 border-blue-500/20' : 
+                    data.isFuture ? 'bg-green-500/5 border-green-500/10' : ''
                   }`}
                 >
                   <td className="py-3 px-2">
                     <span className={`font-semibold ${
-                      isCurrentYear ? 'text-blue-400' : 'text-white'
+                      data.isCurrentTarget ? 'text-blue-400' : 
+                      data.isFuture ? 'text-green-400' : 'text-white'
                     }`}>
                       {data.year}년차
                     </span>
-                    {isCurrentYear && (
+                    {data.isCurrentTarget && (
                       <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-1 rounded">목표</span>
+                    )}
+                    {data.isFuture && (
+                      <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded">예상</span>
                     )}
                   </td>
                   <td className="py-3 px-2 text-right text-gray-300">
@@ -180,10 +202,41 @@ const CompoundCalculator: React.FC = () => {
         </table>
       </div>
 
-      {/* 연도별 인사이트 */}
+      {/* 현재 vs 미래 비교 */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 p-4 rounded-lg border border-blue-500/20">
-          <h4 className="text-blue-400 font-semibold mb-2">📈 복리 가속화 패턴</h4>
+          <h4 className="text-blue-400 font-semibold mb-2">🎯 현재 목표 ({currentTargetYear}년)</h4>
+          <div className="space-y-2 text-sm text-gray-300">
+            <p>• <strong>최종 금액:</strong> ₩{result.finalAmount.toLocaleString()}</p>
+            <p>• <strong>총 수익:</strong> ₩{result.totalInterest.toLocaleString()}</p>
+            <p>• <strong>수익률:</strong> {result.returnRate.toFixed(1)}%</p>
+            <p>• <strong>투자 배수:</strong> {(result.finalAmount / result.totalContributions).toFixed(2)}x</p>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-r from-green-900/20 to-teal-900/20 p-4 rounded-lg border border-green-500/20">
+          <h4 className="text-green-400 font-semibold mb-2">🚀 미래 예상 결과</h4>
+          <div className="space-y-2 text-sm text-gray-300">
+            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0] && (
+              <p>• <strong>{currentTargetYear + 5}년 후:</strong> ₩{yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0].finalAmount.toLocaleString()}</p>
+            )}
+            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0] && (
+              <p>• <strong>{currentTargetYear + 10}년 후:</strong> ₩{yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0].finalAmount.toLocaleString()}</p>
+            )}
+            {yearlyAnalysis.filter(data => data.year === 30)[0] && (
+              <p>• <strong>30년 후:</strong> ₩{yearlyAnalysis.filter(data => data.year === 30)[0].finalAmount.toLocaleString()}</p>
+            )}
+            <p className="text-green-400 font-medium">
+              ⭐ 더 오래 투자할수록 <strong>기하급수적 성장</strong>을 경험할 수 있습니다!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 연도별 인사이트 */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 p-4 rounded-lg border border-orange-500/20">
+          <h4 className="text-orange-400 font-semibold mb-2">📈 복리 가속화 패턴</h4>
           <div className="space-y-2 text-sm text-gray-300">
             <p>• <strong>1년차:</strong> ₩{yearlyAnalysis[0]?.finalAmount.toLocaleString()} (기반 구축)</p>
             <p>• <strong>5년차:</strong> ₩{yearlyAnalysis[4]?.finalAmount.toLocaleString()} (성장 시작)</p>
@@ -191,14 +244,14 @@ const CompoundCalculator: React.FC = () => {
             {yearlyAnalysis.length > 15 && (
               <p>• <strong>15년차:</strong> ₩{yearlyAnalysis[14]?.finalAmount.toLocaleString()} (기하급수적 증가)</p>
             )}
-            <p className="text-blue-400 font-medium">
+            <p className="text-orange-400 font-medium">
               ⚡ 후반부로 갈수록 연간 증가폭이 급격히 커집니다!
             </p>
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-green-900/20 to-teal-900/20 p-4 rounded-lg border border-green-500/20">
-          <h4 className="text-green-400 font-semibold mb-2">💰 연간 증가 분석</h4>
+        <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 p-4 rounded-lg border border-purple-500/20">
+          <h4 className="text-purple-400 font-semibold mb-2">💰 연간 증가 분석</h4>
           <div className="space-y-2 text-sm text-gray-300">
             {yearlyAnalysis.length >= 5 && (
               <>
@@ -215,7 +268,7 @@ const CompoundCalculator: React.FC = () => {
                 )}
               </>
             )}
-            <p className="text-green-400 font-medium">
+            <p className="text-purple-400 font-medium">
               💡 시간이 지날수록 <strong>연간 증가액이 기하급수적으로 증가</strong>합니다!
             </p>
           </div>
@@ -229,20 +282,24 @@ const CompoundCalculator: React.FC = () => {
           {yearlyAnalysis.map((data) => {
             const maxAmount = Math.max(...yearlyAnalysis.map(p => p.finalAmount));
             const widthPercent = (data.finalAmount / maxAmount) * 100;
-            const isCurrentYear = data.year === parseFloat(years);
             
             return (
               <div key={data.year} className="flex items-center gap-3">
                 <div className="w-12 text-right">
-                  <span className={`text-sm ${isCurrentYear ? 'text-blue-400 font-bold' : 'text-gray-400'}`}>
+                  <span className={`text-sm ${
+                    data.isCurrentTarget ? 'text-blue-400 font-bold' : 
+                    data.isFuture ? 'text-green-400' : 'text-gray-400'
+                  }`}>
                     {data.year}년
                   </span>
                 </div>
                 <div className="flex-1 bg-gray-700 rounded-full h-5 relative overflow-hidden">
                   <div 
                     className={`h-full rounded-full transition-all duration-1000 ${
-                      isCurrentYear 
+                      data.isCurrentTarget 
                         ? 'bg-gradient-to-r from-blue-500 to-blue-600' 
+                        : data.isFuture
+                        ? 'bg-gradient-to-r from-green-500 to-green-600'
                         : 'bg-gradient-to-r from-purple-500 to-pink-500'
                     }`}
                     style={{ width: `${widthPercent}%` }}
@@ -267,14 +324,45 @@ const CompoundCalculator: React.FC = () => {
         </div>
       </div>
 
+      {/* 미래 투자 시나리오 */}
+      <div className="mt-6 bg-gradient-to-r from-cyan-900/20 to-blue-900/20 p-4 rounded-lg border border-cyan-500/20">
+        <h4 className="text-cyan-400 font-semibold mb-2">🔮 미래 투자 시나리오</h4>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div className="bg-gray-800 p-3 rounded-lg">
+            <p className="text-cyan-400 font-medium mb-1">5년 더 투자한다면?</p>
+            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0] && (
+              <p className="text-white">
+                추가 ₩{(yearlyAnalysis.filter(data => data.year === currentTargetYear + 5)[0].finalAmount - result.finalAmount).toLocaleString()} 수익
+              </p>
+            )}
+          </div>
+          <div className="bg-gray-800 p-3 rounded-lg">
+            <p className="text-cyan-400 font-medium mb-1">10년 더 투자한다면?</p>
+            {yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0] && (
+              <p className="text-white">
+                추가 ₩{(yearlyAnalysis.filter(data => data.year === currentTargetYear + 10)[0].finalAmount - result.finalAmount).toLocaleString()} 수익
+              </p>
+            )}
+          </div>
+          <div className="bg-gray-800 p-3 rounded-lg">
+            <p className="text-cyan-400 font-medium mb-1">30년까지 투자한다면?</p>
+            {yearlyAnalysis.filter(data => data.year === 30)[0] && (
+              <p className="text-white">
+                총 ₩{yearlyAnalysis.filter(data => data.year === 30)[0].finalAmount.toLocaleString()} 달성
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* 복리 효과 설명 */}
-      <div className="mt-6 bg-gradient-to-r from-orange-900/20 to-red-900/20 p-4 rounded-lg border border-orange-500/20">
-        <h4 className="text-orange-400 font-semibold mb-2">🔥 복리의 마법</h4>
+      <div className="mt-6 bg-gradient-to-r from-yellow-900/20 to-orange-900/20 p-4 rounded-lg border border-yellow-500/20">
+        <h4 className="text-yellow-400 font-semibold mb-2">🔥 복리의 마법</h4>
         <div className="space-y-2 text-sm text-gray-300">
           <p>• <strong>1-5년:</strong> 월 납입금의 영향이 큼 (기반 구축 단계)</p>
           <p>• <strong>6-10년:</strong> 복리 효과가 본격적으로 나타남 (성장 가속화)</p>
           <p>• <strong>11년 이후:</strong> 복리가 월 납입금을 압도 (기하급수적 증가)</p>
-          <p className="text-orange-400 font-medium">
+          <p className="text-yellow-400 font-medium">
             ⭐ <strong>시간</strong>이야말로 투자의 가장 강력한 무기입니다!
           </p>
         </div>
