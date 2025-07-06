@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
 
           <div className="border-t border-white/5 pt-6">
             <p className="text-gray-500 text-sm">
-              © {currentYear} ⓒ 2025. Abel Co. All rights reserved.
+              © {currentYear} Abel Co. All rights reserved.
             </p>
             <p className="text-gray-600 text-xs mt-2">
               Made with ❤️ for smart investors
