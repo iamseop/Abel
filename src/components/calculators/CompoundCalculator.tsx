@@ -10,7 +10,7 @@ const CompoundCalculator: React.FC = () => {
   const [showPeriodAnalysis, setShowPeriodAnalysis] = useState(false);
 
   // 숫자에 쉼표 추가하는 함수
-  const formatNumber = (value: string): string => {}
+  const formatNumber = (value: string): string => {
     // 숫자가 아닌 문자 제거
     const numericValue = value.replace(/[^\d]/g, '');
     // 쉼표 추가
