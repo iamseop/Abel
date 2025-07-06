@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mx-auto mb-2">
               <span className="text-white font-bold text-sm">P</span>
             </div>
-            <h3 className="text-white font-bold text-lg">포트폴리오 매니저</h3>
+            <h3 className="text-white font-bold text-lg">Abel</h3>
           </div>
           
           <div className="space-y-2 mb-6">
