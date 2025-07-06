@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
               © {currentYear} Abel Co. All rights reserved.
             </p>
             <p className="text-gray-600 text-xs mt-2">
-              서울 마포구 상암월드컵로 42길 14
+              서울 마포구 월드컵로 42길 14
             </p>
           </div>
         </div>
