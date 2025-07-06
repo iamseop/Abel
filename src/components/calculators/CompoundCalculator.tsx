@@ -157,20 +157,7 @@ const CompoundCalculator: React.FC = () => {
           현재 설정된 조건으로 <span className="text-orange-400 font-semibold">매년</span> 어떻게 자산이 증가하는지 확인하고, 
           <span className="text-green-400 font-semibold"> 3년 단위 미래 예상</span>도 함께 살펴보세요.
         </p>
-        <div className="flex items-center gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded"></div>
-            <span className="text-gray-300">목표 연도 ({currentTargetYear}년)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-purple-500 rounded"></div>
-            <span className="text-gray-300">현재까지 (매년)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-500 rounded"></div>
-            <span className="text-gray-300">미래 예상 (3년 단위)</span>
-          </div>
-        </div>
+        
       </div>
 
       {/* 매년 결과 테이블 */}
