@@ -155,7 +155,7 @@ const CompoundCalculator: React.FC = () => {
       <div className="mb-6">
         <p className="text-gray-300 text-sm mb-4">
           현재 설정된 조건으로 <span className="text-orange-400 font-semibold">매년</span> 어떻게 자산이 증가하는지 확인하고, 
-          <span className="text-green-400 font-semibold"> 미래 예상</span>도 함께 살펴보세요.
+          <span className="text-green-400 font-semibold"> 미래 결과</span>도 함께 살펴보세요.
         </p>
         
       </div>
