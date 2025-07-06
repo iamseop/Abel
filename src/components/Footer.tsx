@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
           
           <div className="space-y-2 mb-6">
             <p className="text-gray-400 text-sm">
-              스마트한 투자 관리를 위한 올인원 플랫폼
+              투자 포트폴리오 관리 핀테크 플랫폼
             </p>
             <p className="text-gray-500 text-xs">
               투자에는 원금 손실의 위험이 있으며, 과거 수익률이 미래를 보장하지 않습니다.
