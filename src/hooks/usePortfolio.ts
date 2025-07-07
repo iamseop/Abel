@@ -84,11 +84,10 @@ export const usePortfolio = () => {
   const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
   const [watchlist, setWatchlist] = useState<string[]>(['005930', '000660', '035420']);
 
-  // 실시간 가격 업데이트 시뮬레이션
   useEffect(() => {
     const interval = setInterval(() => {
       setStocks(prev => prev.map(stock => {
-        const priceChange = (Math.random() - 0.5) * 1000; // -500 ~ +500 범위
+        const priceChange = (Math.random() - 0.5) * 1000;
         const newPrice = Math.max(1000, stock.price + priceChange);
         const changePercent = ((newPrice - stock.price) / stock.price) * 100;
         
@@ -99,7 +98,7 @@ export const usePortfolio = () => {
           changePercent: Number(changePercent.toFixed(2))
         };
       }));
-    }, 5000); // 5초마다 업데이트
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -114,7 +113,6 @@ export const usePortfolio = () => {
 
     setTransactions(prev => [newTransaction, ...prev]);
 
-    // Update stock quantities
     setStocks(prev => prev.map(stock => {
       if (stock.name === transaction.asset) {
         const newQuantity = transaction.type === 'buy' 
@@ -130,13 +128,12 @@ export const usePortfolio = () => {
     if (!watchlist.includes(symbol)) {
       setWatchlist(prev => [...prev, symbol]);
       
-      // 새로운 종목이면 stocks 배열에 추가
       const existingStock = stocks.find(stock => stock.symbol === symbol);
       if (!existingStock && name) {
         const newStock: Stock = {
           symbol,
           name,
-          price: Math.floor(Math.random() * 100000) + 10000, // 랜덤 가격
+          price: Math.floor(Math.random() * 100000) + 10000,
           change: Math.floor(Math.random() * 2000) - 1000,
           changePercent: Number(((Math.random() - 0.5) * 10).toFixed(2)),
           volume: Math.floor(Math.random() * 10000000) + 1000000,
@@ -162,14 +159,13 @@ export const usePortfolio = () => {
         assets.push({
           name: stock.name,
           value,
-          percentage: 0, // Will be calculated below
+          percentage: 0,
           color: getColorForStock(stock.symbol),
           quantity: stock.quantity
         });
       }
     });
 
-    // Add ETF holdings
     const etfValue = 2800000;
     totalValue += etfValue;
     assets.push({
@@ -180,7 +176,6 @@ export const usePortfolio = () => {
       quantity: 73
     });
 
-    // Calculate percentages
     return assets.map(asset => ({
       ...asset,
       percentage: (asset.value / totalValue) * 100
@@ -191,7 +186,6 @@ export const usePortfolio = () => {
     const assets = getAssets();
     const totalValue = assets.reduce((sum, asset) => sum + asset.value, 0);
     
-    // 실시간 수익 계산
     const todayChange = stocks.reduce((sum, stock) => {
       if (stock.quantity && stock.quantity > 0) {
         return sum + (stock.change * stock.quantity);
@@ -236,7 +230,6 @@ const getColorForStock = (symbol: string): string => {
     'bg-lime-500'
   ];
   
-  // 심볼을 해시하여 일관된 색상 할당
   let hash = 0;
   for (let i = 0; i < symbol.length; i++) {
     hash = symbol.charCodeAt(i) + ((hash << 5) - hash);

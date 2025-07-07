@@ -28,13 +28,13 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
 
   return (
     <>
-      <header className="relative top-0 left-0 right-0 glass-card backdrop-blur-xl border-b border-white/10 shadow-lg">
+      <header className="glass-card backdrop-blur-xl border-b border-white/10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => onTabChange('portfolio')}
-                className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center hover:scale-105 transition-transform cursor-pointer"
+                className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center hover:scale-105 transition-transform"
               >
                 <span className="text-white font-bold text-sm">P</span>
               </button>

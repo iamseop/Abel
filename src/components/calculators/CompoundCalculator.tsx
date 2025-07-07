@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, DollarSign, Calendar, Percent, BarChart3, Target } from 'lucide-react';
+import { TrendingUp, DollarSign, Calendar, Percent, BarChart3 } from 'lucide-react';
 
 const CompoundCalculator: React.FC = () => {
   const [principal, setPrincipal] = useState<string>('1,000,000');
@@ -9,28 +9,21 @@ const CompoundCalculator: React.FC = () => {
   const [compoundFrequency, setCompoundFrequency] = useState<string>('12');
   const [showPeriodAnalysis, setShowPeriodAnalysis] = useState(false);
 
-  // 숫자에 쉼표 추가하는 함수
   const formatNumber = (value: string): string => {
-    // 숫자가 아닌 문자 제거
     const numericValue = value.replace(/[^\d]/g, '');
-    // 쉼표 추가
     return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  // 쉼표 제거하고 숫자만 반환하는 함수
   const parseNumber = (value: string): number => {
     return parseFloat(value.replace(/,/g, '')) || 0;
   };
 
-  // 입력값 변경 핸들러
   const handlePrincipalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatNumber(e.target.value);
-    setPrincipal(formatted);
+    setPrincipal(formatNumber(e.target.value));
   };
 
   const handleMonthlyContributionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatNumber(e.target.value);
-    setMonthlyContribution(formatted);
+    setMonthlyContribution(formatNumber(e.target.value));
   };
 
   const calculateCompound = () => {
@@ -40,10 +33,7 @@ const CompoundCalculator: React.FC = () => {
     const t = parseFloat(years) || 0;
     const n = parseFloat(compoundFrequency) || 12;
 
-    // 원금 복리 계산
     const compoundAmount = p * Math.pow(1 + r / n, n * t);
-    
-    // 월 납입금 복리 계산 (연금 공식)
     const monthlyRate = r / 12;
     const monthlyCompound = pmt * (Math.pow(1 + monthlyRate, 12 * t) - 1) / monthlyRate;
     
@@ -55,19 +45,10 @@ const CompoundCalculator: React.FC = () => {
       finalAmount,
       totalContributions,
       totalInterest,
-      returnRate: ((finalAmount - totalContributions) / totalContributions) * 100,
-      compoundAmount,
-      monthlyCompound,
-      p,
-      pmt,
-      r,
-      t,
-      n,
-      monthlyRate
+      returnRate: ((finalAmount - totalContributions) / totalContributions) * 100
     };
   };
 
-  // 연도별 계산 결과 (목표까지는 매년)
   const calculateYearlyAnalysis = () => {
     const p = parseNumber(principal);
     const pmt = parseNumber(monthlyContribution);
@@ -78,7 +59,6 @@ const CompoundCalculator: React.FC = () => {
 
     const yearlyData = [];
     
-    // 목표까지는 매년 계산
     for (let year = 1; year <= currentYears; year++) {
       const compoundAmount = p * Math.pow(1 + r / n, n * year);
       const monthlyCompound = pmt * (Math.pow(1 + monthlyRate, 12 * year) - 1) / monthlyRate;
@@ -93,17 +73,13 @@ const CompoundCalculator: React.FC = () => {
         totalContributions,
         totalInterest,
         returnRate,
-        compoundAmount,
-        monthlyCompound,
-        isCurrentTarget: year === currentYears,
-        isFuture: false
+        isCurrentTarget: year === currentYears
       });
     }
 
     return yearlyData;
   };
 
-  // 3년 단위 미래 예상 (3개까지만)
   const calculateFutureProjections = () => {
     const p = parseNumber(principal);
     const pmt = parseNumber(monthlyContribution);
@@ -114,7 +90,6 @@ const CompoundCalculator: React.FC = () => {
 
     const futureProjections = [];
     
-    // 3년 단위로 3개까지만 계산
     for (let i = 1; i <= 3; i++) {
       const year = currentYears + (i * 3);
       const compoundAmount = p * Math.pow(1 + r / n, n * year);
@@ -129,11 +104,7 @@ const CompoundCalculator: React.FC = () => {
         finalAmount,
         totalContributions,
         totalInterest,
-        returnRate,
-        compoundAmount,
-        monthlyCompound,
-        isCurrentTarget: false,
-        isFuture: true
+        returnRate
       });
     }
 
@@ -143,7 +114,6 @@ const CompoundCalculator: React.FC = () => {
   const result = calculateCompound();
   const yearlyAnalysis = calculateYearlyAnalysis();
   const futureProjections = calculateFutureProjections();
-  const currentTargetYear = parseFloat(years) || 10;
 
   const renderPeriodAnalysis = () => (
     <div className="glass-card p-6">
@@ -157,7 +127,6 @@ const CompoundCalculator: React.FC = () => {
           현재 설정된 조건으로 <span className="text-orange-400 font-semibold">매년</span> 어떻게 자산이 증가하는지 확인하고, 
           <span className="text-green-400 font-semibold"> 미래 결과</span>도 함께 살펴보세요.
         </p>
-        
       </div>
 
       {/* 매년 결과 테이블 */}
@@ -225,7 +194,7 @@ const CompoundCalculator: React.FC = () => {
         </div>
       </div>
 
-      {/* 3년 단위 미래 예상 (3개까지만) */}
+      {/* 3년 단위 미래 예상 */}
       <div className="mb-8">
         <h4 className="text-green-400 font-semibold mb-4">🚀 미래 예상 결과 (3년 단위, 3개까지)</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -260,145 +229,6 @@ const CompoundCalculator: React.FC = () => {
                   </span>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 현재 vs 미래 비교 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 p-4 rounded-lg border border-blue-500/20">
-          <h4 className="text-blue-400 font-semibold mb-2">🎯 현재 목표 ({currentTargetYear}년)</h4>
-          <div className="space-y-2 text-sm text-gray-300">
-            <p>• <strong>최종 금액:</strong> ₩{result.finalAmount.toLocaleString()}</p>
-            <p>• <strong>총 수익:</strong> ₩{result.totalInterest.toLocaleString()}</p>
-            <p>• <strong>수익률:</strong> {result.returnRate.toFixed(1)}%</p>
-            <p>• <strong>투자 배수:</strong> {(result.finalAmount / result.totalContributions).toFixed(2)}x</p>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-green-900/20 to-teal-900/20 p-4 rounded-lg border border-green-500/20">
-          <h4 className="text-green-400 font-semibold mb-2">🚀 미래 예상 하이라이트</h4>
-          <div className="space-y-2 text-sm text-gray-300">
-            {futureProjections[0] && (
-              <p>• <strong>+3년 후:</strong> ₩{futureProjections[0].finalAmount.toLocaleString()}</p>
-            )}
-            {futureProjections[1] && (
-              <p>• <strong>+6년 후:</strong> ₩{futureProjections[1].finalAmount.toLocaleString()}</p>
-            )}
-            {futureProjections[2] && (
-              <p>• <strong>+9년 후:</strong> ₩{futureProjections[2].finalAmount.toLocaleString()}</p>
-            )}
-            <p className="text-green-400 font-medium">
-              ⭐ 3년마다 <strong>기하급수적 성장</strong>을 경험할 수 있습니다!
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* 시각적 비교 - 매년 + 미래 예상 */}
-      <div className="bg-gray-800 p-4 rounded-lg mb-6">
-        <h4 className="text-white font-semibold mb-4">📊 자산 증가 시각화</h4>
-        <div className="space-y-3 max-h-80 overflow-y-auto">
-          {/* 매년 데이터 */}
-          {yearlyAnalysis.map((data) => {
-            const maxAmount = Math.max(...yearlyAnalysis.map(p => p.finalAmount), ...futureProjections.map(p => p.finalAmount));
-            const widthPercent = (data.finalAmount / maxAmount) * 100;
-            
-            return (
-              <div key={data.year} className="flex items-center gap-3">
-                <div className="w-12 text-right">
-                  <span className={`text-sm ${
-                    data.isCurrentTarget ? 'text-blue-400 font-bold' : 'text-gray-400'
-                  }`}>
-                    {data.year}년
-                  </span>
-                </div>
-                <div className="flex-1 bg-gray-700 rounded-full h-6 relative overflow-hidden">
-                  <div 
-                    className={`h-full rounded-full transition-all duration-1000 ${
-                      data.isCurrentTarget 
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600' 
-                        : 'bg-gradient-to-r from-purple-500 to-pink-500'
-                    }`}
-                    style={{ width: `${widthPercent}%` }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white text-xs font-semibold">
-                      ₩{(data.finalAmount / 1000000).toFixed(1)}M
-                    </span>
-                  </div>
-                </div>
-                <div className="w-20 text-right">
-                  <span className={`text-sm font-semibold ${
-                    data.returnRate >= 100 ? 'text-yellow-400' : 
-                    data.returnRate >= 50 ? 'text-green-400' : 'text-blue-400'
-                  }`}>
-                    +{data.returnRate.toFixed(0)}%
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-          
-          {/* 구분선 */}
-          <div className="flex items-center gap-3 py-2">
-            <div className="w-12"></div>
-            <div className="flex-1 border-t border-dashed border-gray-600"></div>
-            <div className="w-20 text-center">
-              <span className="text-green-400 text-xs font-semibold">미래 예상</span>
-            </div>
-          </div>
-          
-          {/* 미래 예상 데이터 */}
-          {futureProjections.map((data) => {
-            const maxAmount = Math.max(...yearlyAnalysis.map(p => p.finalAmount), ...futureProjections.map(p => p.finalAmount));
-            const widthPercent = (data.finalAmount / maxAmount) * 100;
-            
-            return (
-              <div key={data.year} className="flex items-center gap-3">
-                <div className="w-12 text-right">
-                  <span className="text-sm text-green-400">
-                    {data.year}년
-                  </span>
-                </div>
-                <div className="flex-1 bg-gray-700 rounded-full h-6 relative overflow-hidden">
-                  <div 
-                    className="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-green-500 to-green-600"
-                    style={{ width: `${widthPercent}%` }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white text-xs font-semibold">
-                      ₩{(data.finalAmount / 1000000).toFixed(1)}M
-                    </span>
-                  </div>
-                </div>
-                <div className="w-20 text-right">
-                  <span className="text-sm font-semibold text-green-400">
-                    +{data.returnRate.toFixed(0)}%
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 미래 투자 시나리오 - 수정된 버전 */}
-      <div className="bg-gradient-to-r from-cyan-900/20 to-blue-900/20 p-4 rounded-lg border border-cyan-500/20 mb-6">
-        <h4 className="text-cyan-400 font-semibold mb-4">🔮 미래 투자 시나리오</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          {futureProjections.map((projection, index) => (
-            <div key={projection.year} className="bg-gray-800 p-3 rounded-lg">
-              <p className="text-cyan-400 font-medium mb-2">
-                {(index + 1) * 3}년 더 투자한다면?
-              </p>
-              <p className="text-white font-semibold">
-                추가 ₩{(projection.finalAmount - result.finalAmount).toLocaleString(undefined, { maximumFractionDigits: 0 })} 수익
-              </p>
-              <p className="text-gray-400 text-xs mt-1">
-                총 {projection.year}년차: ₩{projection.finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-              </p>
             </div>
           ))}
         </div>
