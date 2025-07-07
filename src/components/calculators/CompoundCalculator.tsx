@@ -129,68 +129,69 @@ const CompoundCalculator: React.FC = () => {
         </p>
       </div>
 
-      {/* 매년 결과 테이블 */}
+      {/* 매년 결과 - 카드 형태로 변경 */}
       <div className="mb-8">
         <h4 className="text-white font-semibold mb-4">📅 목표까지 매년 결과</h4>
-        <div className="overflow-x-auto max-h-96 overflow-y-auto">
-          <table className="w-full text-sm">
-            <thead className="sticky top-0 bg-gray-900">
-              <tr className="border-b border-gray-700">
-                <th className="text-left py-3 px-2 text-gray-400 font-medium">연도</th>
-                <th className="text-right py-3 px-2 text-gray-400 font-medium">총 투자금</th>
-                <th className="text-right py-3 px-2 text-gray-400 font-medium">최종 금액</th>
-                <th className="text-right py-3 px-2 text-gray-400 font-medium">총 수익</th>
-                <th className="text-right py-3 px-2 text-gray-400 font-medium">수익률</th>
-                <th className="text-right py-3 px-2 text-gray-400 font-medium">연간 증가</th>
-              </tr>
-            </thead>
-            <tbody>
-              {yearlyAnalysis.map((data, index) => {
-                const prevData = index > 0 ? yearlyAnalysis[index - 1] : null;
-                const yearlyGrowth = prevData ? data.finalAmount - prevData.finalAmount : data.finalAmount - parseNumber(principal);
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {yearlyAnalysis.map((data, index) => {
+            const prevData = index > 0 ? yearlyAnalysis[index - 1] : null;
+            const yearlyGrowth = prevData ? data.finalAmount - prevData.finalAmount : data.finalAmount - parseNumber(principal);
+            
+            return (
+              <div 
+                key={data.year} 
+                className={`p-4 rounded-lg border transition-all duration-200 hover:scale-105 ${
+                  data.isCurrentTarget 
+                    ? 'bg-blue-500/20 border-blue-500/50 shadow-lg shadow-blue-500/20' 
+                    : 'bg-gray-800/50 border-gray-700 hover:bg-gray-800'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className={`font-bold text-lg ${
+                    data.isCurrentTarget ? 'text-blue-400' : 'text-white'
+                  }`}>
+                    {data.year}년차
+                  </span>
+                  {data.isCurrentTarget && (
+                    <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">목표</span>
+                  )}
+                </div>
                 
-                return (
-                  <tr 
-                    key={data.year} 
-                    className={`border-b border-gray-800 hover:bg-white/5 transition-colors ${
-                      data.isCurrentTarget ? 'bg-blue-500/10 border-blue-500/20' : ''
-                    }`}
-                  >
-                    <td className="py-3 px-2">
-                      <span className={`font-semibold ${
-                        data.isCurrentTarget ? 'text-blue-400' : 'text-white'
-                      }`}>
-                        {data.year}년차
-                      </span>
-                      {data.isCurrentTarget && (
-                        <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-1 rounded">목표</span>
-                      )}
-                    </td>
-                    <td className="py-3 px-2 text-right text-gray-300">
-                      ₩{data.totalContributions.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="py-3 px-2 text-right text-white font-bold">
-                      ₩{data.finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="py-3 px-2 text-right text-green-400 font-semibold">
-                      +₩{data.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="py-3 px-2 text-right font-semibold">
-                      <span className={`${
-                        data.returnRate >= 100 ? 'text-yellow-400' : 
-                        data.returnRate >= 50 ? 'text-green-400' : 'text-blue-400'
-                      }`}>
-                        +{data.returnRate.toFixed(1)}%
-                      </span>
-                    </td>
-                    <td className="py-3 px-2 text-right text-purple-400 font-medium">
-                      +₩{yearlyGrowth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <p className="text-gray-400">최종 금액</p>
+                    <p className="text-white font-bold">
+                      ₩{(data.finalAmount / 1000000).toFixed(1)}M
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-gray-400">총 수익</p>
+                    <p className="text-green-400 font-semibold">
+                      +₩{(data.totalInterest / 1000000).toFixed(1)}M
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-gray-400">수익률</p>
+                    <p className={`font-semibold ${
+                      data.returnRate >= 100 ? 'text-yellow-400' : 
+                      data.returnRate >= 50 ? 'text-green-400' : 'text-blue-400'
+                    }`}>
+                      +{data.returnRate.toFixed(1)}%
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-gray-400">연간 증가</p>
+                    <p className="text-purple-400 font-medium">
+                      +₩{(yearlyGrowth / 1000000).toFixed(1)}M
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -207,13 +208,13 @@ const CompoundCalculator: React.FC = () => {
                 <div className="flex justify-between">
                   <span className="text-gray-300">최종 금액:</span>
                   <span className="text-white font-bold">
-                    ₩{projection.finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    ₩{(projection.finalAmount / 1000000).toFixed(1)}M
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-300">총 수익:</span>
                   <span className="text-green-400 font-semibold">
-                    +₩{projection.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    +₩{(projection.totalInterest / 1000000).toFixed(1)}M
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -225,7 +226,7 @@ const CompoundCalculator: React.FC = () => {
                 <div className="flex justify-between">
                   <span className="text-gray-300">현재 대비:</span>
                   <span className="text-yellow-400 font-semibold">
-                    +₩{(projection.finalAmount - result.finalAmount).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    +₩{((projection.finalAmount - result.finalAmount) / 1000000).toFixed(1)}M
                   </span>
                 </div>
               </div>
