@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Settings, User, LogOut, Calculator, Brain, Bookmark, TrendingUp } from 'lucide-react';
+import { Bell, Settings, User, LogOut, Calculator, Brain, Bookmark, TrendingUp, Menu, X } from 'lucide-react';
 import Modal from './Modal';
 
 interface HeaderProps {
@@ -11,6 +11,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const notifications = [
     { id: 1, message: '삼성전자가 2.5% 상승했습니다', time: '5분 전' },
@@ -20,18 +21,24 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
 
   const tabs = [
     { id: 'portfolio', label: '포트폴리오', icon: null },
-    { id: 'watchlist', label: '관심 종목', icon: Bookmark },
+    { id: 'watchlist', label: '관심종목', icon: Bookmark },
     { id: 'simulation', label: '모의투자', icon: TrendingUp },
     { id: 'calculator', label: '계산기', icon: Calculator },
-    { id: 'personality', label: '투자 성향', icon: Brain }
+    { id: 'personality', label: '투자성향', icon: Brain }
   ];
+
+  const handleTabChange = (tabId: string) => {
+    onTabChange(tabId);
+    setShowMobileMenu(false);
+  };
 
   return (
     <>
-      <header className="glass-card backdrop-blur-xl border-b border-white/10 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      <header className="glass-card backdrop-blur-xl border-b border-white/10 shadow-lg sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            {/* 로고 */}
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => onTabChange('portfolio')}
                 className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center hover:scale-105 transition-transform"
@@ -39,14 +46,15 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
                 <span className="text-white font-bold text-sm">P</span>
               </button>
               
-              <nav className="flex gap-1">
+              {/* 데스크톱 네비게이션 */}
+              <nav className="hidden lg:flex gap-1">
                 {tabs.map((tab) => {
                   const IconComponent = tab.icon;
                   return (
                     <button
                       key={tab.id}
-                      onClick={() => onTabChange(tab.id)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
+                      onClick={() => handleTabChange(tab.id)}
+                      className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 text-sm ${
                         activeTab === tab.id
                           ? 'bg-blue-600 text-white shadow-lg'
                           : 'text-gray-300 hover:text-white hover:bg-white/10'
@@ -60,28 +68,106 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
               </nav>
             </div>
             
-            <div className="flex items-center gap-3">
-              <button 
-                onClick={() => setShowNotifications(true)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+            {/* 우측 메뉴 */}
+            <div className="flex items-center gap-2">
+              {/* 데스크톱 아이콘들 */}
+              <div className="hidden md:flex items-center gap-2">
+                <button 
+                  onClick={() => setShowNotifications(true)}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                >
+                  <Bell className="w-5 h-5 text-gray-300" />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                </button>
+                <button 
+                  onClick={() => setShowSettings(true)}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                >
+                  <Settings className="w-5 h-5 text-gray-300" />
+                </button>
+                <button 
+                  onClick={() => setShowProfile(true)}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                >
+                  <User className="w-5 h-5 text-gray-300" />
+                </button>
+              </div>
+
+              {/* 모바일 햄버거 메뉴 */}
+              <button
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
-                <Bell className="w-5 h-5 text-gray-300" />
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-              </button>
-              <button 
-                onClick={() => setShowSettings(true)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <Settings className="w-5 h-5 text-gray-300" />
-              </button>
-              <button 
-                onClick={() => setShowProfile(true)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <User className="w-5 h-5 text-gray-300" />
+                {showMobileMenu ? (
+                  <X className="w-6 h-6 text-gray-300" />
+                ) : (
+                  <Menu className="w-6 h-6 text-gray-300" />
+                )}
               </button>
             </div>
           </div>
+
+          {/* 모바일 메뉴 */}
+          {showMobileMenu && (
+            <div className="lg:hidden mt-4 pb-4 border-t border-white/10 pt-4">
+              <nav className="space-y-2">
+                {tabs.map((tab) => {
+                  const IconComponent = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => handleTabChange(tab.id)}
+                      className={`w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-3 text-left ${
+                        activeTab === tab.id
+                          ? 'bg-blue-600 text-white shadow-lg'
+                          : 'text-gray-300 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {IconComponent && <IconComponent className="w-5 h-5" />}
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </nav>
+              
+              {/* 모바일 액션 버튼들 */}
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <div className="grid grid-cols-3 gap-2">
+                  <button 
+                    onClick={() => {
+                      setShowNotifications(true);
+                      setShowMobileMenu(false);
+                    }}
+                    className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1 relative"
+                  >
+                    <Bell className="w-5 h-5 text-gray-300" />
+                    <span className="text-xs text-gray-300">알림</span>
+                    <span className="absolute top-1 right-3 w-2 h-2 bg-red-500 rounded-full"></span>
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setShowSettings(true);
+                      setShowMobileMenu(false);
+                    }}
+                    className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1"
+                  >
+                    <Settings className="w-5 h-5 text-gray-300" />
+                    <span className="text-xs text-gray-300">설정</span>
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setShowProfile(true);
+                      setShowMobileMenu(false);
+                    }}
+                    className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1"
+                  >
+                    <User className="w-5 h-5 text-gray-300" />
+                    <span className="text-xs text-gray-300">프로필</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 

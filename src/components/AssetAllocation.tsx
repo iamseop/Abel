@@ -10,14 +10,14 @@ const AssetAllocation: React.FC = () => {
   const totalValue = assets.reduce((sum, asset) => sum + asset.value, 0);
 
   return (
-    <div className="glass-card p-6 mb-6">
-      <div className="flex items-center gap-3 mb-6">
-        <PieChart className="w-6 h-6 text-blue-400" />
-        <h2 className="text-xl font-bold text-white">자산 분배</h2>
+    <div className="glass-card p-4 sm:p-6 mb-6">
+      <div className="flex items-center gap-3 mb-4 sm:mb-6">
+        <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
+        <h2 className="text-lg sm:text-xl font-bold text-white">자산 분배</h2>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="space-y-3 sm:space-y-4">
           {assets.map((asset, index) => (
             <div 
               key={index} 
@@ -32,20 +32,20 @@ const AssetAllocation: React.FC = () => {
               <div className="flex items-center gap-3">
                 <div className={`w-3 h-3 rounded-full ${asset.color}`}></div>
                 <div>
-                  <span className="text-white font-medium">{asset.name}</span>
-                  <p className="text-gray-400 text-sm">{asset.quantity}주</p>
+                  <span className="text-white font-medium text-sm sm:text-base">{asset.name}</span>
+                  <p className="text-gray-400 text-xs sm:text-sm">{asset.quantity}주</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-white font-semibold">₩{asset.value.toLocaleString()}</p>
-                <p className="text-gray-400 text-sm">{asset.percentage.toFixed(1)}%</p>
+                <p className="text-white font-semibold text-sm sm:text-base">₩{asset.value.toLocaleString()}</p>
+                <p className="text-gray-400 text-xs sm:text-sm">{asset.percentage.toFixed(1)}%</p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="flex items-center justify-center">
-          <div className="relative w-48 h-48">
+          <div className="relative w-40 h-40 sm:w-48 sm:h-48">
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
               <circle
                 cx="50"
@@ -104,15 +104,15 @@ const AssetAllocation: React.FC = () => {
               <div className="text-center">
                 {hoveredAsset ? (
                   <>
-                    <p className="text-lg font-bold text-white">{hoveredAsset}</p>
-                    <p className="text-blue-400 text-sm">
+                    <p className="text-sm sm:text-lg font-bold text-white">{hoveredAsset}</p>
+                    <p className="text-blue-400 text-xs sm:text-sm">
                       {assets.find(a => a.name === hoveredAsset)?.percentage.toFixed(1)}%
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="text-2xl font-bold text-white">₩{(totalValue / 1000000).toFixed(1)}M</p>
-                    <p className="text-gray-400 text-sm">총 자산</p>
+                    <p className="text-lg sm:text-2xl font-bold text-white">₩{(totalValue / 1000000).toFixed(1)}M</p>
+                    <p className="text-gray-400 text-xs sm:text-sm">총 자산</p>
                   </>
                 )}
               </div>

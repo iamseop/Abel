@@ -48,21 +48,21 @@ const QuickActions: React.FC = () => {
 
   return (
     <>
-      <div className="glass-card p-6 mb-6">
-        <h2 className="text-xl font-bold text-white mb-6">빠른 실행</h2>
+      <div className="glass-card p-4 sm:p-6 mb-6">
+        <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">빠른 실행</h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
           {actions.map((action, index) => {
             const IconComponent = action.icon;
             return (
               <button
                 key={index}
                 onClick={action.onClick}
-                className={`${action.color} p-4 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95`}
+                className={`${action.color} p-3 sm:p-4 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95`}
               >
-                <div className="flex flex-col items-center gap-2">
-                  <IconComponent className="w-6 h-6 text-white" />
-                  <span className="text-white font-medium text-sm">{action.label}</span>
+                <div className="flex flex-col items-center gap-1 sm:gap-2">
+                  <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  <span className="text-white font-medium text-xs sm:text-sm">{action.label}</span>
                 </div>
               </button>
             );

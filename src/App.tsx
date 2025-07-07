@@ -29,12 +29,12 @@ function App() {
         return (
           <>
             <PortfolioSummary />
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-              <div className="xl:col-span-2 space-y-6">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
+              <div className="xl:col-span-2 space-y-4 sm:space-y-6">
                 <AssetAllocation />
                 <StockList />
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <QuickActions />
                 <RecentTransactions />
               </div>
@@ -48,9 +48,9 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex flex-col">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
       
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-3 sm:p-4">
         <div className="max-w-7xl mx-auto">
-          <main className="space-y-6">
+          <main className="space-y-4 sm:space-y-6">
             {renderContent()}
           </main>
         </div>

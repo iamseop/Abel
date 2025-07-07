@@ -116,13 +116,13 @@ const CompoundCalculator: React.FC = () => {
   const futureProjections = calculateFutureProjections();
 
   const renderPeriodAnalysis = () => (
-    <div className="glass-card p-6">
-      <div className="flex items-center gap-3 mb-6">
-        <BarChart3 className="w-6 h-6 text-orange-400" />
-        <h3 className="text-xl font-bold text-white">투자 기간별 분석</h3>
+    <div className="glass-card p-4 sm:p-6">
+      <div className="flex items-center gap-3 mb-4 sm:mb-6">
+        <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-orange-400" />
+        <h3 className="text-lg sm:text-xl font-bold text-white">투자 기간별 분석</h3>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4 sm:mb-6">
         <p className="text-gray-300 text-sm mb-4">
           현재 설정된 조건으로 <span className="text-orange-400 font-semibold">매년</span> 어떻게 자산이 증가하는지 확인하고, 
           <span className="text-green-400 font-semibold"> 미래 결과</span>도 함께 살펴보세요.
@@ -130,17 +130,17 @@ const CompoundCalculator: React.FC = () => {
       </div>
 
       {/* 매년 결과 - 테이블 형태 */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <h4 className="text-white font-semibold mb-4">📅 목표까지 매년 결과</h4>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-gray-700">
-                <th className="text-left py-3 px-4 text-gray-300 font-medium">연도</th>
-                <th className="text-right py-3 px-4 text-gray-300 font-medium">최종 금액</th>
-                <th className="text-right py-3 px-4 text-gray-300 font-medium">총 수익</th>
-                <th className="text-right py-3 px-4 text-gray-300 font-medium">수익률</th>
-                <th className="text-right py-3 px-4 text-gray-300 font-medium">연간 증가</th>
+                <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-gray-300 font-medium">연도</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-gray-300 font-medium">최종금액</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-gray-300 font-medium">총수익</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-gray-300 font-medium">수익률</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-gray-300 font-medium">연간증가</th>
               </tr>
             </thead>
             <tbody>
@@ -155,39 +155,39 @@ const CompoundCalculator: React.FC = () => {
                       data.isCurrentTarget ? 'bg-blue-500/10 border-blue-500/30' : ''
                     }`}
                   >
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        <span className={`font-semibold ${
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <span className={`font-semibold text-xs sm:text-sm ${
                           data.isCurrentTarget ? 'text-blue-400' : 'text-white'
                         }`}>
                           {data.year}년차
                         </span>
                         {data.isCurrentTarget && (
-                          <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">목표</span>
+                          <span className="text-xs bg-blue-500 text-white px-1 sm:px-2 py-0.5 sm:py-1 rounded-full">목표</span>
                         )}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-right">
-                      <span className="text-white font-semibold">
-                        ₩{data.finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
+                      <span className="text-white font-semibold text-xs sm:text-sm">
+                        ₩{(data.finalAmount / 1000000).toFixed(1)}M
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-right">
-                      <span className="text-green-400 font-semibold">
-                        +₩{data.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
+                      <span className="text-green-400 font-semibold text-xs sm:text-sm">
+                        +₩{(data.totalInterest / 1000000).toFixed(1)}M
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-right">
-                      <span className={`font-semibold ${
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
+                      <span className={`font-semibold text-xs sm:text-sm ${
                         data.returnRate >= 100 ? 'text-yellow-400' : 
                         data.returnRate >= 50 ? 'text-green-400' : 'text-blue-400'
                       }`}>
                         +{data.returnRate.toFixed(1)}%
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-right">
-                      <span className="text-purple-400 font-medium">
-                        +₩{yearlyGrowth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
+                      <span className="text-purple-400 font-medium text-xs sm:text-sm">
+                        +₩{(yearlyGrowth / 1000000).toFixed(1)}M
                       </span>
                     </td>
                   </tr>
@@ -199,25 +199,25 @@ const CompoundCalculator: React.FC = () => {
       </div>
 
       {/* 3년 단위 미래 예상 */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <h4 className="text-green-400 font-semibold mb-4">🚀 미래 예상 결과 (3년 단위, 3개까지)</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {futureProjections.map((projection, index) => (
-            <div key={projection.year} className="bg-gradient-to-r from-green-900/20 to-teal-900/20 p-4 rounded-lg border border-green-500/20">
-              <h5 className="text-green-400 font-semibold mb-3">
+            <div key={projection.year} className="bg-gradient-to-r from-green-900/20 to-teal-900/20 p-3 sm:p-4 rounded-lg border border-green-500/20">
+              <h5 className="text-green-400 font-semibold mb-2 sm:mb-3 text-sm sm:text-base">
                 +{(index + 1) * 3}년 후 ({projection.year}년차)
               </h5>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-300">최종 금액:</span>
+                  <span className="text-gray-300">최종금액:</span>
                   <span className="text-white font-bold">
-                    ₩{projection.finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    ₩{(projection.finalAmount / 1000000).toFixed(1)}M
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">총 수익:</span>
+                  <span className="text-gray-300">총수익:</span>
                   <span className="text-green-400 font-semibold">
-                    +₩{projection.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    +₩{(projection.totalInterest / 1000000).toFixed(1)}M
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -227,9 +227,9 @@ const CompoundCalculator: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">현재 대비:</span>
+                  <span className="text-gray-300">현재대비:</span>
                   <span className="text-yellow-400 font-semibold">
-                    +₩{(projection.finalAmount - result.finalAmount).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                    +₩{((projection.finalAmount - result.finalAmount) / 1000000).toFixed(1)}M
                   </span>
                 </div>
               </div>
@@ -239,10 +239,10 @@ const CompoundCalculator: React.FC = () => {
       </div>
 
       {/* 복리 효과 설명 */}
-      <div className="bg-gradient-to-r from-yellow-900/20 to-orange-900/20 p-4 rounded-lg border border-yellow-500/20">
+      <div className="bg-gradient-to-r from-yellow-900/20 to-orange-900/20 p-3 sm:p-4 rounded-lg border border-yellow-500/20">
         <h4 className="text-yellow-400 font-semibold mb-2">🔥 복리의 마법</h4>
-        <div className="space-y-2 text-sm text-gray-300">
-          <p>• <strong>초기 단계 (1-3년):</strong> 월 납입금의 영향이 큼 (기반 구축)</p>
+        <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-300">
+          <p>• <strong>초기 단계 (1-3년):</strong> 월 납입금의 영향이 큼</p>
           <p>• <strong>성장 단계 (4-7년):</strong> 복리 효과가 본격적으로 나타남</p>
           <p>• <strong>가속 단계 (8-12년):</strong> 복리가 월 납입금을 압도하기 시작</p>
           <p>• <strong>폭발 단계 (13년 이후):</strong> 복리 효과가 기하급수적으로 증가</p>
@@ -256,25 +256,25 @@ const CompoundCalculator: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="glass-card p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <TrendingUp className="w-6 h-6 text-blue-400" />
-          <h2 className="text-xl font-bold text-white">복리 계산기</h2>
+      <div className="glass-card p-4 sm:p-6">
+        <div className="flex items-center gap-3 mb-4 sm:mb-6">
+          <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
+          <h2 className="text-lg sm:text-xl font-bold text-white">복리 계산기</h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+          <div className="space-y-4 sm:space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 초기 투자금 (원)
               </label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                 <input
                   type="text"
                   value={principal}
                   onChange={handlePrincipalChange}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+                  className="w-full pl-8 sm:pl-10 pr-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none text-sm sm:text-base"
                   placeholder="1,000,000"
                 />
               </div>
@@ -285,12 +285,12 @@ const CompoundCalculator: React.FC = () => {
                 월 납입금 (원)
               </label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                 <input
                   type="text"
                   value={monthlyContribution}
                   onChange={handleMonthlyContributionChange}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+                  className="w-full pl-8 sm:pl-10 pr-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none text-sm sm:text-base"
                   placeholder="100,000"
                 />
               </div>
@@ -301,12 +301,12 @@ const CompoundCalculator: React.FC = () => {
                 연 수익률 (%)
               </label>
               <div className="relative">
-                <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                 <input
                   type="text"
                   value={annualRate}
                   onChange={(e) => setAnnualRate(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+                  className="w-full pl-8 sm:pl-10 pr-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none text-sm sm:text-base"
                   placeholder="7"
                 />
               </div>
@@ -317,12 +317,12 @@ const CompoundCalculator: React.FC = () => {
                 투자 기간 (년)
               </label>
               <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                 <input
                   type="text"
                   value={years}
                   onChange={(e) => setYears(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+                  className="w-full pl-8 sm:pl-10 pr-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none text-sm sm:text-base"
                   placeholder="10"
                 />
               </div>
@@ -335,7 +335,7 @@ const CompoundCalculator: React.FC = () => {
               <select
                 value={compoundFrequency}
                 onChange={(e) => setCompoundFrequency(e.target.value)}
-                className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+                className="w-full p-2 sm:p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none text-sm sm:text-base"
               >
                 <option value="1">연 1회</option>
                 <option value="4">분기별 (연 4회)</option>
@@ -345,53 +345,53 @@ const CompoundCalculator: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-xl">
-              <h3 className="text-white font-bold text-lg mb-4">계산 결과</h3>
-              <div className="space-y-4">
+          <div className="space-y-4 sm:space-y-6">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 sm:p-6 rounded-xl">
+              <h3 className="text-white font-bold text-base sm:text-lg mb-3 sm:mb-4">계산 결과</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <p className="text-blue-100 text-sm">최종 금액</p>
-                  <p className="text-white text-2xl font-bold">
+                  <p className="text-blue-100 text-xs sm:text-sm">최종 금액</p>
+                  <p className="text-white text-lg sm:text-2xl font-bold">
                     ₩{result.finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </p>
                 </div>
                 <div>
-                  <p className="text-blue-100 text-sm">총 투자금</p>
-                  <p className="text-white text-lg">
+                  <p className="text-blue-100 text-xs sm:text-sm">총 투자금</p>
+                  <p className="text-white text-sm sm:text-lg">
                     ₩{result.totalContributions.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </p>
                 </div>
                 <div>
-                  <p className="text-blue-100 text-sm">총 수익</p>
-                  <p className="text-green-300 text-lg font-semibold">
+                  <p className="text-blue-100 text-xs sm:text-sm">총 수익</p>
+                  <p className="text-green-300 text-sm sm:text-lg font-semibold">
                     ₩{result.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </p>
                 </div>
                 <div>
-                  <p className="text-blue-100 text-sm">수익률</p>
-                  <p className="text-green-300 text-lg font-semibold">
+                  <p className="text-blue-100 text-xs sm:text-sm">수익률</p>
+                  <p className="text-green-300 text-sm sm:text-lg font-semibold">
                     {result.returnRate.toFixed(1)}%
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-xl">
-              <h4 className="text-white font-semibold mb-4">투자 분석</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between">
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-xl">
+              <h4 className="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">투자 분석</h4>
+              <div className="space-y-2 sm:space-y-3">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-gray-400">월 평균 수익</span>
                   <span className="text-white">
                     ₩{(result.totalInterest / (parseFloat(years) * 12)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-gray-400">연 평균 수익</span>
                   <span className="text-white">
                     ₩{(result.totalInterest / parseFloat(years)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-gray-400">투자 배수</span>
                   <span className="text-green-400 font-semibold">
                     {(result.finalAmount / result.totalContributions).toFixed(2)}x
@@ -400,9 +400,9 @@ const CompoundCalculator: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-lg">
-              <h4 className="text-yellow-400 font-semibold mb-2">💡 복리의 힘</h4>
-              <p className="text-gray-300 text-sm">
+            <div className="bg-yellow-500/10 border border-yellow-500/20 p-3 sm:p-4 rounded-lg">
+              <h4 className="text-yellow-400 font-semibold mb-2 text-sm sm:text-base">💡 복리의 힘</h4>
+              <p className="text-gray-300 text-xs sm:text-sm">
                 단순히 원금과 월납입금을 합한 <strong>{result.totalContributions.toLocaleString()}원</strong>이 
                 복리 효과로 인해 <strong className="text-yellow-400">{result.finalAmount.toLocaleString()}원</strong>이 되어 
                 <strong className="text-green-400"> {result.totalInterest.toLocaleString()}원의 추가 수익</strong>을 얻게 됩니다!
@@ -411,7 +411,7 @@ const CompoundCalculator: React.FC = () => {
 
             <button
               onClick={() => setShowPeriodAnalysis(!showPeriodAnalysis)}
-              className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="w-full py-2 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               <BarChart3 className="w-4 h-4" />
               {showPeriodAnalysis ? '기간별 분석 숨기기' : '기간별 분석 보기'}
