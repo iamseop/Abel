@@ -203,12 +203,12 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
   const isAnswered = selectedOption !== null;
 
   return (
-    <div className="glass-card p-8 max-w-3xl mx-auto">
+    <div className="glass-card p-4 sm:p-6 lg:p-8 max-w-3xl mx-auto">
       {/* Progress Bar */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm text-gray-400">진행률</span>
-          <span className="text-sm text-gray-400">{currentQuestion + 1} / {questions.length}</span>
+          <span className="text-xs sm:text-sm text-gray-400">진행률</span>
+          <span className="text-xs sm:text-sm text-gray-400">{currentQuestion + 1} / {questions.length}</span>
         </div>
         <div className="w-full bg-gray-700 rounded-full h-2">
           <div 
@@ -219,41 +219,41 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
       </div>
 
       {/* Question */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-sm text-purple-400 font-medium">
+          <span className="text-xs sm:text-sm text-purple-400 font-medium">
             Q{currentQuestion + 1}
           </span>
           <div className="flex-1 h-px bg-gray-700"></div>
         </div>
-        <h2 className="text-2xl font-bold text-white mb-6 leading-relaxed">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-4 sm:mb-6 leading-relaxed">
           {question.question}
         </h2>
       </div>
 
       {/* Options */}
-      <div className="space-y-3 mb-8">
+      <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
         {question.options.map((option, index) => (
           <button
             key={index}
             onClick={() => handleAnswer(option.score, option.text)}
-            className={`w-full p-4 text-left rounded-xl transition-all duration-200 border-2 ${
+            className={`w-full p-3 sm:p-4 text-left rounded-xl transition-all duration-200 border-2 ${
               selectedOption === option.score
                 ? 'border-purple-500 bg-purple-500/20 text-white'
                 : 'border-gray-700 bg-gray-800/50 text-gray-300 hover:border-gray-600 hover:bg-gray-800'
             }`}
           >
-            <div className="flex items-center gap-3">
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center ${
                 selectedOption === option.score
                   ? 'border-purple-500 bg-purple-500'
                   : 'border-gray-600'
               }`}>
                 {selectedOption === option.score && (
-                  <CheckCircle className="w-4 h-4 text-white" />
+                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                 )}
               </div>
-              <span className="font-medium">{option.text}</span>
+              <span className="font-medium text-sm sm:text-base">{option.text}</span>
             </div>
           </button>
         ))}
@@ -264,9 +264,9 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
         <button
           onClick={goToPrevious}
           disabled={currentQuestion === 0}
-          className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white rounded-lg transition-colors disabled:cursor-not-allowed"
+          className="flex items-center gap-1 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white rounded-lg transition-colors disabled:cursor-not-allowed text-sm sm:text-base"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
           이전
         </button>
 
@@ -288,10 +288,10 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
         <button
           onClick={goToNext}
           disabled={!isAnswered}
-          className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-lg transition-colors disabled:cursor-not-allowed"
+          className="flex items-center gap-1 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-lg transition-colors disabled:cursor-not-allowed text-sm sm:text-base"
         >
           {currentQuestion === questions.length - 1 ? '결과 보기' : '다음'}
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
         </button>
       </div>
     </div>
