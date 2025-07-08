@@ -109,64 +109,73 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
 
           {/* 모바일 메뉴 */}
           {showMobileMenu && (
-            <div className="lg:hidden mt-4 pb-4 border-t border-white/10 pt-4">
-              <nav className="space-y-2">
-                {tabs.map((tab) => {
-                  const IconComponent = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => handleTabChange(tab.id)}
-                      className={`w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-3 text-left ${
-                        activeTab === tab.id
-                          ? 'bg-blue-600 text-white shadow-lg'
-                          : 'text-gray-300 hover:text-white hover:bg-white/10'
-                      }`}
-                    >
-                      {IconComponent && <IconComponent className="w-5 h-5" />}
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </nav>
+            <>
+              {/* 모바일 메뉴 배경 오버레이 */}
+              <div 
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
+                onClick={() => setShowMobileMenu(false)}
+              />
               
-              {/* 모바일 액션 버튼들 */}
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <div className="grid grid-cols-3 gap-2">
-                  <button 
-                    onClick={() => {
-                      setShowNotifications(true);
-                      setShowMobileMenu(false);
-                    }}
-                    className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1 relative"
-                  >
-                    <Bell className="w-5 h-5 text-gray-300" />
-                    <span className="text-xs text-gray-300">알림</span>
-                    <span className="absolute top-1 right-3 w-2 h-2 bg-red-500 rounded-full"></span>
-                  </button>
-                  <button 
-                    onClick={() => {
-                      setShowSettings(true);
-                      setShowMobileMenu(false);
-                    }}
-                    className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1"
-                  >
-                    <Settings className="w-5 h-5 text-gray-300" />
-                    <span className="text-xs text-gray-300">설정</span>
-                  </button>
-                  <button 
-                    onClick={() => {
-                      setShowProfile(true);
-                      setShowMobileMenu(false);
-                    }}
-                    className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1"
-                  >
-                    <User className="w-5 h-5 text-gray-300" />
-                    <span className="text-xs text-gray-300">프로필</span>
-                  </button>
+              {/* 모바일 메뉴 컨텐츠 */}
+              <div className="lg:hidden mt-4 pb-4 border-t border-white/10 pt-4 relative z-40">
+                <nav className="space-y-2">
+                  {tabs.map((tab) => {
+                    const IconComponent = tab.icon;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => handleTabChange(tab.id)}
+                        className={`w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-3 text-left ${
+                          activeTab === tab.id
+                            ? 'bg-blue-600 text-white shadow-lg'
+                            : 'text-gray-300 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        {IconComponent && <IconComponent className="w-5 h-5" />}
+                        {tab.label}
+                      </button>
+                    );
+                  })}
+                </nav>
+                
+                {/* 모바일 액션 버튼들 */}
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <div className="grid grid-cols-3 gap-2">
+                    <button 
+                      onClick={() => {
+                        setShowNotifications(true);
+                        setShowMobileMenu(false);
+                      }}
+                      className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1 relative"
+                    >
+                      <Bell className="w-5 h-5 text-gray-300" />
+                      <span className="text-xs text-gray-300">알림</span>
+                      <span className="absolute top-1 right-3 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setShowSettings(true);
+                        setShowMobileMenu(false);
+                      }}
+                      className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1"
+                    >
+                      <Settings className="w-5 h-5 text-gray-300" />
+                      <span className="text-xs text-gray-300">설정</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setShowProfile(true);
+                        setShowMobileMenu(false);
+                      }}
+                      className="p-3 hover:bg-white/10 rounded-lg transition-colors flex flex-col items-center gap-1"
+                    >
+                      <User className="w-5 h-5 text-gray-300" />
+                      <span className="text-xs text-gray-300">프로필</span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </header>
