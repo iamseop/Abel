@@ -287,8 +287,8 @@ const InvestmentPersonalityTest: React.FC = () => {
               className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2 mx-auto text-sm sm:text-base"
             >
               테스트 시작하기
-            <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
-            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">투자 성향 분석</h2>
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
           </div>
         );
 
