@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import PortfolioSummary from './components/PortfolioSummary';
 import AssetAllocation from './components/AssetAllocation';
-import RecentTransactions from './components/RecentTransactions';
 import StockList from './components/StockList';
+import HoldingsList from './components/HoldingsList';
 import QuickActions from './components/QuickActions';
 import CalculatorTabs from './components/calculators/CalculatorTabs';
 import InvestmentPersonalityTest from './components/personality/InvestmentPersonalityTest';
@@ -32,11 +32,11 @@ function App() {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
               <div className="xl:col-span-2 space-y-4 sm:space-y-6">
                 <AssetAllocation />
-                <StockList />
+                <HoldingsList />
               </div>
               <div className="space-y-4 sm:space-y-6">
                 <QuickActions />
-                <RecentTransactions />
+                <StockList />
               </div>
             </div>
           </>

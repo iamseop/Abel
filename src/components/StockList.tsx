@@ -9,6 +9,7 @@ const StockList: React.FC = () => {
   const [tradeModal, setTradeModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
   const [addStockModal, setAddStockModal] = useState(false);
 
+  // 관심 종목만 표시 (보유 여부와 관계없이)
   const watchedStocks = stocks.filter(stock => watchlist.includes(stock.symbol));
 
   const handleTrade = (type: 'buy' | 'sell', asset: string, amount: number, price: number) => {
@@ -70,9 +71,6 @@ const StockList: React.FC = () => {
                         )}
                         <span className={`text-sm font-medium ${
                           stock.change > 0 ? 'text-green-400' : 'text-red-400'
-                        }`}>
-                          {stock.change > 0 ? '+' : ''}{stock.changePercent}%
-                        </span>
                       </div>
                     </div>
                   </div>
