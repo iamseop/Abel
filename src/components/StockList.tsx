@@ -71,6 +71,7 @@ const StockList: React.FC = () => {
                         )}
                         <span className={`text-sm font-medium ${
                           stock.change > 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>{stock.change}%</span>
                       </div>
                     </div>
                   </div>
