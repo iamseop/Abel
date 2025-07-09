@@ -43,8 +43,50 @@ const StockList: React.FC = () => {
               </button>
             </div>
           ) : (
-            watchedStocks.map((stock) => (
-              <div key={stock.symbol} className="flex items-center justify-between p-3 sm:p-4 hover:bg-white/5 rounded-lg transition-colors">
+            <div className="divide-y divide-gray-700/50">
+              {watchedStocks.map((stock) => (
+                <div key={stock.symbol} className="flex items-center justify-between py-2 sm:py-3 px-1 hover:bg-white/5 rounded-lg transition-colors">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-white font-semibold text-sm sm:text-base leading-tight">{stock.name}</h3>
+                        <p className="text-gray-400 text-xs sm:text-sm mt-0.5">{stock.symbol}</p>
+                      </div>
+                      
+                      <div className="text-right">
+                        <p className="text-white font-semibold text-sm sm:text-base leading-tight">₩{stock.price.toLocaleString()}</p>
+                        <div className="flex items-center justify-end gap-1 mt-0.5">
+                          {stock.change > 0 ? (
+                            <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                          ) : (
+                            <TrendingDown className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
+                          )}
+                          <span className={`text-xs sm:text-sm font-medium ${
+                            stock.change > 0 ? 'text-green-400' : 'text-red-400'
+                          }`}>
+                            {stock.change > 0 ? '+' : ''}{stock.changePercent}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <AddStockModal
+        isOpen={addStockModal}
+        onClose={() => setAddStockModal(false)}
+        onAddStock={handleAddStock}
+      />
+    </>
+  );
+};
+
+export default StockList;
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <div>
