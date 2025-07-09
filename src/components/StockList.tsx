@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { Bookmark, TrendingUp, TrendingDown, Plus, Minus } from 'lucide-react';
+import { Bookmark, TrendingUp, TrendingDown, Plus } from 'lucide-react';
 import { usePortfolio } from '../hooks/usePortfolio';
-import TradeModal from './TradeModal';
 import AddStockModal from './AddStockModal';
 
 const StockList: React.FC = () => {
-  const { stocks, watchlist, addToWatchlist, removeFromWatchlist, addTransaction } = usePortfolio();
-  const [tradeModal, setTradeModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
+  const { stocks, watchlist, addToWatchlist, removeFromWatchlist } = usePortfolio();
   const [addStockModal, setAddStockModal] = useState(false);
 
   // 관심 종목만 표시 (보유 여부와 관계없이)
   const watchedStocks = stocks.filter(stock => watchlist.includes(stock.symbol));
-
-  const handleTrade = (type: 'buy' | 'sell', asset: string, amount: number, price: number) => {
-    addTransaction({ type, asset, amount, price });
-  };
 
   const handleAddStock = (symbol: string, name: string) => {
     addToWatchlist(symbol, name);
@@ -50,54 +44,29 @@ const StockList: React.FC = () => {
             </div>
           ) : (
             watchedStocks.map((stock) => (
-              <div key={stock.symbol} className="flex items-center justify-between p-4 hover:bg-white/8 rounded-lg transition-colors">
+              <div key={stock.symbol} className="flex items-center justify-between p-3 sm:p-4 hover:bg-white/5 rounded-lg transition-colors">
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white font-semibold">{stock.name}</p>
-                      <p className="text-gray-400 text-sm">{stock.symbol}</p>
-                      {stock.quantity && stock.quantity > 0 && (
-                        <p className="text-blue-400 text-sm">보유: {stock.quantity}주</p>
-                      )}
+                      <h3 className="text-white font-semibold text-sm sm:text-base">{stock.name}</h3>
+                      <p className="text-gray-400 text-xs sm:text-sm">{stock.symbol}</p>
                     </div>
                     
                     <div className="text-right">
-                      <p className="text-white font-semibold">₩{stock.price.toLocaleString()}</p>
-                      <div className="flex items-center gap-1">
+                      <p className="text-white font-semibold text-sm sm:text-base">₩{stock.price.toLocaleString()}</p>
+                      <div className="flex items-center justify-end gap-1">
                         {stock.change > 0 ? (
-                          <TrendingUp className="w-4 h-4 text-green-400" />
+                          <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                         ) : (
-                          <TrendingDown className="w-4 h-4 text-red-400" />
+                          <TrendingDown className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
                         )}
-                        <span className={`text-sm font-medium ${
+                        <span className={`text-xs sm:text-sm font-medium ${
                           stock.change > 0 ? 'text-green-400' : 'text-red-400'
-                        }`}>{stock.change}%</span>
+                        }`}>
+                          {stock.change > 0 ? '+' : ''}{stock.changePercent}%
+                        </span>
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex gap-2 mt-3">
-                    <button
-                      onClick={() => setTradeModal({ isOpen: true, stock })}
-                      className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
-                    >
-                      <Plus className="w-4 h-4" />
-                      매수
-                    </button>
-                    <button
-                      onClick={() => setTradeModal({ isOpen: true, stock })}
-                      disabled={!stock.quantity || stock.quantity === 0}
-                      className="flex-1 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
-                    >
-                      <Minus className="w-4 h-4" />
-                      매도
-                    </button>
-                    <button
-                      onClick={() => removeFromWatchlist(stock.symbol)}
-                      className="px-3 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors"
-                    >
-                      삭제
-                    </button>
                   </div>
                 </div>
               </div>
@@ -105,13 +74,6 @@ const StockList: React.FC = () => {
           )}
         </div>
       </div>
-
-      <TradeModal
-        isOpen={tradeModal.isOpen}
-        onClose={() => setTradeModal({ isOpen: false, stock: null })}
-        stock={tradeModal.stock}
-        onTrade={handleTrade}
-      />
 
       <AddStockModal
         isOpen={addStockModal}
