@@ -123,7 +123,7 @@ const WatchlistPage: React.FC = () => {
           ) : (
             <div className="space-y-4">
               {sortedStocks.map((stock) => (
-                <div key={stock.symbol} className="flex items-center justify-between p-4 hover:bg-white/5 rounded-lg transition-colors border border-gray-700">
+                <div key={stock.symbol} className="flex items-center justify-between p-4 hover:bg-white/8 rounded-lg transition-colors border border-gray-600">
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <div>

@@ -112,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
             <>
               {/* 모바일 메뉴 배경 오버레이 */}
               <div 
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden"
                 onClick={() => setShowMobileMenu(false)}
               />
               

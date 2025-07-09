@@ -49,7 +49,7 @@ const StockList: React.FC = () => {
             </div>
           ) : (
             watchedStocks.map((stock) => (
-              <div key={stock.symbol} className="flex items-center justify-between p-4 hover:bg-white/5 rounded-lg transition-colors">
+              <div key={stock.symbol} className="flex items-center justify-between p-4 hover:bg-white/8 rounded-lg transition-colors">
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <div>

@@ -62,7 +62,7 @@ const AddStockModal: React.FC<AddStockModalProps> = ({ isOpen, onClose, onAddSto
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative glass-card p-6 w-full max-w-md mx-4 max-h-[80vh] overflow-hidden flex flex-col">
         <h2 className="text-xl font-bold text-white mb-6">관심 종목 추가</h2>
 

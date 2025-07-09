@@ -23,8 +23,8 @@ const AssetAllocation: React.FC = () => {
               key={index} 
               className={`flex items-center justify-between p-3 rounded-lg transition-all duration-200 ${
                 hoveredAsset === asset.name 
-                  ? 'bg-white/10 scale-105' 
-                  : 'hover:bg-white/5'
+                  ? 'bg-white/15 scale-105' 
+                  : 'hover:bg-white/8'
               }`}
               onMouseEnter={() => setHoveredAsset(asset.name)}
               onMouseLeave={() => setHoveredAsset(null)}

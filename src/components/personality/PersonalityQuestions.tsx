@@ -239,8 +239,8 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
             onClick={() => handleAnswer(option.score, option.text)}
             className={`w-full p-3 sm:p-4 text-left rounded-xl transition-all duration-200 border-2 ${
               selectedOption === option.score
-                ? 'border-purple-500 bg-purple-500/20 text-white'
-                : 'border-gray-700 bg-gray-800/50 text-gray-300 hover:border-gray-600 hover:bg-gray-800'
+                ? 'border-purple-500 bg-purple-500/25 text-white'
+                : 'border-gray-600 bg-gray-800/70 text-gray-300 hover:border-gray-500 hover:bg-gray-700'
             }`}
           >
             <div className="flex items-center gap-2 sm:gap-3">

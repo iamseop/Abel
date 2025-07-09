@@ -34,7 +34,7 @@ const RecentTransactions: React.FC = () => {
 
         <div className="space-y-4">
           {displayTransactions.map((transaction) => (
-            <div key={transaction.id} className="flex items-center justify-between p-4 hover:bg-white/5 rounded-lg transition-colors">
+            <div key={transaction.id} className="flex items-center justify-between p-4 hover:bg-white/8 rounded-lg transition-colors">
               <div className="flex items-center gap-4">
                 <div className={`p-2 rounded-lg ${
                   transaction.type === 'buy' 

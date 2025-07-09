@@ -40,7 +40,7 @@ const TradeModal: React.FC<TradeModalProps> = ({ isOpen, onClose, stock, onTrade
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative glass-card p-6 w-full max-w-md mx-4">
         <h2 className="text-xl font-bold text-white mb-6">
           {stock.name} {tradeType === 'buy' ? '매수' : '매도'}

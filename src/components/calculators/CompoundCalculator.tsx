@@ -151,7 +151,7 @@ const CompoundCalculator: React.FC = () => {
                 return (
                   <tr 
                     key={data.year} 
-                    className={`border-b border-gray-800 hover:bg-white/5 transition-colors ${
+                    className={`border-b border-gray-700 hover:bg-white/8 transition-colors ${
                       data.isCurrentTarget ? 'bg-blue-500/10 border-blue-500/30' : ''
                     }`}
                   >
