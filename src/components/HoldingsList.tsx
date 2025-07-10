@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { TrendingUp, TrendingDown, PieChart, Plus, Minus } from 'lucide-react';
 import { usePortfolio } from '../hooks/usePortfolio';
 import TradeModal from './TradeModal';
+import ChartModal from './ChartModal';
 
 const HoldingsList: React.FC = () => {
   const { stocks, addTransaction } = usePortfolio();
   const [tradeModal, setTradeModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
+  const [chartModal, setChartModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
 
   // 보유 수량이 있는 종목만 필터링
   const holdingStocks = stocks.filter(stock => stock.quantity && stock.quantity > 0);
@@ -46,7 +48,10 @@ const HoldingsList: React.FC = () => {
                 <div key={stock.symbol} className="p-3 sm:p-4 hover:bg-white/8 rounded-lg transition-colors border border-gray-600">
                   <div className="flex items-center justify-between mb-2 sm:mb-3">
                     <div className="flex-1">
-                      <div className="flex items-center justify-between">
+                      <div 
+                        className="flex items-center justify-between cursor-pointer"
+                        onClick={() => setChartModal({ isOpen: true, stock })}
+                      >
                         <div>
                           <h3 className="text-white font-semibold text-sm sm:text-base">{stock.name}</h3>
                           <p className="text-gray-400 text-xs sm:text-sm">{stock.symbol}</p>
@@ -123,6 +128,13 @@ const HoldingsList: React.FC = () => {
         onClose={() => setTradeModal({ isOpen: false, stock: null })}
         stock={tradeModal.stock}
         onTrade={handleTrade}
+      />
+
+      <ChartModal
+        isOpen={chartModal.isOpen}
+        onClose={() => setChartModal({ isOpen: false, stock: null })}
+        stockSymbol={chartModal.stock?.symbol || ''}
+        stockName={chartModal.stock?.name || ''}
       />
     </>
   );

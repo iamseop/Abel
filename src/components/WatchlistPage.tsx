@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Bookmark, Plus, TrendingUp, TrendingDown, Search, Star, Eye } from 'lucide-react';
 import { usePortfolio } from '../hooks/usePortfolio';
 import AddStockModal from './AddStockModal';
+import ChartModal from './ChartModal';
 
 const WatchlistPage: React.FC = () => {
   const { stocks, watchlist, addToWatchlist, removeFromWatchlist } = usePortfolio();
   const [addStockModal, setAddStockModal] = useState(false);
+  const [chartModal, setChartModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'change'>('name');
 
@@ -125,7 +127,10 @@ const WatchlistPage: React.FC = () => {
               {sortedStocks.map((stock) => (
                 <div key={stock.symbol} className="flex items-center justify-between p-4 hover:bg-white/8 rounded-lg transition-colors border border-gray-600">
                   <div className="flex-1">
-                    <div className="flex items-center justify-between">
+                    <div 
+                      className="flex items-center justify-between cursor-pointer"
+                      onClick={() => setChartModal({ isOpen: true, stock })}
+                    >
                       <div>
                         <h3 className="text-white font-semibold text-lg">{stock.name}</h3>
                         <p className="text-gray-400">{stock.symbol}</p>
@@ -155,14 +160,23 @@ const WatchlistPage: React.FC = () => {
                     </div>
                     
                     <div className="flex gap-2 mt-4">
-                      <button className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setChartModal({ isOpen: true, stock });
+                        }}
+                        className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                      >
                         차트 보기
                       </button>
                       <button className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors">
                         모의투자
                       </button>
                       <button
-                        onClick={() => removeFromWatchlist(stock.symbol)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeFromWatchlist(stock.symbol);
+                        }}
                         className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
                       >
                         삭제
@@ -180,6 +194,13 @@ const WatchlistPage: React.FC = () => {
         isOpen={addStockModal}
         onClose={() => setAddStockModal(false)}
         onAddStock={handleAddStock}
+      />
+
+      <ChartModal
+        isOpen={chartModal.isOpen}
+        onClose={() => setChartModal({ isOpen: false, stock: null })}
+        stockSymbol={chartModal.stock?.symbol || ''}
+        stockName={chartModal.stock?.name || ''}
       />
     </>
   );

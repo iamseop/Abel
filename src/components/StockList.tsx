@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Bookmark, TrendingUp, TrendingDown, Plus } from 'lucide-react';
 import { usePortfolio } from '../hooks/usePortfolio';
 import AddStockModal from './AddStockModal';
+import ChartModal from './ChartModal';
 
 const StockList: React.FC = () => {
   const { stocks, watchlist, addToWatchlist, removeFromWatchlist } = usePortfolio();
   const [addStockModal, setAddStockModal] = useState(false);
+  const [chartModal, setChartModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
 
   // 관심 종목만 표시 (보유 여부와 관계없이)
   const watchedStocks = stocks.filter(stock => watchlist.includes(stock.symbol));
@@ -45,7 +47,11 @@ const StockList: React.FC = () => {
           ) : (
             <div className="divide-y divide-gray-700/50">
               {watchedStocks.map((stock) => (
-                <div key={stock.symbol} className="flex items-center justify-between py-2 sm:py-3 px-1 hover:bg-white/5 rounded-lg transition-colors">
+                <div 
+                  key={stock.symbol} 
+                  className="flex items-center justify-between py-2 sm:py-3 px-1 hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+                  onClick={() => setChartModal({ isOpen: true, stock })}
+                >
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <div>
@@ -81,6 +87,13 @@ const StockList: React.FC = () => {
         isOpen={addStockModal}
         onClose={() => setAddStockModal(false)}
         onAddStock={handleAddStock}
+      />
+
+      <ChartModal
+        isOpen={chartModal.isOpen}
+        onClose={() => setChartModal({ isOpen: false, stock: null })}
+        stockSymbol={chartModal.stock?.symbol || ''}
+        stockName={chartModal.stock?.name || ''}
       />
     </>
   );
