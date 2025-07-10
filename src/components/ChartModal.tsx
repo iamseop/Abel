@@ -28,7 +28,7 @@ const ChartModal: React.FC<ChartModalProps> = ({ isOpen, onClose, stockSymbol, s
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4">
       {/* 강화된 배경 오버레이 */}
       <div 
-        className="absolute inset-0 bg-black/95 backdrop-blur-md" 
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm" 
         onClick={onClose}
         style={{ zIndex: -1 }}
       />
