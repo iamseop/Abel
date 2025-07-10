@@ -42,3 +42,28 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(59, 130, 246, 0.5);
 }
+/* 모달 오버레이 강화 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(8px);
+  z-index: 9998;
+}
+
+/* TradingView 위젯 스타일 강화 */
+.tradingview-widget-container {
+  background-color: #111827 !important;
+}
+
+.tradingview-widget-container iframe {
+  background-color: #111827 !important;
+}
+
+/* 모달이 열렸을 때 body 스크롤 방지 */
+body.modal-open {
+  overflow: hidden;
+}

@@ -34,7 +34,7 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "symbol": symbol,
       "theme": "dark",
       "timezone": "Etc/UTC",
-      "backgroundColor": "rgba(17, 24, 39, 1)",
+      "backgroundColor": "#111827",
       "gridColor": "rgba(242, 242, 242, 0.06)",
       "watchlist": [],
       "withdateranges": false,
@@ -43,31 +43,63 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "autosize": true,
       "height": "100%",
       "width": "100%",
-      "container_id": "tradingview_chart"
+      "container_id": `tradingview_chart_${Date.now()}`,
+      "overrides": {
+        "paneProperties.background": "#111827",
+        "paneProperties.backgroundType": "solid"
+      }
     });
 
     container.current.appendChild(script);
+
+    // 클린업 함수
+    return () => {
+      if (container.current) {
+        container.current.innerHTML = '';
+      }
+    };
   }, [symbol]);
 
   return (
     <div 
-      className="tradingview-widget-container w-full h-full bg-gray-900" 
-      ref={container}
+      className="w-full h-full bg-gray-900 relative"
       style={{ 
         height: "100%", 
         width: "100%",
         backgroundColor: "#111827",
-        overflow: "hidden"
+        overflow: "hidden",
+        position: "relative"
       }}
     >
+      {/* 배경 채우기 */}
       <div 
-        className="tradingview-widget-container__widget w-full h-full bg-gray-900" 
+        className="absolute inset-0 bg-gray-900"
+        style={{ backgroundColor: "#111827" }}
+      ></div>
+      
+      {/* TradingView 컨테이너 */}
+      <div 
+        className="tradingview-widget-container relative w-full h-full bg-gray-900" 
+        ref={container}
         style={{ 
           height: "100%", 
           width: "100%",
-          backgroundColor: "#111827"
+          backgroundColor: "#111827",
+          overflow: "hidden",
+          position: "relative",
+          zIndex: 1
         }}
-      ></div>
+      >
+        <div 
+          className="tradingview-widget-container__widget w-full h-full bg-gray-900" 
+          style={{ 
+            height: "100%", 
+            width: "100%",
+            backgroundColor: "#111827",
+            position: "relative"
+          }}
+        ></div>
+      </div>
     </div>
   );
 }
