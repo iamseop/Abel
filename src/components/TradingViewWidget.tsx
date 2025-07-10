@@ -61,44 +61,44 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
   }, [symbol]);
 
   return (
-    <div 
-      className="w-full h-full bg-gray-900 relative"
-      style={{ 
-        height: "100%", 
-        width: "100%",
-        backgroundColor: "#111827",
-        overflow: "hidden",
-        position: "relative"
-      }}
-    >
-      {/* 배경 채우기 */}
+    <div className="w-full h-full relative">
+      {/* 강제 배경 레이어 - 모든 영역 커버 */}
       <div 
-        className="absolute inset-0 bg-gray-900"
-        style={{ backgroundColor: "#111827" }}
-      ></div>
+        className="absolute inset-0 w-full h-full"
+        style={{ 
+          backgroundColor: "#111827",
+          zIndex: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          position: "absolute"
+        }}
+      />
       
       {/* TradingView 컨테이너 */}
       <div 
-        className="tradingview-widget-container relative w-full h-full bg-gray-900" 
+        className="tradingview-widget-container relative w-full h-full" 
         ref={container}
         style={{ 
           height: "100%", 
           width: "100%",
           backgroundColor: "#111827",
-          overflow: "hidden",
           position: "relative",
-          zIndex: 1
+          zIndex: 1,
+          minHeight: "100%"
         }}
       >
         <div 
-          className="tradingview-widget-container__widget w-full h-full bg-gray-900" 
+          className="tradingview-widget-container__widget w-full h-full" 
           style={{ 
             height: "100%", 
             width: "100%",
             backgroundColor: "#111827",
-            position: "relative"
+            position: "relative",
+            minHeight: "100%"
           }}
-        ></div>
+        />
       </div>
     </div>
   );

@@ -65,12 +65,12 @@ const ChartModal: React.FC<ChartModalProps> = ({ isOpen, onClose, stockSymbol, s
         </div>
 
         {/* 차트 영역 - 완전히 채우기 */}
-        <div className="flex-1 bg-gray-900 relative overflow-hidden">
+        <div className="flex-1 bg-gray-900 relative overflow-hidden" style={{ backgroundColor: "#111827" }}>
           {/* 추가 배경 레이어 */}
-          <div className="absolute inset-0 bg-gray-900 z-0"></div>
+          <div className="absolute inset-0 bg-gray-900 z-0" style={{ backgroundColor: "#111827" }}></div>
           
           {/* TradingView 위젯 컨테이너 */}
-          <div className="relative z-10 w-full h-full">
+          <div className="relative z-10 w-full h-full bg-gray-900" style={{ backgroundColor: "#111827" }}>
             <TradingViewWidget symbol={tradingViewSymbol} />
           </div>
         </div>
