@@ -34,26 +34,30 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "symbol": symbol,
       "theme": "dark",
       "timezone": "Etc/UTC",
-      "backgroundColor": "#0F0F0F",
+      "backgroundColor": "#111827",
       "gridColor": "rgba(242, 242, 242, 0.06)",
       "watchlist": [],
       "withdateranges": false,
       "compareSymbols": [],
       "studies": [],
-      "autosize": true
+      "autosize": true,
+      "height": "100%",
+      "width": "100%"
     });
 
     container.current.appendChild(script);
   }, [symbol]);
 
   return (
-    <div className="tradingview-widget-container" ref={container} style={{ height: "100%", width: "100%" }}>
-      <div className="tradingview-widget-container__widget" style={{ height: "calc(100% - 32px)", width: "100%" }}></div>
-      <div className="tradingview-widget-copyright">
-        <a href="https://kr.tradingview.com/" rel="noopener nofollow" target="_blank">
-          <span className="blue-text">트레이딩뷰에서 모든 시장 추적</span>
-        </a>
-      </div>
+    <div 
+      className="tradingview-widget-container w-full h-full" 
+      ref={container}
+      style={{ height: "100%", width: "100%" }}
+    >
+      <div 
+        className="tradingview-widget-container__widget w-full h-full" 
+        style={{ height: "100%", width: "100%" }}
+      ></div>
     </div>
   );
 }
