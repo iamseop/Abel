@@ -34,7 +34,7 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "symbol": symbol,
       "theme": "dark",
       "timezone": "Etc/UTC",
-      "backgroundColor": "#111827",
+      "backgroundColor": "rgba(17, 24, 39, 1)",
       "gridColor": "rgba(242, 242, 242, 0.06)",
       "watchlist": [],
       "withdateranges": false,
@@ -42,7 +42,8 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "studies": [],
       "autosize": true,
       "height": "100%",
-      "width": "100%"
+      "width": "100%",
+      "container_id": "tradingview_chart"
     });
 
     container.current.appendChild(script);
@@ -50,13 +51,22 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
 
   return (
     <div 
-      className="tradingview-widget-container w-full h-full" 
+      className="tradingview-widget-container w-full h-full bg-gray-900" 
       ref={container}
-      style={{ height: "100%", width: "100%" }}
+      style={{ 
+        height: "100%", 
+        width: "100%",
+        backgroundColor: "#111827",
+        overflow: "hidden"
+      }}
     >
       <div 
-        className="tradingview-widget-container__widget w-full h-full" 
-        style={{ height: "100%", width: "100%" }}
+        className="tradingview-widget-container__widget w-full h-full bg-gray-900" 
+        style={{ 
+          height: "100%", 
+          width: "100%",
+          backgroundColor: "#111827"
+        }}
       ></div>
     </div>
   );

@@ -27,9 +27,9 @@ const ChartModal: React.FC<ChartModalProps> = ({ isOpen, onClose, stockSymbol, s
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative glass-card w-full max-w-7xl h-[95vh] flex flex-col">
+      <div className="relative w-full max-w-7xl h-[95vh] flex flex-col bg-gray-900 rounded-2xl overflow-hidden border border-white/20">
         {/* 컴팩트한 헤더 */}
-        <div className="flex items-center justify-between p-3 sm:p-4 border-b border-white/10 bg-gray-900/50">
+        <div className="flex items-center justify-between p-3 sm:p-4 border-b border-white/10 bg-gray-900 flex-shrink-0">
           <div className="flex items-center gap-2 sm:gap-3">
             <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
             <div>
@@ -57,15 +57,13 @@ const ChartModal: React.FC<ChartModalProps> = ({ isOpen, onClose, stockSymbol, s
           </div>
         </div>
 
-        {/* 차트 영역 - 최대한 크게 */}
-        <div className="flex-1 overflow-hidden">
-          <div className="w-full h-full bg-gray-900">
-            <TradingViewWidget symbol={tradingViewSymbol} />
-          </div>
+        {/* 차트 영역 - 최대한 크게, 배경 통일 */}
+        <div className="flex-1 bg-gray-900 overflow-hidden">
+          <TradingViewWidget symbol={tradingViewSymbol} />
         </div>
 
         {/* 모바일용 하단 액션 바 */}
-        <div className="sm:hidden p-3 border-t border-white/10 bg-gray-900/50">
+        <div className="sm:hidden p-3 border-t border-white/10 bg-gray-900 flex-shrink-0">
           <div className="flex gap-2">
             <button className="flex-1 flex items-center justify-center gap-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors">
               <Plus className="w-4 h-4" />
