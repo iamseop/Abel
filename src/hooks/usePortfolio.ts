@@ -152,6 +152,19 @@ export const usePortfolio = () => {
     setWatchlist(prev => prev.filter(s => s !== symbol));
   };
 
+  const updateHolding = (symbol: string, quantity: number, averagePrice: number) => {
+    setStocks(prev => prev.map(stock => {
+      if (stock.symbol === symbol) {
+        return {
+          ...stock,
+          quantity,
+          averagePrice
+        };
+      }
+      return stock;
+    }));
+  };
+
   const getAssets = (): Asset[] => {
     const assets: Asset[] = [];
     let totalValue = 0;
@@ -215,6 +228,7 @@ export const usePortfolio = () => {
     addTransaction,
     addToWatchlist,
     removeFromWatchlist,
+    updateHolding,
     getAssets,
     getPortfolioSummary
   };

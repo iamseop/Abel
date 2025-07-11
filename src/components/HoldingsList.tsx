@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { TrendingUp, TrendingDown, PieChart, Plus, Minus } from 'lucide-react';
+import { TrendingUp, TrendingDown, PieChart, Edit3 } from 'lucide-react';
 import { usePortfolio } from '../hooks/usePortfolio';
-import TradeModal from './TradeModal';
+import EditHoldingModal from './EditHoldingModal';
 import ChartModal from './ChartModal';
 
 const HoldingsList: React.FC = () => {
-  const { stocks, addTransaction } = usePortfolio();
-  const [tradeModal, setTradeModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
+  const { stocks, addTransaction, updateHolding } = usePortfolio();
+  const [editModal, setEditModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
   const [chartModal, setChartModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
 
   // 보유 수량이 있는 종목만 필터링
@@ -14,6 +14,10 @@ const HoldingsList: React.FC = () => {
 
   const handleTrade = (type: 'buy' | 'sell', asset: string, amount: number, price: number) => {
     addTransaction({ type, asset, amount, price });
+  };
+
+  const handleUpdateHolding = (symbol: string, quantity: number, averagePrice: number) => {
+    updateHolding(symbol, quantity, averagePrice);
   };
 
   const totalHoldingValue = holdingStocks.reduce((sum, stock) => sum + (stock.price * (stock.quantity || 0)), 0);
@@ -134,20 +138,13 @@ const HoldingsList: React.FC = () => {
                     </div>
                   </div>
                   
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 justify-center">
                     <button
-                      onClick={() => setTradeModal({ isOpen: true, stock })}
-                      className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
+                      onClick={() => setEditModal({ isOpen: true, stock })}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
                     >
-                      <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
-                      추가매수
-                    </button>
-                    <button
-                      onClick={() => setTradeModal({ isOpen: true, stock })}
-                      className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
-                    >
-                      <Minus className="w-3 h-3 sm:w-4 sm:h-4" />
-                      매도
+                      <Edit3 className="w-3 h-3 sm:w-4 sm:h-4" />
+                      수정
                     </button>
                   </div>
                 </div>
@@ -157,10 +154,11 @@ const HoldingsList: React.FC = () => {
         </div>
       </div>
 
-      <TradeModal
-        isOpen={tradeModal.isOpen}
-        onClose={() => setTradeModal({ isOpen: false, stock: null })}
-        stock={tradeModal.stock}
+      <EditHoldingModal
+        isOpen={editModal.isOpen}
+        onClose={() => setEditModal({ isOpen: false, stock: null })}
+        stock={editModal.stock}
+        onUpdate={handleUpdateHolding}
         onTrade={handleTrade}
       />
 
