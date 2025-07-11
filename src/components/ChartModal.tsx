@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { X, BarChart3, Plus, ShoppingCart } from 'lucide-react';
 import TradingViewWidget from './TradingViewWidget';
 
@@ -10,6 +11,31 @@ interface ChartModalProps {
 }
 
 const ChartModal: React.FC<ChartModalProps> = ({ isOpen, onClose, stockSymbol, stockName }) => {
+  // 모달이 열릴 때 body 스크롤 방지
+  useEffect(() => {
+    if (isOpen) {
+      // 현재 스크롤 위치 저장
+      const scrollY = window.scrollY;
+      
+      // body에 스크롤 방지 클래스 추가
+      document.body.classList.add('modal-open');
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      
+      return () => {
+        // 모달이 닫힐 때 원래 상태로 복원
+        document.body.classList.remove('modal-open');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        
+        // 원래 스크롤 위치로 복원
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   // 한국 주식 심볼을 트레이딩뷰 형식으로 변환
