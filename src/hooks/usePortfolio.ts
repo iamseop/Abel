@@ -9,7 +9,8 @@ const initialStocks: Stock[] = [
     change: 1500,
     changePercent: 2.16,
     volume: 12500000,
-    quantity: 59
+    quantity: 59,
+    averagePrice: 68500
   },
   {
     symbol: '000660',
@@ -18,7 +19,8 @@ const initialStocks: Stock[] = [
     change: -2100,
     changePercent: -2.29,
     volume: 8900000,
-    quantity: 23
+    quantity: 23,
+    averagePrice: 92000
   },
   {
     symbol: '035420',
@@ -27,7 +29,8 @@ const initialStocks: Stock[] = [
     change: 3500,
     changePercent: 1.93,
     volume: 1200000,
-    quantity: 10
+    quantity: 10,
+    averagePrice: 178000
   },
   {
     symbol: '035720',
@@ -36,7 +39,8 @@ const initialStocks: Stock[] = [
     change: -800,
     changePercent: -1.61,
     volume: 2800000,
-    quantity: 0
+    quantity: 0,
+    averagePrice: 0
   }
 ];
 

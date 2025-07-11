@@ -6,6 +6,7 @@ export interface Stock {
   changePercent: number;
   volume: number;
   quantity?: number;
+  averagePrice?: number;
 }
 
 export interface Transaction {

@@ -43,6 +43,10 @@ const HoldingsList: React.FC = () => {
             holdingStocks.map((stock) => {
               const holdingValue = stock.price * (stock.quantity || 0);
               const holdingPercent = (holdingValue / totalHoldingValue) * 100;
+              const averagePrice = stock.averagePrice || 0;
+              const totalCost = averagePrice * (stock.quantity || 0);
+              const profit = holdingValue - totalCost;
+              const profitPercent = totalCost > 0 ? (profit / totalCost) * 100 : 0;
               
               return (
                 <div key={stock.symbol} className="p-3 sm:p-4 hover:bg-white/8 rounded-lg transition-colors border border-gray-600">
@@ -76,7 +80,7 @@ const HoldingsList: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-3">
                     <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
                       <p className="text-gray-400 text-xs">보유 수량</p>
                       <p className="text-white font-semibold text-sm sm:text-base">{stock.quantity}주</p>
@@ -84,6 +88,36 @@ const HoldingsList: React.FC = () => {
                     <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
                       <p className="text-gray-400 text-xs">보유 가치</p>
                       <p className="text-white font-semibold text-sm sm:text-base">₩{holdingValue.toLocaleString()}</p>
+                    </div>
+                    <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
+                      <p className="text-gray-400 text-xs">평단가</p>
+                      <p className="text-white font-semibold text-sm sm:text-base">₩{averagePrice.toLocaleString()}</p>
+                    </div>
+                    <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
+                      <p className="text-gray-400 text-xs">수익률</p>
+                      <p className={`font-semibold text-sm sm:text-base ${
+                        profitPercent >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {profitPercent >= 0 ? '+' : ''}{profitPercent.toFixed(2)}%
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 수익/손실 정보 */}
+                  <div className="bg-gray-900/50 p-2 sm:p-3 rounded-lg mb-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-gray-400 text-xs">평가손익</p>
+                        <p className={`font-bold text-sm sm:text-base ${
+                          profit >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {profit >= 0 ? '+' : ''}₩{profit.toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-gray-400 text-xs">투자원금</p>
+                        <p className="text-gray-300 font-semibold text-sm sm:text-base">₩{totalCost.toLocaleString()}</p>
+                      </div>
                     </div>
                   </div>
 
