@@ -91,25 +91,25 @@ const SimulationPage: React.FC = () => {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-4">
             <DollarSign className="w-6 h-6 text-blue-400" />
-            <h3 className="text-gray-300 text-sm">총 투자금</h3>
+            <h3 className="text-gray-300 text-xs">총 투자금</h3>
           </div>
-          <p className="text-2xl font-bold text-white">₩{totalInvested.toLocaleString()}</p>
+          <p className="text-xl font-bold text-white">₩{totalInvested.toLocaleString()}</p>
         </div>
         
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-4">
             <Target className="w-6 h-6 text-green-400" />
-            <h3 className="text-gray-300 text-sm">현재 가치</h3>
+            <h3 className="text-gray-300 text-xs">현재 가치</h3>
           </div>
-          <p className="text-2xl font-bold text-white">₩{totalCurrent.toLocaleString()}</p>
+          <p className="text-xl font-bold text-white">₩{totalCurrent.toLocaleString()}</p>
         </div>
         
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-4">
             <TrendingUp className="w-6 h-6 text-purple-400" />
-            <h3 className="text-gray-300 text-sm">총 수익</h3>
+            <h3 className="text-gray-300 text-xs">총 수익</h3>
           </div>
-          <p className={`text-2xl font-bold ${totalReturn >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <p className={`text-xl font-bold ${totalReturn >= 0 ? 'text-green-400' : 'text-red-400'}`}>
             {totalReturn >= 0 ? '+' : ''}₩{totalReturn.toLocaleString()}
           </p>
         </div>
@@ -117,9 +117,9 @@ const SimulationPage: React.FC = () => {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-4">
             <BarChart3 className="w-6 h-6 text-yellow-400" />
-            <h3 className="text-gray-300 text-sm">수익률</h3>
+            <h3 className="text-gray-300 text-xs">수익률</h3>
           </div>
-          <p className={`text-2xl font-bold ${totalReturnPercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <p className={`text-xl font-bold ${totalReturnPercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
             {totalReturnPercent >= 0 ? '+' : ''}{totalReturnPercent.toFixed(2)}%
           </p>
         </div>
@@ -128,7 +128,7 @@ const SimulationPage: React.FC = () => {
       {/* 포트폴리오 목록 */}
       <div className="glass-card p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-white">내 모의투자 포트폴리오</h2>
+          <h2 className="text-lg font-bold text-white">내 모의투자 포트폴리오</h2>
           <button
             onClick={() => setShowCreateModal(true)}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
@@ -141,29 +141,29 @@ const SimulationPage: React.FC = () => {
           {simulationPortfolios.map((portfolio) => (
             <div key={portfolio.id} className="p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-white font-semibold text-lg">{portfolio.name}</h3>
-                <span className="text-gray-400 text-sm">
+                <h3 className="text-white font-semibold text-base">{portfolio.name}</h3>
+                <span className="text-gray-400 text-xs">
                   {portfolio.createdAt.toLocaleDateString()}
                 </span>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <p className="text-gray-400 text-sm">투자금</p>
+                  <p className="text-gray-400 text-xs">투자금</p>
                   <p className="text-white font-semibold">₩{portfolio.initialAmount.toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">현재 가치</p>
+                  <p className="text-gray-400 text-xs">현재 가치</p>
                   <p className="text-white font-semibold">₩{portfolio.currentValue.toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">수익</p>
+                  <p className="text-gray-400 text-xs">수익</p>
                   <p className={`font-semibold ${portfolio.totalReturn >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                     {portfolio.totalReturn >= 0 ? '+' : ''}₩{portfolio.totalReturn.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">수익률</p>
+                  <p className="text-gray-400 text-xs">수익률</p>
                   <p className={`font-semibold ${portfolio.returnPercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                     {portfolio.returnPercent >= 0 ? '+' : ''}{portfolio.returnPercent.toFixed(2)}%
                   </p>
@@ -178,13 +178,13 @@ const SimulationPage: React.FC = () => {
 
   const renderPortfolio = () => (
     <div className="glass-card p-6">
-      <h2 className="text-xl font-bold text-white mb-6">포트폴리오 상세</h2>
+      <h2 className="text-lg font-bold text-white mb-6">포트폴리오 상세</h2>
       <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mb-6">
         <div className="flex items-center gap-2">
           <AlertCircle className="w-5 h-5 text-yellow-400" />
           <p className="text-yellow-400 font-medium">개발 중인 기능입니다</p>
         </div>
-        <p className="text-gray-300 text-sm mt-2">
+        <p className="text-gray-300 text-xs mt-2">
           상세한 포트폴리오 관리 기능이 곧 추가될 예정입니다.
         </p>
       </div>
@@ -193,13 +193,13 @@ const SimulationPage: React.FC = () => {
 
   const renderRanking = () => (
     <div className="glass-card p-6">
-      <h2 className="text-xl font-bold text-white mb-6">모의투자 랭킹</h2>
+      <h2 className="text-lg font-bold text-white mb-6">모의투자 랭킹</h2>
       <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mb-6">
         <div className="flex items-center gap-2">
           <AlertCircle className="w-5 h-5 text-yellow-400" />
           <p className="text-yellow-400 font-medium">개발 중인 기능입니다</p>
         </div>
-        <p className="text-gray-300 text-sm mt-2">
+        <p className="text-gray-300 text-xs mt-2">
           다른 사용자들과의 수익률 비교 기능이 곧 추가될 예정입니다.
         </p>
       </div>
@@ -211,7 +211,7 @@ const SimulationPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <TrendingUp className="w-6 h-6 text-green-400" />
-          <h1 className="text-2xl font-bold text-white">모의투자</h1>
+          <h1 className="text-xl font-bold text-white">모의투자</h1>
         </div>
       </div>
 
@@ -256,8 +256,8 @@ const SimulationPage: React.FC = () => {
 
       {/* 모의투자 안내 */}
       <div className="glass-card p-6 bg-gradient-to-r from-blue-900/20 to-purple-900/20">
-        <h3 className="text-white font-bold text-lg mb-4">💡 모의투자란?</h3>
-        <div className="space-y-2 text-gray-300">
+        <h3 className="text-white font-bold text-base mb-4">💡 모의투자란?</h3>
+        <div className="space-y-2 text-gray-300 text-xs">
           <p>• 실제 돈을 사용하지 않고 가상의 자금으로 투자를 체험할 수 있습니다</p>
           <p>• 실시간 주가 데이터를 바탕으로 실제와 동일한 환경에서 투자 연습이 가능합니다</p>
           <p>• 다양한 투자 전략을 시험해보고 위험 없이 경험을 쌓을 수 있습니다</p>

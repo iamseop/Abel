@@ -23,45 +23,44 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
   const [tradeQuantity, setTradeQuantity] = useState<string>('');
   const [tradePrice, setTradePrice] = useState<string>('');
 
-  useEffect(() => {
-    if (stock) {
-      setQuantity(stock.quantity?.toString() || '0');
-      setAveragePrice(stock.averagePrice?.toString() || '0');
-      setTradePrice(stock.price?.toString() || '0');
-    }
-  }, [stock]);
-
+  // 숫자에 쉼표 추가하는 함수
   const formatNumber = (value: string): string => {
     const numericValue = value.replace(/[^\d]/g, '');
-    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (numericValue === '') return '';
+    return parseInt(numericValue, 10).toLocaleString();
   };
 
+  // 쉼표 제거하고 숫자만 반환하는 함수
   const parseNumber = (value: string): number => {
     return parseFloat(value.replace(/,/g, '')) || 0;
   };
 
+  useEffect(() => {
+    if (stock) {
+      setQuantity(formatNumber(stock.quantity?.toString() || '0'));
+      setAveragePrice(formatNumber(stock.averagePrice?.toString() || '0'));
+      setTradePrice(formatNumber(stock.price?.toString() || '0'));
+    }
+  }, [stock]);
+
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^\d]/g, '');
-    setQuantity(value);
+    setQuantity(formatNumber(e.target.value));
   };
 
   const handleAveragePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatNumber(e.target.value);
-    setAveragePrice(formatted);
+    setAveragePrice(formatNumber(e.target.value));
   };
 
   const handleTradePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatNumber(e.target.value);
-    setTradePrice(formatted);
+    setTradePrice(formatNumber(e.target.value));
   };
 
   const handleTradeQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^\d]/g, '');
-    setTradeQuantity(value);
+    setTradeQuantity(formatNumber(e.target.value));
   };
 
   const handleSaveEdit = () => {
-    const newQuantity = parseInt(quantity) || 0;
+    const newQuantity = parseNumber(quantity);
     const newAveragePrice = parseNumber(averagePrice);
     
     if (newQuantity >= 0 && newAveragePrice > 0) {
@@ -71,7 +70,7 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
   };
 
   const handleTrade = () => {
-    const amount = parseInt(tradeQuantity) || 0;
+    const amount = parseNumber(tradeQuantity);
     const price = parseNumber(tradePrice);
     
     if (amount > 0 && price > 0) {
@@ -90,7 +89,7 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
     if (tradeType === 'buy' && tradeQuantity && tradePrice) {
       const currentQuantity = stock.quantity || 0;
       const currentAverage = stock.averagePrice || 0;
-      const newQuantity = parseInt(tradeQuantity);
+      const newQuantity = parseNumber(tradeQuantity);
       const newPrice = parseNumber(tradePrice);
       
       const totalValue = (currentQuantity * currentAverage) + (newQuantity * newPrice);
@@ -109,8 +108,8 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
       <div className="relative glass-card p-6 w-full max-w-lg mx-auto max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-white">{stock.name}</h2>
-            <p className="text-gray-400 text-sm">{stock.symbol}</p>
+            <h2 className="text-lg font-bold text-white">{stock.name}</h2>
+            <p className="text-gray-400 text-xs">{stock.symbol}</p>
           </div>
           <button
             onClick={onClose}
@@ -125,19 +124,19 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
           <h3 className="text-white font-semibold mb-3">현재 보유 정보</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-gray-400 text-sm">현재가</p>
+              <p className="text-gray-400 text-xs">현재가</p>
               <p className="text-white font-semibold">₩{stock.price?.toLocaleString()}</p>
             </div>
             <div>
-              <p className="text-gray-400 text-sm">보유 수량</p>
+              <p className="text-gray-400 text-xs">보유 수량</p>
               <p className="text-white font-semibold">{stock.quantity}주</p>
             </div>
             <div>
-              <p className="text-gray-400 text-sm">평단가</p>
+              <p className="text-gray-400 text-xs">평단가</p>
               <p className="text-white font-semibold">₩{stock.averagePrice?.toLocaleString()}</p>
             </div>
             <div>
-              <p className="text-gray-400 text-sm">보유 가치</p>
+              <p className="text-gray-400 text-xs">보유 가치</p>
               <p className="text-white font-semibold">₩{((stock.quantity || 0) * (stock.price || 0)).toLocaleString()}</p>
             </div>
           </div>
@@ -173,8 +172,8 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
         {activeTab === 'edit' && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                보유 수량 (주)
+              <label className="block text-xs font-medium text-gray-300 mb-2">
+                수량
               </label>
               <input
                 type="text"
@@ -186,8 +185,8 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                평단가 (원)
+              <label className="block text-xs font-medium text-gray-300 mb-2">
+                평단가
               </label>
               <input
                 type="text"
@@ -202,7 +201,7 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
               <div className="flex justify-between items-center">
                 <span className="text-gray-300">수정 후 보유 가치</span>
                 <span className="text-white font-bold">
-                  ₩{(parseInt(quantity || '0') * parseNumber(averagePrice)).toLocaleString()}
+                  ₩{(parseNumber(quantity) * parseNumber(averagePrice)).toLocaleString()}
                 </span>
               </div>
             </div>
@@ -245,8 +244,8 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {tradeType === 'buy' ? '매수' : '매도'} 가격 (원)
+              <label className="block text-xs font-medium text-gray-300 mb-2">
+                {tradeType === 'buy' ? '매수' : '매도'} 가격
               </label>
               <input
                 type="text"
@@ -258,8 +257,8 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {tradeType === 'buy' ? '매수' : '매도'} 수량 (주)
+              <label className="block text-xs font-medium text-gray-300 mb-2">
+                {tradeType === 'buy' ? '매수' : '매도'} 수량
                 {tradeType === 'sell' && (
                   <span className="text-gray-400 ml-2">(보유: {stock.quantity}주)</span>
                 )}
@@ -278,7 +277,7 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
               <div className="flex justify-between items-center">
                 <span className="text-gray-300">거래 금액</span>
                 <span className="text-white font-bold">
-                  ₩{(parseInt(tradeQuantity || '0') * parseNumber(tradePrice)).toLocaleString()}
+                  ₩{(parseNumber(tradeQuantity) * parseNumber(tradePrice)).toLocaleString()}
                 </span>
               </div>
               {tradeType === 'buy' && tradeQuantity && tradePrice && (
@@ -293,7 +292,7 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
 
             <button
               onClick={handleTrade}
-              disabled={!tradeQuantity || !tradePrice || (tradeType === 'sell' && parseInt(tradeQuantity) > (stock.quantity || 0))}
+              disabled={!tradeQuantity || !tradePrice || (tradeType === 'sell' && parseNumber(tradeQuantity) > (stock.quantity || 0))}
               className={`w-full py-3 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 ${
                 tradeType === 'buy'
                   ? 'bg-green-600 hover:bg-green-700 text-white'

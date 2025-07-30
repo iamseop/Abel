@@ -39,7 +39,7 @@ const WatchlistPage: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Bookmark className="w-6 h-6 text-blue-400" />
-            <h1 className="text-2xl font-bold text-white">관심 종목</h1>
+            <h1 className="text-xl font-bold text-white">관심 종목</h1>
           </div>
           <button
             onClick={() => setAddStockModal(true)}
@@ -79,25 +79,25 @@ const WatchlistPage: React.FC = () => {
             <div className="bg-gray-800 p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <Star className="w-5 h-5 text-yellow-400" />
-                <span className="text-gray-400 text-sm">관심 종목 수</span>
+                <span className="text-gray-400 text-xs">관심 종목 수</span>
               </div>
-              <p className="text-white text-xl font-bold">{watchedStocks.length}개</p>
+              <p className="text-lg font-bold text-white">{watchedStocks.length}개</p>
             </div>
             <div className="bg-gray-800 p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <TrendingUp className="w-5 h-5 text-green-400" />
-                <span className="text-gray-400 text-sm">상승 종목</span>
+                <span className="text-gray-400 text-xs">상승 종목</span>
               </div>
-              <p className="text-green-400 text-xl font-bold">
+              <p className="text-green-400 text-lg font-bold">
                 {watchedStocks.filter(stock => stock.change > 0).length}개
               </p>
             </div>
             <div className="bg-gray-800 p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <TrendingDown className="w-5 h-5 text-red-400" />
-                <span className="text-gray-400 text-sm">하락 종목</span>
+                <span className="text-gray-400 text-xs">하락 종목</span>
               </div>
-              <p className="text-red-400 text-xl font-bold">
+              <p className="text-red-400 text-lg font-bold">
                 {watchedStocks.filter(stock => stock.change < 0).length}개
               </p>
             </div>
@@ -109,10 +109,10 @@ const WatchlistPage: React.FC = () => {
           {sortedStocks.length === 0 ? (
             <div className="text-center py-12">
               <Eye className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-white text-lg font-semibold mb-2">
+              <h3 className="text-white text-base font-semibold mb-2">
                 {searchTerm ? '검색 결과가 없습니다' : '관심 종목이 없습니다'}
               </h3>
-              <p className="text-gray-400 mb-6">
+              <p className="text-gray-400 mb-6 text-xs">
                 {searchTerm ? '다른 검색어를 시도해보세요' : '관심 있는 종목을 추가해보세요'}
               </p>
               <button
@@ -132,15 +132,15 @@ const WatchlistPage: React.FC = () => {
                       onClick={() => setChartModal({ isOpen: true, stock })}
                     >
                       <div>
-                        <h3 className="text-white font-semibold text-lg">{stock.name}</h3>
-                        <p className="text-gray-400">{stock.symbol}</p>
+                        <h3 className="text-white font-semibold text-base">{stock.name}</h3>
+                        <p className="text-gray-400 text-xs">{stock.symbol}</p>
                         {stock.quantity && stock.quantity > 0 && (
-                          <p className="text-blue-400 text-sm mt-1">보유: {stock.quantity}주</p>
+                          <p className="text-blue-400 text-xs mt-1">보유: {stock.quantity}주</p>
                         )}
                       </div>
                       
                       <div className="text-right">
-                        <p className="text-white font-bold text-xl">₩{stock.price.toLocaleString()}</p>
+                        <p className="text-white font-bold text-lg">₩{stock.price.toLocaleString()}</p>
                         <div className="flex items-center justify-end gap-2">
                           {stock.change > 0 ? (
                             <TrendingUp className="w-4 h-4 text-green-400" />
@@ -153,7 +153,7 @@ const WatchlistPage: React.FC = () => {
                             {stock.change > 0 ? '+' : ''}{stock.changePercent}%
                           </span>
                         </div>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-400 text-xs">
                           {stock.change > 0 ? '+' : ''}₩{stock.change.toLocaleString()}
                         </p>
                       </div>
@@ -165,11 +165,11 @@ const WatchlistPage: React.FC = () => {
                           e.stopPropagation();
                           setChartModal({ isOpen: true, stock });
                         }}
-                        className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                        className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors"
                       >
                         차트 보기
                       </button>
-                      <button className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors">
+                      <button className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors">
                         모의투자
                       </button>
                       <button
@@ -177,7 +177,7 @@ const WatchlistPage: React.FC = () => {
                           e.stopPropagation();
                           removeFromWatchlist(stock.symbol);
                         }}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors"
                       >
                         삭제
                       </button>

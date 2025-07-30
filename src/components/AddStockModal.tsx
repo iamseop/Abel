@@ -8,9 +8,9 @@ interface AddStockModalProps {
 }
 
 const availableStocks = [
-  { symbol: '005930', name: '삼성전자' },
-  { symbol: '000660', name: 'SK하이닉스' },
-  { symbol: '035420', name: 'NAVER' },
+  { symbol: 'NVDA', name: '엔비디아' },
+  { symbol: 'MSFT', name: '마이크로소프트' },
+  { symbol: 'BTCUSD', name: '비트코인' },
   { symbol: '035720', name: '카카오' },
   { symbol: '207940', name: '삼성바이오로직스' },
   { symbol: '006400', name: '삼성SDI' },
@@ -64,7 +64,7 @@ const AddStockModal: React.FC<AddStockModalProps> = ({ isOpen, onClose, onAddSto
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative glass-card p-6 w-full max-w-md mx-4 max-h-[80vh] overflow-hidden flex flex-col">
-        <h2 className="text-xl font-bold text-white mb-6">관심 종목 추가</h2>
+        <h2 className="text-lg font-bold text-white mb-6">관심 종목 추가</h2>
 
         <div className="flex gap-2 mb-4">
           <button
@@ -112,7 +112,7 @@ const AddStockModal: React.FC<AddStockModalProps> = ({ isOpen, onClose, onAddSto
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="text-white font-medium">{stock.name}</p>
-                      <p className="text-gray-400 text-sm">{stock.symbol}</p>
+                      <p className="text-gray-400 text-xs">{stock.symbol}</p>
                     </div>
                   </div>
                 </button>
@@ -122,27 +122,27 @@ const AddStockModal: React.FC<AddStockModalProps> = ({ isOpen, onClose, onAddSto
         ) : (
           <form onSubmit={handleAddCustomStock} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-xs font-medium text-gray-300 mb-2">
                 종목 코드
               </label>
               <input
                 type="text"
                 value={customSymbol}
                 onChange={(e) => setCustomSymbol(e.target.value)}
-                placeholder="예: 005930"
+                placeholder="예: AAPL"
                 className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-xs font-medium text-gray-300 mb-2">
                 종목명
               </label>
               <input
                 type="text"
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value)}
-                placeholder="예: 삼성전자"
+                placeholder="예: 애플"
                 className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                 required
               />

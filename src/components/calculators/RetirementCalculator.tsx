@@ -80,14 +80,14 @@ const RetirementCalculator: React.FC = () => {
     <div className="glass-card p-6">
       <div className="flex items-center gap-3 mb-6">
         <PiggyBank className="w-6 h-6 text-blue-400" />
-        <h2 className="text-xl font-bold text-white">은퇴 계획 계산기</h2>
+        <h2 className="text-lg font-bold text-white">은퇴 계획 계산기</h2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-xs font-medium text-gray-300 mb-2">
                 현재 나이
               </label>
               <div className="relative">
@@ -103,7 +103,7 @@ const RetirementCalculator: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-xs font-medium text-gray-300 mb-2">
                 은퇴 나이
               </label>
               <div className="relative">
@@ -120,7 +120,7 @@ const RetirementCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-gray-300 mb-2">
               현재 저축액 (원)
             </label>
             <div className="relative">
@@ -136,7 +136,7 @@ const RetirementCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-gray-300 mb-2">
               월 저축액 (원)
             </label>
             <div className="relative">
@@ -152,7 +152,7 @@ const RetirementCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-gray-300 mb-2">
               예상 연 수익률 (%)
             </label>
             <input
@@ -165,7 +165,7 @@ const RetirementCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-gray-300 mb-2">
               은퇴 목표 금액 (원)
             </label>
             <div className="relative">
@@ -183,29 +183,29 @@ const RetirementCalculator: React.FC = () => {
 
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-6 rounded-xl">
-            <h3 className="text-white font-bold text-lg mb-4">은퇴 계획 결과</h3>
+            <h3 className="text-base font-bold text-lg mb-4">은퇴 계획 결과</h3>
             <div className="space-y-4">
               <div>
-                <p className="text-purple-100 text-sm">은퇴까지 남은 기간</p>
-                <p className="text-white text-2xl font-bold">{result.yearsToRetirement}년</p>
+                <p className="text-purple-100 text-xs">은퇴까지 남은 기간</p>
+                <p className="text-white text-xl font-bold">{result.yearsToRetirement}년</p>
               </div>
               <div>
-                <p className="text-purple-100 text-sm">예상 은퇴 자금</p>
-                <p className="text-white text-xl font-bold">
+                <p className="text-purple-100 text-xs">예상 은퇴 자금</p>
+                <p className="text-white text-lg font-bold">
                   ₩{result.totalRetirementFund.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 </p>
               </div>
               {result.surplus > 0 ? (
                 <div>
-                  <p className="text-purple-100 text-sm">목표 초과 달성</p>
-                  <p className="text-green-300 text-lg font-semibold">
+                  <p className="text-purple-100 text-xs">목표 초과 달성</p>
+                  <p className="text-green-300 text-base font-semibold">
                     +₩{result.surplus.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </p>
                 </div>
               ) : (
                 <div>
-                  <p className="text-purple-100 text-sm">목표 부족 금액</p>
-                  <p className="text-red-300 text-lg font-semibold">
+                  <p className="text-purple-100 text-xs">목표 부족 금액</p>
+                  <p className="text-red-300 text-base font-semibold">
                     -₩{result.shortfall.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </p>
                 </div>
@@ -217,15 +217,15 @@ const RetirementCalculator: React.FC = () => {
             <h4 className="text-white font-semibold mb-4">은퇴 후 생활</h4>
             <div className="space-y-3">
               <div>
-                <p className="text-gray-400 text-sm">4% 룰 기준 월 소득</p>
-                <p className="text-white text-lg font-semibold">
+                <p className="text-gray-400 text-xs">4% 룰 기준 월 소득</p>
+                <p className="text-white text-base font-semibold">
                   ₩{result.monthlyIncomeAt4Percent.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 </p>
               </div>
               {result.shortfall > 0 && (
                 <div>
-                  <p className="text-gray-400 text-sm">목표 달성 필요 월 저축액</p>
-                  <p className="text-yellow-400 text-lg font-semibold">
+                  <p className="text-gray-400 text-xs">목표 달성 필요 월 저축액</p>
+                  <p className="text-yellow-400 text-base font-semibold">
                     ₩{result.requiredMonthlyForGoal.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </p>
                 </div>
@@ -235,7 +235,7 @@ const RetirementCalculator: React.FC = () => {
 
           <div className="bg-gray-800 p-6 rounded-xl">
             <h4 className="text-white font-semibold mb-4">추천 사항</h4>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-xs">
               {result.surplus > 0 ? (
                 <p className="text-green-400">✓ 현재 계획으로 목표를 달성할 수 있습니다!</p>
               ) : (

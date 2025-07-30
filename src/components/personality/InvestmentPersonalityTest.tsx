@@ -239,8 +239,8 @@ const InvestmentPersonalityTest: React.FC = () => {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center">
                 <Brain className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4">투자 성향 테스트</h1>
-              <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-4">투자 성향 테스트</h1>
+              <p className="text-xs sm:text-sm lg:text-base leading-relaxed">
                 MBTI처럼 당신의 투자 성향을 분석하여<br className="hidden sm:block" />
                 맞춤형 투자 전략을 제안해드립니다.
               </p>
@@ -249,34 +249,34 @@ const InvestmentPersonalityTest: React.FC = () => {
             <div className="bg-gray-800 p-4 sm:p-6 lg:p-8 rounded-xl mb-6 sm:mb-8">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                 <div className="text-center">
-                  <p className="text-blue-400 font-bold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">소요 시간</p>
-                  <p className="text-gray-300 text-sm sm:text-base lg:text-lg">약 5분</p>
+                  <p className="text-blue-400 font-bold text-xs sm:text-sm lg:text-base mb-1 sm:mb-2">소요 시간</p>
+                  <p className="text-gray-300 text-xs sm:text-sm lg:text-base">약 5분</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-blue-400 font-bold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">질문 수</p>
-                  <p className="text-gray-300 text-sm sm:text-base lg:text-lg">12개</p>
+                  <p className="text-blue-400 font-bold text-xs sm:text-sm lg:text-base mb-1 sm:mb-2">질문 수</p>
+                  <p className="text-gray-300 text-xs sm:text-sm lg:text-base">12개</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-blue-400 font-bold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">결과</p>
-                  <p className="text-gray-300 text-sm sm:text-base lg:text-lg">4가지 투자 유형</p>
+                  <p className="text-blue-400 font-bold text-xs sm:text-sm lg:text-base mb-1 sm:mb-2">결과</p>
+                  <p className="text-gray-300 text-xs sm:text-sm lg:text-base">4가지 투자 유형</p>
                 </div>
               </div>
             </div>
 
             <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-sm sm:text-base">
+              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm">
                 <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                 <span>위험 감수 능력 분석</span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-sm sm:text-base">
+              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm">
                 <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                 <span>투자 기간 및 목표 파악</span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-sm sm:text-base">
+              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm">
                 <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
                 <span>투자 지식 수준 평가</span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-sm sm:text-base">
+              <div className="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 <span>맞춤형 포트폴리오 추천</span>
               </div>
@@ -313,7 +313,7 @@ const InvestmentPersonalityTest: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Brain className="w-6 h-6 text-purple-400" />
-          <h2 className="text-2xl font-bold text-white">투자 성향 분석</h2>
+          <h2 className="text-xl font-bold text-white">투자 성향 분석</h2>
         </div>
         
         {currentStep !== 'intro' && (

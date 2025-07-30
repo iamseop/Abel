@@ -42,7 +42,7 @@ const TradeModal: React.FC<TradeModalProps> = ({ isOpen, onClose, stock, onTrade
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative glass-card p-6 w-full max-w-md mx-4">
-        <h2 className="text-xl font-bold text-white mb-6">
+        <h2 className="text-lg font-bold text-white mb-6">
           {stock.name} {tradeType === 'buy' ? '매수' : '매도'}
         </h2>
 
@@ -75,7 +75,7 @@ const TradeModal: React.FC<TradeModalProps> = ({ isOpen, onClose, stock, onTrade
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-gray-300 mb-2">
               현재가
             </label>
             <input
@@ -88,7 +88,7 @@ const TradeModal: React.FC<TradeModalProps> = ({ isOpen, onClose, stock, onTrade
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-xs font-medium text-gray-300 mb-2">
               수량
               {tradeType === 'sell' && (
                 <span className="text-gray-400 ml-2">(보유: {maxSellAmount}주)</span>

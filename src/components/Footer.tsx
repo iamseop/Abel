@@ -11,19 +11,19 @@ const Footer: React.FC = () => {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mx-auto mb-2">
               <span className="text-white font-bold text-sm">P</span>
             </div>
-            <h3 className="text-white font-bold text-lg">Abel Co.</h3>
+            <h3 className="text-white font-bold text-base">Abel Co.</h3>
           </div>
           
           <div className="space-y-2 mb-6">
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-400 text-xs">
               투자 포트폴리오 관리 핀테크 플랫폼
             </p>
-            <p className="text-gray-500 text-xs">
+            <p className="text-gray-500 text-[0.65rem]">
               투자에는 원금 손실의 위험이 있으며, 과거 수익률이 미래를 보장하지 않습니다.
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6 mb-6 text-sm">
+          <div className="flex flex-wrap justify-center gap-6 mb-6 text-xs">
             <a href="#" className="text-gray-400 hover:text-white transition-colors">
               서비스 소개
             </a>
@@ -39,10 +39,10 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="border-t border-white/5 pt-6">
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 text-xs">
               © {currentYear} Abel Co. All rights reserved.
             </p>
-            <p className="text-gray-600 text-xs mt-2">
+            <p className="text-gray-600 text-[0.65rem] mt-2">
               서울특별시 마포구 월드컵로42길 12
             </p>
           </div>

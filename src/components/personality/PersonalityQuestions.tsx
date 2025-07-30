@@ -207,8 +207,8 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
       {/* Progress Bar */}
       <div className="mb-6 sm:mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-xs sm:text-sm text-gray-400">진행률</span>
-          <span className="text-xs sm:text-sm text-gray-400">{currentQuestion + 1} / {questions.length}</span>
+          <span className="text-xs text-gray-400">진행률</span>
+          <span className="text-xs text-gray-400">{currentQuestion + 1} / {questions.length}</span>
         </div>
         <div className="w-full bg-gray-700 rounded-full h-2">
           <div 
@@ -221,12 +221,12 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
       {/* Question */}
       <div className="mb-6 sm:mb-8">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs sm:text-sm text-purple-400 font-medium">
+          <span className="text-xs text-purple-400 font-medium">
             Q{currentQuestion + 1}
           </span>
           <div className="flex-1 h-px bg-gray-700"></div>
         </div>
-        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-4 sm:mb-6 leading-relaxed">
+        <h2 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-4 sm:mb-6 leading-relaxed">
           {question.question}
         </h2>
       </div>
@@ -253,7 +253,7 @@ const PersonalityQuestions: React.FC<PersonalityQuestionsProps> = ({ onComplete 
                   <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                 )}
               </div>
-              <span className="font-medium text-sm sm:text-base">{option.text}</span>
+              <span className="font-medium text-xs sm:text-sm">{option.text}</span>
             </div>
           </button>
         ))}

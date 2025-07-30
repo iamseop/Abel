@@ -22,11 +22,11 @@ const StockList: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <Bookmark className="w-6 h-6 text-blue-400" />
-            <h2 className="text-xl font-bold text-white">관심 종목</h2>
+            <h2 className="text-lg font-bold text-white">관심 종목</h2>
           </div>
           <button 
             onClick={() => setAddStockModal(true)}
-            className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center gap-1 hover:bg-white/5 px-3 py-2 rounded-lg transition-all"
+            className="text-blue-400 hover:text-blue-300 text-xs font-medium flex items-center gap-1 hover:bg-white/5 px-3 py-2 rounded-lg transition-all"
           >
             <Plus className="w-4 h-4" />
             추가
@@ -55,19 +55,19 @@ const StockList: React.FC = () => {
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-white font-semibold text-sm sm:text-base leading-tight">{stock.name}</h3>
-                        <p className="text-gray-400 text-xs sm:text-sm mt-0.5">{stock.symbol}</p>
+                        <h3 className="text-white font-semibold text-xs sm:text-sm leading-tight">{stock.name}</h3>
+                        <p className="text-gray-400 text-xs mt-0.5">{stock.symbol}</p>
                       </div>
                       
                       <div className="text-right">
-                        <p className="text-white font-semibold text-sm sm:text-base leading-tight">₩{stock.price.toLocaleString()}</p>
+                        <p className="text-white font-semibold text-xs sm:text-sm leading-tight">₩{stock.price.toLocaleString()}</p>
                         <div className="flex items-center justify-end gap-1 mt-0.5">
                           {stock.change > 0 ? (
                             <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                           ) : (
                             <TrendingDown className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
                           )}
-                          <span className={`text-xs sm:text-sm font-medium ${
+                          <span className={`text-xs font-medium ${
                             stock.change > 0 ? 'text-green-400' : 'text-red-400'
                           }`}>
                             {stock.change > 0 ? '+' : ''}{stock.changePercent}%

@@ -28,11 +28,11 @@ const HoldingsList: React.FC = () => {
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <div className="flex items-center gap-3">
             <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
-            <h2 className="text-lg sm:text-xl font-bold text-white">보유 종목</h2>
+            <h2 className="text-base sm:text-lg font-bold text-white">보유 종목</h2>
           </div>
           <div className="text-right">
-            <p className="text-xs sm:text-sm text-gray-400">총 보유 가치</p>
-            <p className="text-sm sm:text-lg font-bold text-white">₩{totalHoldingValue.toLocaleString()}</p>
+            <p className="text-xs text-gray-400">총 자산</p>
+            <p className="text-xs sm:text-base font-bold text-white">₩{totalHoldingValue.toLocaleString()}</p>
           </div>
         </div>
 
@@ -41,7 +41,7 @@ const HoldingsList: React.FC = () => {
             <div className="text-center py-6 sm:py-8">
               <PieChart className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
               <p className="text-gray-400 mb-2">보유 종목이 없습니다</p>
-              <p className="text-gray-500 text-xs sm:text-sm">관심 종목에서 매수를 통해 종목을 보유해보세요</p>
+              <p className="text-gray-500 text-xs">관심 종목에서 매수를 통해 종목을 보유해보세요</p>
             </div>
           ) : (
             holdingStocks.map((stock) => {
@@ -61,19 +61,19 @@ const HoldingsList: React.FC = () => {
                         onClick={() => setChartModal({ isOpen: true, stock })}
                       >
                         <div>
-                          <h3 className="text-white font-semibold text-sm sm:text-base">{stock.name}</h3>
-                          <p className="text-gray-400 text-xs sm:text-sm">{stock.symbol}</p>
+                          <h3 className="text-white font-semibold text-xs sm:text-sm">{stock.name}</h3>
+                          <p className="text-gray-400 text-xs">{stock.symbol}</p>
                         </div>
                         
                         <div className="text-right">
-                          <p className="text-white font-semibold text-sm sm:text-base">₩{stock.price.toLocaleString()}</p>
+                          <p className="text-white font-semibold text-xs sm:text-sm">₩{stock.price.toLocaleString()}</p>
                           <div className="flex items-center justify-end gap-1">
                             {stock.change > 0 ? (
                               <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                             ) : (
                               <TrendingDown className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
                             )}
-                            <span className={`text-xs sm:text-sm font-medium ${
+                            <span className={`text-xs font-medium ${
                               stock.change > 0 ? 'text-green-400' : 'text-red-400'
                             }`}>
                               {stock.change > 0 ? '+' : ''}{stock.changePercent}%
@@ -86,20 +86,20 @@ const HoldingsList: React.FC = () => {
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-3">
                     <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
-                      <p className="text-gray-400 text-xs">보유 수량</p>
-                      <p className="text-white font-semibold text-sm sm:text-base">{stock.quantity}주</p>
+                      <p className="text-gray-400 text-xs">수량</p>
+                      <p className="text-white font-semibold text-xs sm:text-sm">{stock.quantity}주</p>
                     </div>
                     <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
-                      <p className="text-gray-400 text-xs">보유 가치</p>
-                      <p className="text-white font-semibold text-sm sm:text-base">₩{holdingValue.toLocaleString()}</p>
+                      <p className="text-gray-400 text-xs">가치</p>
+                      <p className="text-white font-semibold text-xs sm:text-sm">₩{holdingValue.toLocaleString()}</p>
                     </div>
                     <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
                       <p className="text-gray-400 text-xs">평단가</p>
-                      <p className="text-white font-semibold text-sm sm:text-base">₩{averagePrice.toLocaleString()}</p>
+                      <p className="text-white font-semibold text-xs sm:text-sm">₩{averagePrice.toLocaleString()}</p>
                     </div>
                     <div className="bg-gray-800/70 p-2 sm:p-3 rounded-lg">
                       <p className="text-gray-400 text-xs">수익률</p>
-                      <p className={`font-semibold text-sm sm:text-base ${
+                      <p className={`font-semibold text-xs sm:text-sm ${
                         profitPercent >= 0 ? 'text-green-400' : 'text-red-400'
                       }`}>
                         {profitPercent >= 0 ? '+' : ''}{profitPercent.toFixed(2)}%
@@ -112,7 +112,7 @@ const HoldingsList: React.FC = () => {
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="text-gray-400 text-xs">평가손익</p>
-                        <p className={`font-bold text-sm sm:text-base ${
+                        <p className={`font-bold text-xs sm:text-sm ${
                           profit >= 0 ? 'text-green-400' : 'text-red-400'
                         }`}>
                           {profit >= 0 ? '+' : ''}₩{profit.toLocaleString()}
@@ -120,7 +120,7 @@ const HoldingsList: React.FC = () => {
                       </div>
                       <div className="text-right">
                         <p className="text-gray-400 text-xs">투자원금</p>
-                        <p className="text-gray-300 font-semibold text-sm sm:text-base">₩{totalCost.toLocaleString()}</p>
+                        <p className="text-gray-300 font-semibold text-xs sm:text-sm">₩{totalCost.toLocaleString()}</p>
                       </div>
                     </div>
                   </div>
@@ -141,7 +141,7 @@ const HoldingsList: React.FC = () => {
                   <div className="flex gap-2 justify-center">
                     <button
                       onClick={() => setEditModal({ isOpen: true, stock })}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-1"
                     >
                       <Edit3 className="w-3 h-3 sm:w-4 sm:h-4" />
                       수정

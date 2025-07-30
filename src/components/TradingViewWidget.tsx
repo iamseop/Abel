@@ -43,7 +43,7 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "autosize": true,
       "height": "100%",
       "width": "100%",
-      "container_id": `tradingview_chart_${Date.now()}`,
+      "container_id": `tradingview_chart_${symbol.replace(':', '_').replace('.', '_')}`, // 심볼 기반으로 고정 ID 생성
       "overrides": {
         "paneProperties.background": "#111827",
         "paneProperties.backgroundType": "solid"
@@ -58,7 +58,7 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
         container.current.innerHTML = '';
       }
     };
-  }, [symbol]);
+  }, [symbol]); // symbol이 변경될 때만 useEffect가 다시 실행되도록
 
   return (
     <div className="w-full h-full relative">

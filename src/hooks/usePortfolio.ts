@@ -3,8 +3,8 @@ import { Stock, Transaction, Asset, Portfolio } from '../types';
 
 const initialStocks: Stock[] = [
   {
-    symbol: '005930',
-    name: '삼성전자',
+    symbol: 'NVDA',
+    name: '엔비디아',
     price: 71000,
     change: 1500,
     changePercent: 2.16,
@@ -13,8 +13,8 @@ const initialStocks: Stock[] = [
     averagePrice: 68500
   },
   {
-    symbol: '000660',
-    name: 'SK하이닉스',
+    symbol: 'AAPL',
+    name: '애플',
     price: 89500,
     change: -2100,
     changePercent: -2.29,
@@ -23,8 +23,18 @@ const initialStocks: Stock[] = [
     averagePrice: 92000
   },
   {
-    symbol: '035420',
-    name: 'NAVER',
+    symbol: 'QQQ',
+    name: '나스닥 ETF',
+    price: 89500,
+    change: -2100,
+    changePercent: -2.29,
+    volume: 8900000,
+    quantity: 23,
+    averagePrice: 92000
+  },
+  {
+    symbol: 'BTCKRW',
+    name: '비트코인',
     price: 185000,
     change: 3500,
     changePercent: 1.93,
@@ -33,15 +43,26 @@ const initialStocks: Stock[] = [
     averagePrice: 178000
   },
   {
-    symbol: '035720',
-    name: '카카오',
-    price: 48900,
-    change: -800,
-    changePercent: -1.61,
-    volume: 2800000,
-    quantity: 0,
-    averagePrice: 0
-  }
+    symbol: 'ETHUSDT',
+    name: '이더리움',
+    price: 185000,
+    change: 3500,
+    changePercent: 1.93,
+    volume: 1200000,
+    quantity: 10,
+    averagePrice: 178000
+  },
+  {
+    symbol: 'USDKRW',
+    name: '달러',
+    price: 89500,
+    change: -2100,
+    changePercent: -2.29,
+    volume: 8900000,
+    quantity: 23,
+    averagePrice: 92000
+  },
+  
 ];
 
 const initialTransactions: Transaction[] = [

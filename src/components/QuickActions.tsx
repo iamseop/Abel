@@ -11,13 +11,13 @@ const QuickActions: React.FC = () => {
     { 
       icon: Plus, 
       label: '매수', 
-      color: 'bg-green-600 hover:bg-green-700',
+      color: 'bg-blue-600 hover:bg-blue-700',
       onClick: () => alert('매수 기능은 관심 종목에서 이용하세요')
     },
     { 
       icon: Minus, 
       label: '매도', 
-      color: 'bg-red-600 hover:bg-red-700',
+      color: 'bg-blue-600 hover:bg-blue-700',
       onClick: () => alert('매도 기능은 관심 종목에서 이용하세요')
     },
     { 
@@ -29,13 +29,13 @@ const QuickActions: React.FC = () => {
     { 
       icon: PieChart, 
       label: '리포트', 
-      color: 'bg-purple-600 hover:bg-purple-700',
+      color: 'bg-blue-600 hover:bg-blue-700',
       onClick: () => setShowReport(true)
     },
     { 
       icon: TrendingUp, 
       label: '추천', 
-      color: 'bg-yellow-600 hover:bg-yellow-700',
+      color: 'bg-blue-600 hover:bg-blue-700',
       onClick: () => setShowRecommendations(true)
     },
     { 
@@ -49,7 +49,7 @@ const QuickActions: React.FC = () => {
   return (
     <>
       <div className="glass-card p-4 sm:p-6 mb-6">
-        <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">빠른 실행</h2>
+        <h2 className="text-base sm:text-lg font-bold text-white mb-4 sm:mb-6">빠른 실행</h2>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
           {actions.map((action, index) => {
@@ -62,7 +62,7 @@ const QuickActions: React.FC = () => {
               >
                 <div className="flex flex-col items-center gap-1 sm:gap-2">
                   <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                  <span className="text-white font-medium text-xs sm:text-sm">{action.label}</span>
+                  <span className="text-white font-medium text-xs">{action.label}</span>
                 </div>
               </button>
             );

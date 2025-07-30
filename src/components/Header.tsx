@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Bell, Settings, User, LogOut, Calculator, Brain, Bookmark, TrendingUp, Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom'; // Link와 useLocation 임포트
 import Modal from './Modal';
 
 interface HeaderProps {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
+  // activeTab과 onTabChange 프롭은 더 이상 필요하지 않습니다.
 }
 
-const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
+const Header: React.FC<HeaderProps> = () => {
+  const location = useLocation(); // 현재 경로를 가져오기 위해 useLocation 훅 사용
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -20,16 +21,15 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
   ];
 
   const tabs = [
-    { id: 'portfolio', label: '포트폴리오', icon: null },
-    { id: 'watchlist', label: '관심종목', icon: Bookmark },
-    { id: 'simulation', label: '모의투자', icon: TrendingUp },
-    { id: 'calculator', label: '계산기', icon: Calculator },
-    { id: 'personality', label: '투자성향', icon: Brain }
+    { id: 'portfolio', label: '포트폴리오', icon: null, path: '/' }, // path 추가
+    { id: 'watchlist', label: '관심종목', icon: Bookmark, path: '/watchlist' },
+    { id: 'simulation', label: '모의투자', icon: TrendingUp, path: '/simulation' },
+    { id: 'calculator', label: '계산기', icon: Calculator, path: '/calculator' },
+    { id: 'personality', label: '투자성향', icon: Brain, path: '/personality' }
   ];
 
-  const handleTabChange = (tabId: string) => {
-    onTabChange(tabId);
-    setShowMobileMenu(false);
+  const handleTabClick = () => {
+    setShowMobileMenu(false); // 모바일 메뉴 닫기
   };
 
   return (
@@ -39,30 +39,33 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
           <div className="flex items-center justify-between">
             {/* 로고 */}
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => onTabChange('portfolio')}
+              <Link
+                to="/" // Link 컴포넌트 사용
                 className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center hover:scale-105 transition-transform"
+                onClick={handleTabClick}
               >
                 <span className="text-white font-bold text-sm">P</span>
-              </button>
+              </Link>
               
               {/* 데스크톱 네비게이션 */}
               <nav className="hidden lg:flex gap-1">
                 {tabs.map((tab) => {
                   const IconComponent = tab.icon;
+                  const isActive = location.pathname === tab.path || (tab.path === '/' && location.pathname === '/portfolio'); // 현재 경로와 일치하는지 확인
                   return (
-                    <button
+                    <Link
                       key={tab.id}
-                      onClick={() => handleTabChange(tab.id)}
+                      to={tab.path} // Link 컴포넌트 사용
+                      onClick={handleTabClick}
                       className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 text-sm ${
-                        activeTab === tab.id
+                        isActive
                           ? 'bg-blue-600 text-white shadow-lg'
                           : 'text-gray-300 hover:text-white hover:bg-white/10'
                       }`}
                     >
                       {IconComponent && <IconComponent className="w-4 h-4" />}
                       {tab.label}
-                    </button>
+                    </Link>
                   );
                 })}
               </nav>
@@ -121,19 +124,21 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
                 <nav className="space-y-2">
                   {tabs.map((tab) => {
                     const IconComponent = tab.icon;
+                    const isActive = location.pathname === tab.path || (tab.path === '/' && location.pathname === '/portfolio');
                     return (
-                      <button
+                      <Link
                         key={tab.id}
-                        onClick={() => handleTabChange(tab.id)}
+                        to={tab.path} // Link 컴포넌트 사용
+                        onClick={handleTabClick}
                         className={`w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-3 text-left ${
-                          activeTab === tab.id
+                          isActive
                             ? 'bg-blue-600 text-white shadow-lg'
                             : 'text-gray-300 hover:text-white hover:bg-white/10'
                         }`}
                       >
                         {IconComponent && <IconComponent className="w-5 h-5" />}
                         {tab.label}
-                      </button>
+                      </Link>
                     );
                   })}
                 </nav>
