@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">dyad test Abel-main</string>
+    <string name="title_activity_main">dyad test Abel-main</string>
+    <string name="package_name">com.example.dyadtestabelmain</string>
+    <string name="custom_url_scheme">com.example.dyadtestabelmain</string>
+</resources>
