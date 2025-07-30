@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Bell, Settings, User, LogOut, Calculator, Brain, Bookmark, TrendingUp, Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom'; // Link와 useLocation 임포트
+import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
+import { useSession } from '../components/SessionContextProvider'; // useSession 훅 임포트
+import { supabase } from '../integrations/supabase/client'; // supabase 클라이언트 임포트
 
 interface HeaderProps {
   // activeTab과 onTabChange 프롭은 더 이상 필요하지 않습니다.
 }
 
 const Header: React.FC<HeaderProps> = () => {
-  const location = useLocation(); // 현재 경로를 가져오기 위해 useLocation 훅 사용
+  const location = useLocation();
+  const { session } = useSession(); // 세션 정보 가져오기
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -21,7 +24,7 @@ const Header: React.FC<HeaderProps> = () => {
   ];
 
   const tabs = [
-    { id: 'portfolio', label: '포트폴리오', icon: null, path: '/' }, // path 추가
+    { id: 'portfolio', label: '포트폴리오', icon: null, path: '/' },
     { id: 'watchlist', label: '관심종목', icon: Bookmark, path: '/watchlist' },
     { id: 'simulation', label: '모의투자', icon: TrendingUp, path: '/simulation' },
     { id: 'calculator', label: '계산기', icon: Calculator, path: '/calculator' },
@@ -29,7 +32,18 @@ const Header: React.FC<HeaderProps> = () => {
   ];
 
   const handleTabClick = () => {
-    setShowMobileMenu(false); // 모바일 메뉴 닫기
+    setShowMobileMenu(false);
+  };
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('로그아웃 실패:', error.message);
+      alert('로그아웃에 실패했습니다.');
+    } else {
+      console.log('로그아웃 성공');
+      setShowProfile(false); // 모달 닫기
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ const Header: React.FC<HeaderProps> = () => {
             {/* 로고 */}
             <div className="flex items-center gap-3">
               <Link
-                to="/" // Link 컴포넌트 사용
+                to="/"
                 className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center hover:scale-105 transition-transform"
                 onClick={handleTabClick}
               >
@@ -51,11 +65,11 @@ const Header: React.FC<HeaderProps> = () => {
               <nav className="hidden lg:flex gap-1">
                 {tabs.map((tab) => {
                   const IconComponent = tab.icon;
-                  const isActive = location.pathname === tab.path || (tab.path === '/' && location.pathname === '/portfolio'); // 현재 경로와 일치하는지 확인
+                  const isActive = location.pathname === tab.path || (tab.path === '/' && location.pathname === '/portfolio');
                   return (
                     <Link
                       key={tab.id}
-                      to={tab.path} // Link 컴포넌트 사용
+                      to={tab.path}
                       onClick={handleTabClick}
                       className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 text-sm ${
                         isActive
@@ -128,7 +142,7 @@ const Header: React.FC<HeaderProps> = () => {
                     return (
                       <Link
                         key={tab.id}
-                        to={tab.path} // Link 컴포넌트 사용
+                        to={tab.path}
                         onClick={handleTabClick}
                         className={`w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-3 text-left ${
                           isActive
@@ -232,7 +246,7 @@ const Header: React.FC<HeaderProps> = () => {
               <User className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-white font-bold text-lg">김투자</h3>
-            <p className="text-gray-400">investor@example.com</p>
+            <p className="text-gray-400">{session?.user?.email || '이메일 정보 없음'}</p> {/* 실제 이메일 표시 */}
           </div>
           <div className="space-y-2">
             <button className="w-full p-3 text-left hover:bg-white/5 rounded-lg transition-colors text-white">
@@ -241,7 +255,10 @@ const Header: React.FC<HeaderProps> = () => {
             <button className="w-full p-3 text-left hover:bg-white/5 rounded-lg transition-colors text-white">
               투자 성향 설정
             </button>
-            <button className="w-full p-3 text-left hover:bg-white/5 rounded-lg transition-colors text-red-400 flex items-center gap-2">
+            <button
+              onClick={handleLogout} // 로그아웃 기능 연결
+              className="w-full p-3 text-left hover:bg-white/5 rounded-lg transition-colors text-red-400 flex items-center gap-2"
+            >
               <LogOut className="w-4 h-4" />
               로그아웃
             </button>

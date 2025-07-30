@@ -5,7 +5,7 @@ interface TradeModalProps {
   isOpen: boolean;
   onClose: () => void;
   stock: Stock | null;
-  onTrade: (type: 'buy' | 'sell', asset: string, amount: number, price: number) => void;
+  onTrade: (type: 'buy' | 'sell', symbol: string, name: string, amount: number, price: number) => void;
 }
 
 const TradeModal: React.FC<TradeModalProps> = ({ isOpen, onClose, stock, onTrade }) => {
@@ -27,7 +27,7 @@ const TradeModal: React.FC<TradeModalProps> = ({ isOpen, onClose, stock, onTrade
     const numPrice = parseInt(price);
 
     if (numAmount > 0 && numPrice > 0) {
-      onTrade(tradeType, stock.name, numAmount, numPrice);
+      onTrade(tradeType, stock.symbol, stock.name, numAmount, numPrice);
       setAmount('');
       onClose();
     }

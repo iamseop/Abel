@@ -15,10 +15,11 @@ const PortfolioSummary: React.FC = () => {
         </div>
         <div className="space-y-1 sm:space-y-2">
           <p className="text-base sm:text-xl font-bold text-white">₩{portfolio.totalValue.toLocaleString()}</p>
-          <div className="flex items-center gap-2">
+          {/* 임의의 고정 텍스트 제거 */}
+          {/* <div className="flex items-center gap-2">
             <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
             <span className="text-green-400 text-xs">+2.5% (₩305,000)</span>
-          </div>
+          </div> */}
         </div>
       </div>
 

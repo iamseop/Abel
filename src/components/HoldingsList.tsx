@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
-import { TrendingUp, TrendingDown, PieChart, Edit3 } from 'lucide-react';
+import { TrendingUp, TrendingDown, PieChart, Edit3, Plus } from 'lucide-react';
 import { usePortfolio } from '../hooks/usePortfolio';
 import EditHoldingModal from './EditHoldingModal';
 import ChartModal from './ChartModal';
+import AddHoldingModal from './AddHoldingModal';
 
 const HoldingsList: React.FC = () => {
-  const { stocks, addTransaction, updateHolding } = usePortfolio();
+  const { stocks, addTransaction, updateHolding, addHolding } = usePortfolio();
   const [editModal, setEditModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
   const [chartModal, setChartModal] = useState<{ isOpen: boolean; stock: any }>({ isOpen: false, stock: null });
+  const [addHoldingModal, setAddHoldingModal] = useState(false);
 
-  // 보유 수량이 있는 종목만 필터링
   const holdingStocks = stocks.filter(stock => stock.quantity && stock.quantity > 0);
 
-  const handleTrade = (type: 'buy' | 'sell', asset: string, amount: number, price: number) => {
-    addTransaction({ type, asset, amount, price });
+  const handleTrade = (type: 'buy' | 'sell', symbol: string, name: string, amount: number, price: number) => {
+    addTransaction({ type, symbol, name, amount, price });
   };
 
   const handleUpdateHolding = (symbol: string, quantity: number, averagePrice: number) => {
     updateHolding(symbol, quantity, averagePrice);
+  };
+
+  const handleAddHolding = (symbol: string, name: string, quantity: number, averagePrice: number) => {
+    addHolding(symbol, name, quantity, averagePrice);
   };
 
   const totalHoldingValue = holdingStocks.reduce((sum, stock) => sum + (stock.price * (stock.quantity || 0)), 0);
@@ -30,9 +35,18 @@ const HoldingsList: React.FC = () => {
             <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
             <h2 className="text-base sm:text-lg font-bold text-white">보유 종목</h2>
           </div>
-          <div className="text-right">
-            <p className="text-xs text-gray-400">총 자산</p>
-            <p className="text-xs sm:text-base font-bold text-white">₩{totalHoldingValue.toLocaleString()}</p>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setAddHoldingModal(true)}
+              className="text-blue-400 hover:text-blue-300 text-xs font-medium flex items-center gap-1 hover:bg-white/5 px-3 py-2 rounded-lg transition-all"
+            >
+              <Plus className="w-4 h-4" />
+              추가
+            </button>
+            <div className="text-right">
+              <p className="text-xs text-gray-400">총 자산</p>
+              <p className="text-xs sm:text-base font-bold text-white">₩{totalHoldingValue.toLocaleString()}</p>
+            </div>
           </div>
         </div>
 
@@ -41,7 +55,12 @@ const HoldingsList: React.FC = () => {
             <div className="text-center py-6 sm:py-8">
               <PieChart className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
               <p className="text-gray-400 mb-2">보유 종목이 없습니다</p>
-              <p className="text-gray-500 text-xs">관심 종목에서 매수를 통해 종목을 보유해보세요</p>
+              <button 
+                onClick={() => setAddHoldingModal(true)}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              >
+                첫 종목 추가하기
+              </button>
             </div>
           ) : (
             holdingStocks.map((stock) => {
@@ -167,6 +186,12 @@ const HoldingsList: React.FC = () => {
         onClose={() => setChartModal({ isOpen: false, stock: null })}
         stockSymbol={chartModal.stock?.symbol || ''}
         stockName={chartModal.stock?.name || ''}
+      />
+
+      <AddHoldingModal
+        isOpen={addHoldingModal}
+        onClose={() => setAddHoldingModal(false)}
+        onAddHolding={handleAddHolding}
       />
     </>
   );

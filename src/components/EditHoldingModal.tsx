@@ -63,10 +63,19 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
     const newQuantity = parseNumber(quantity);
     const newAveragePrice = parseNumber(averagePrice);
     
-    if (newQuantity >= 0 && newAveragePrice > 0) {
-      onUpdate(stock.symbol, newQuantity, newAveragePrice);
-      onClose();
+    if (newQuantity < 0) {
+      alert('수량은 0보다 작을 수 없습니다.');
+      return;
     }
+
+    // 수량이 0보다 클 경우 평단가도 0보다 커야 함
+    if (newQuantity > 0 && newAveragePrice <= 0) {
+      alert('보유 수량이 0보다 클 경우 평단가는 0보다 커야 합니다.');
+      return;
+    }
+
+    onUpdate(stock.symbol, newQuantity, newAveragePrice);
+    onClose();
   };
 
   const handleTrade = () => {
@@ -208,7 +217,7 @@ const EditHoldingModal: React.FC<EditHoldingModalProps> = ({
 
             <button
               onClick={handleSaveEdit}
-              disabled={!quantity || !averagePrice}
+              disabled={!quantity || (parseNumber(quantity) > 0 && !averagePrice)} // 수량이 0보다 클 때만 평단가 필수
               className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-500 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Save className="w-4 h-4" />
