@@ -3,18 +3,231 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 기본값은 Abel 모드로 설정 */
+:root, .abel {
+  --background-start: #1e293b; /* slate-800 */
+  --background-mid: #0f172a; /* slate-900 */
+  --background-end: #0c1225; /* darker slate */
+
+  --card-background: rgba(255, 255, 255, 0.1); /* white/10 */
+  --card-border: rgba(255, 255, 255, 0.2); /* white/20 */
+  --card-background-hover: rgba(255, 255, 255, 0.08); /* white/8 */
+  --card-background-active: rgba(255, 255, 255, 0.15); /* white/15 */
+
+  --text-primary: #ffffff; /* white */
+  --text-secondary: #9ca3af; /* gray-400 */
+  --text-tertiary: #d1d5db; /* gray-300 */
+  --text-accent-blue: #60a5fa; /* blue-400 */
+  --text-accent-green: #4ade80; /* green-400 */
+  --text-accent-red: #f87171; /* red-400 */
+  --text-accent-yellow: #facc15; /* yellow-400 */
+  --text-accent-purple: #c084fc; /* purple-400 */
+  --text-white-90: rgba(255, 255, 255, 0.9);
+
+  --input-background: #1f2937; /* gray-800 */
+  --input-border: #374151; /* gray-700 */
+  --input-placeholder: #6b7280; /* gray-500 */
+  --input-focus-border: #3b82f6; /* blue-500 */
+
+  --button-primary-bg: #2563eb; /* blue-600 */
+  --button-primary-hover-bg: #1d4ed8; /* blue-700 */
+  --button-danger-bg: #dc2626; /* red-600 */
+  --button-danger-hover-bg: #b91c1c; /* red-700 */
+  --button-default-bg: #4b5563; /* gray-700 */
+  --button-default-hover-bg: #374151; /* gray-800 */
+  --button-default-text: #ffffff; /* white */
+
+  --gradient-logo-start: #3b82f6; /* blue-500 */
+  --gradient-logo-end: #8b5cf6; /* purple-500 */
+
+  --gradient-compound-start: #2563eb; /* blue-600 */
+  --gradient-compound-end: #9333ea; /* purple-600 */
+
+  --gradient-investment-start: #16a34a; /* green-600 */
+  --gradient-investment-end: #2563eb; /* blue-600 */
+
+  --gradient-retirement-start: #9333ea; /* purple-600 */
+  --gradient-retirement-end: #ec4899; /* pink-600 */
+
+  --gradient-personality-purple-start: #a855f7; /* purple-500 */
+  --gradient-personality-purple-end: #ec4899; /* pink-500 */
+
+  --gradient-personality-red-start: #ef4444; /* red-500 */
+  --gradient-personality-red-end: #f97316; /* orange-500 */
+
+  --gradient-personality-green-start: #22c55e; /* green-500 */
+  --gradient-personality-green-end: #14b8a6; /* teal-500 */
+
+  --gradient-personality-gray-start: #6b7280; /* gray-500 */
+  --gradient-personality-gray-end: #64748b; /* slate-500 */
+
+  --gradient-info-blue-start: rgba(30, 58, 138, 0.2); /* blue-900/20 */
+  --gradient-info-blue-end: rgba(88, 28, 135, 0.2); /* purple-900/20 */
+
+  --gradient-info-green-start: rgba(20, 83, 45, 0.2); /* green-900/20 */
+  --gradient-info-green-end: rgba(19, 78, 74, 0.2); /* teal-900/20 */
+
+  --gradient-info-yellow-start: rgba(113, 63, 18, 0.2); /* yellow-900/20 */
+  --gradient-info-yellow-end: rgba(124, 45, 18, 0.2); /* orange-900/20 */
+
+  --overlay-background: rgba(0, 0, 0, 0.6); /* black/60 */
+  --modal-overlay-background: rgba(0, 0, 0, 0.95); /* black/95 */
+}
+
+.light {
+  --background-start: #f0f9ff; /* very light blue */
+  --background-mid: #ffffff; /* white */
+  --background-end: #e0f2f7; /* light cyan */
+
+  --card-background: rgba(255, 255, 255, 0.8); /* more opaque white */
+  --card-border: rgba(0, 0, 0, 0.1); /* light black border */
+  --card-background-hover: rgba(0, 0, 0, 0.05); /* black/5 */
+  --card-background-active: rgba(0, 0, 0, 0.1); /* black/10 */
+
+  --text-primary: #1f2937; /* gray-900 */
+  --text-secondary: #6b7280; /* gray-500 */
+  --text-tertiary: #4b5563; /* gray-600 */
+  --text-accent-blue: #2563eb; /* blue-600 */
+  --text-accent-green: #16a34a; /* green-600 */
+  --text-accent-red: #dc2626; /* red-600 */
+  --text-accent-yellow: #d97706; /* yellow-700 */
+  --text-accent-purple: #9333ea; /* purple-600 */
+  --text-white-90: rgba(31, 41, 55, 0.9); /* dark gray for light theme */
+
+  --input-background: #ffffff; /* white */
+  --input-border: #d1d5db; /* gray-300 */
+  --input-placeholder: #9ca3af; /* gray-400 */
+  --input-focus-border: #3b82f6; /* blue-500 */
+
+  --button-primary-bg: #2563eb; /* blue-600 */
+  --button-primary-hover-bg: #1d4ed8; /* blue-700 */
+  --button-danger-bg: #dc2626; /* red-600 */
+  --button-danger-hover-bg: #b91c1c; /* red-700 */
+  --button-default-bg: #f3f4f6; /* gray-100 */
+  --button-default-hover-bg: #e5e7eb; /* gray-200 */
+  --button-default-text: #374151; /* gray-700 */
+
+  --gradient-logo-start: #3b82f6; /* blue-500 */
+  --gradient-logo-end: #8b5cf6; /* purple-500 */
+
+  --gradient-compound-start: #2563eb; /* blue-600 */
+  --gradient-compound-end: #9333ea; /* purple-600 */
+
+  --gradient-investment-start: #16a34a; /* green-600 */
+  --gradient-investment-end: #2563eb; /* blue-600 */
+
+  --gradient-retirement-start: #9333ea; /* purple-600 */
+  --gradient-retirement-end: #ec4899; /* pink-600 */
+
+  --gradient-personality-purple-start: #a855f7; /* purple-500 */
+  --gradient-personality-purple-end: #ec4899; /* pink-500 */
+
+  --gradient-personality-red-start: #ef4444; /* red-500 */
+  --gradient-personality-red-end: #f97316; /* orange-500 */
+
+  --gradient-personality-green-start: #22c55e; /* green-500 */
+  --gradient-personality-green-end: #14b8a6; /* teal-500 */
+
+  --gradient-personality-gray-start: #6b7280; /* gray-500 */
+  --gradient-personality-gray-end: #64748b; /* slate-500 */
+
+  --gradient-info-blue-start: rgba(30, 58, 138, 0.05); /* blue-900/5 */
+  --gradient-info-blue-end: rgba(88, 28, 135, 0.05); /* purple-900/5 */
+
+  --gradient-info-green-start: rgba(20, 83, 45, 0.05); /* green-900/5 */
+  --gradient-info-green-end: rgba(19, 78, 74, 0.05); /* teal-900/5 */
+
+  --gradient-info-yellow-start: rgba(113, 63, 18, 0.05); /* yellow-900/5 */
+  --gradient-info-yellow-end: rgba(124, 45, 18, 0.05); /* orange-900/5 */
+
+  --overlay-background: rgba(0, 0, 0, 0.3); /* black/30 */
+  --modal-overlay-background: rgba(0, 0, 0, 0.7); /* black/70 */
+}
+
+.dark {
+  --background-start: #0a0a0a; /* very dark gray */
+  --background-mid: #1a1a1a; /* dark gray */
+  --background-end: #2a2a2a; /* slightly lighter dark gray */
+
+  --card-background: rgba(255, 255, 255, 0.05); /* white/5 */
+  --card-border: rgba(255, 255, 255, 0.1); /* white/10 */
+  --card-background-hover: rgba(255, 255, 255, 0.08); /* white/8 */
+  --card-background-active: rgba(255, 255, 255, 0.15); /* white/15 */
+
+  --text-primary: #ffffff; /* white */
+  --text-secondary: #9ca3af; /* gray-400 */
+  --text-tertiary: #d1d5db; /* gray-300 */
+  --text-accent-blue: #60a5fa; /* blue-400 */
+  --text-accent-green: #4ade80; /* green-400 */
+  --text-accent-red: #f87171; /* red-400 */
+  --text-accent-yellow: #facc15; /* yellow-400 */
+  --text-accent-purple: #c084fc; /* purple-400 */
+  --text-white-90: rgba(255, 255, 255, 0.9);
+
+  --input-background: #1f2937; /* gray-800 */
+  --input-border: #374151; /* gray-700 */
+  --input-placeholder: #6b7280; /* gray-500 */
+  --input-focus-border: #3b82f6; /* blue-500 */
+
+  --button-primary-bg: #2563eb; /* blue-600 */
+  --button-primary-hover-bg: #1d4ed8; /* blue-700 */
+  --button-danger-bg: #dc2626; /* red-600 */
+  --button-danger-hover-bg: #b91c1c; /* red-700 */
+  --button-default-bg: #4b5563; /* gray-700 */
+  --button-default-hover-bg: #374151; /* gray-800 */
+  --button-default-text: #ffffff; /* white */
+
+  --gradient-logo-start: #3b82f6; /* blue-500 */
+  --gradient-logo-end: #8b5cf6; /* purple-500 */
+
+  --gradient-compound-start: #2563eb; /* blue-600 */
+  --gradient-compound-end: #9333ea; /* purple-600 */
+
+  --gradient-investment-start: #16a34a; /* green-600 */
+  --gradient-investment-end: #2563eb; /* blue-600 */
+
+  --gradient-retirement-start: #9333ea; /* purple-600 */
+  --gradient-retirement-end: #ec4899; /* pink-600 */
+
+  --gradient-personality-purple-start: #a855f7; /* purple-500 */
+  --gradient-personality-purple-end: #ec4899; /* pink-500 */
+
+  --gradient-personality-red-start: #ef4444; /* red-500 */
+  --gradient-personality-red-end: #f97316; /* orange-500 */
+
+  --gradient-personality-green-start: #22c55e; /* green-500 */
+  --gradient-personality-green-end: #14b8a6; /* teal-500 */
+
+  --gradient-personality-gray-start: #6b7280; /* gray-500 */
+  --gradient-personality-gray-end: #64748b; /* slate-500 */
+
+  --gradient-info-blue-start: rgba(30, 58, 138, 0.2); /* blue-900/20 */
+  --gradient-info-blue-end: rgba(88, 28, 135, 0.2); /* purple-900/20 */
+
+  --gradient-info-green-start: rgba(20, 83, 45, 0.2); /* green-900/20 */
+  --gradient-info-green-end: rgba(19, 78, 74, 0.2); /* teal-900/20 */
+
+  --gradient-info-yellow-start: rgba(113, 63, 18, 0.2); /* yellow-900/20 */
+  --gradient-info-yellow-end: rgba(124, 45, 18, 0.2); /* orange-900/20 */
+
+  --overlay-background: rgba(0, 0, 0, 0.6); /* black/60 */
+  --modal-overlay-background: rgba(0, 0, 0, 0.95); /* black/95 */
+}
+
 * {
   font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #0c1225 100%);
+  background: linear-gradient(135deg, var(--background-start) 0%, var(--background-mid) 50%, var(--background-end) 100%);
   min-height: 100vh;
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl;
+    background-color: var(--card-background);
+    border: 1px solid var(--card-border);
+    @apply backdrop-blur-lg rounded-2xl;
   }
   
   .gradient-text {
@@ -49,7 +262,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.95);
+  background: var(--modal-overlay-background);
   backdrop-filter: blur(8px);
   z-index: 9998;
 }

@@ -2,11 +2,26 @@ import React, { useEffect, useRef, memo } from 'react';
 
 interface TradingViewWidgetProps {
   symbol?: string;
-  onClose?: () => void;
 }
 
-function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidgetProps) {
+function TradingViewWidget({ symbol = "NASDAQ:AAPL" }: TradingViewWidgetProps) {
   const container = useRef<HTMLDivElement>(null);
+
+  // 한국 주식 심볼을 트레이딩뷰 형식으로 변환
+  const getTradingViewSymbol = (s: string) => {
+    // 한국 주식의 경우 KRX: 접두사 추가
+    if (s.match(/^\d{6}$/)) {
+      return `KRX:${s}`;
+    }
+    // 암호화폐의 경우 USDT 접미사 추가 (바이낸스 기준)
+    if (s === 'BTCUSD') return 'BINANCE:BTCUSDT';
+    if (s === 'ETHUSD') return 'BINANCE:ETHUSDT';
+    if (s === 'TRXUSD') return 'BINANCE:TRXUSDT';
+    if (s === 'ETCUSD') return 'BINANCE:ETCUSDT';
+    
+    // 기타 경우는 그대로 사용
+    return s;
+  };
 
   useEffect(() => {
     if (!container.current) return;
@@ -31,7 +46,7 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "locale": "kr",
       "save_image": true,
       "style": "1",
-      "symbol": symbol,
+      "symbol": getTradingViewSymbol(symbol), // 헬퍼 함수를 통해 심볼 변환
       "theme": "dark",
       "timezone": "Etc/UTC",
       "backgroundColor": "#111827",
@@ -43,7 +58,7 @@ function TradingViewWidget({ symbol = "NASDAQ:AAPL", onClose }: TradingViewWidge
       "autosize": true,
       "height": "100%",
       "width": "100%",
-      "container_id": `tradingview_chart_${symbol.replace(':', '_').replace('.', '_')}`, // 심볼 기반으로 고정 ID 생성
+      "container_id": `tradingview_chart_${symbol.replace(':', '_').replace('.', '_')}`,
       "overrides": {
         "paneProperties.background": "#111827",
         "paneProperties.backgroundType": "solid"

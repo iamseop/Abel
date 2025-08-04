@@ -31,7 +31,7 @@ const CalculatorTabs: React.FC = () => {
   const ActiveComponent = calculators.find(calc => calc.id === activeCalculator)?.component || CompoundCalculator;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex flex-wrap gap-2">
         {calculators.map((calculator) => {
           const IconComponent = calculator.icon;
@@ -41,8 +41,8 @@ const CalculatorTabs: React.FC = () => {
               onClick={() => setActiveCalculator(calculator.id)}
               className={`px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
                 activeCalculator === calculator.id
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700'
+                  ? 'bg-[var(--button-primary-bg)] text-[var(--text-primary)] shadow-lg'
+                  : 'bg-[var(--input-background)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--button-default-hover-bg)]'
               }`}
             >
               <IconComponent className="w-4 h-4" />

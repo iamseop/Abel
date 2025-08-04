@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { PieChart } from 'lucide-react';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { formatNumber, formatCurrencyNoDecimals, formatPercentage } from '../utils/formatters';
 
 const AssetAllocation: React.FC = () => {
   const { getAssets } = usePortfolio();
-  const assets = getAssets();
+  const assets = getAssets(); // 이제 이 함수는 메모이제이션된 값을 반환합니다.
   const [hoveredAsset, setHoveredAsset] = useState<string | null>(null);
 
   const totalValue = assets.reduce((sum, asset) => sum + asset.value, 0);
@@ -12,15 +13,15 @@ const AssetAllocation: React.FC = () => {
   return (
     <div className="glass-card p-4 sm:p-6 mb-6">
       <div className="flex items-center gap-3 mb-4 sm:mb-6">
-        <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
-        <h2 className="text-base sm:text-lg font-bold text-white">자산 분배</h2>
+        <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-[var(--text-accent-blue)]" />
+        <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)]">포트폴리오</h2>
       </div>
 
       {assets.length === 0 ? (
         <div className="text-center py-6 sm:py-8">
-          <PieChart className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
-          <p className="text-gray-400 mb-2">보유 자산이 없습니다</p>
-          <p className="text-gray-500 text-xs sm:text-sm">보유 종목을 추가하여 자산 분배를 확인해보세요</p>
+          <PieChart className="w-12 h-12 sm:w-16 sm:h-16 text-[var(--text-secondary)] mx-auto mb-3 sm:mb-4" />
+          <p className="text-[var(--text-secondary)] mb-2">보유 자산이 없습니다</p>
+          <p className="text-[var(--text-secondary)] text-xs sm:text-sm">보유 종목을 추가하여 자산 분배를 확인해보세요</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
@@ -85,15 +86,15 @@ const AssetAllocation: React.FC = () => {
                 <div className="text-center">
                   {hoveredAsset ? (
                     <>
-                      <p className="text-sm font-bold text-white">{hoveredAsset}</p>
-                      <p className="text-blue-400 text-xs">
-                        {assets.find(a => a.name === hoveredAsset)?.percentage.toFixed(1)}%
+                      <p className="text-sm font-bold text-[var(--text-primary)]">{hoveredAsset}</p>
+                      <p className="text-[var(--text-accent-blue)] text-xs">
+                        {formatPercentage(assets.find(a => a.name === hoveredAsset)?.percentage || 0, 1)}%
                       </p>
                     </>
                   ) : (
                     <>
-                      <p className="text-base sm:text-xl font-bold text-white">₩{totalValue.toLocaleString()}</p>
-                      <p className="text-gray-400 text-xs">총 자산</p>
+                      <p className="text-base sm:text-xl font-bold text-[var(--text-primary)]">₩{formatCurrencyNoDecimals(totalValue)}</p>
+                      <p className="text-[var(--text-secondary)] text-xs">총 자산</p>
                     </>
                   )}
                 </div>
@@ -108,8 +109,8 @@ const AssetAllocation: React.FC = () => {
                 key={index} 
                 className={`flex items-center justify-between p-2 rounded-lg transition-all duration-200 ${
                   hoveredAsset === asset.name 
-                    ? 'bg-white/15 scale-105' 
-                    : 'hover:bg-white/8'
+                    ? 'bg-[var(--card-background-active)] scale-105' 
+                    : 'hover:bg-[var(--card-background-hover)]'
                 }`}
                 onMouseEnter={() => setHoveredAsset(asset.name)}
                 onMouseLeave={() => setHoveredAsset(null)}
@@ -117,13 +118,13 @@ const AssetAllocation: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <div className={`w-3 h-3 rounded-full ${asset.color}`}></div>
                   <div>
-                    <span className="text-xs sm:text-sm font-medium text-white">{asset.name}</span>
-                    <p className="text-gray-400 text-xs">{asset.quantity}주</p>
+                    <span className="text-xs sm:text-sm font-medium text-[var(--text-primary)]">{asset.name}</span>
+                    <p className="text-[var(--text-secondary)] text-xs">{formatNumber(asset.quantity)}주</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs sm:text-sm font-semibold text-white">₩{asset.value.toLocaleString()}</p>
-                  <p className="text-gray-400 text-xs">{asset.percentage.toFixed(1)}%</p>
+                  <p className="text-xs sm:text-sm font-semibold text-[var(--text-primary)]">₩{formatCurrencyNoDecimals(asset.value)}</p>
+                  <p className="text-[var(--text-secondary)] text-xs">{formatPercentage(asset.percentage, 1)}%</p>
                 </div>
               </div>
             ))}
